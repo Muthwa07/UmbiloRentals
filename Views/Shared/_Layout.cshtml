@@ -81,11 +81,32 @@
                         )
                     </li>
 
+
                     <li class="nav-item">
                         @Html.ActionLink(
                             "Applications",
                             "Index",
                             "Applications",
+                            null,
+                            new { @class = "nav-link" }
+                        )
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink(
+                            "Register",
+                            "Register",
+                            "Account",
+                            null,
+                            new { @class = "nav-link" }
+                        )
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink(
+                            "Login",
+                            "Login",
+                            "Account",
                             null,
                             new { @class = "nav-link" }
                         )

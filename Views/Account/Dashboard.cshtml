@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Applicant Dashboard";
+
+    string userName = Session["UserName"] as string;
+}
+
+<div class="dashboard-page">
+
+    <div class="dashboard-header">
+
+        <h1>Welcome, @userName</h1>
+
+        <p>
+            Welcome to your Umbilo Rentals applicant dashboard.
+        </p>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <!-- Available Rooms -->
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                🏠
+            </div>
+
+            <h2>Available Rooms</h2>
+
+            <p>
+                View available rooms and find accommodation
+                that suits your needs.
+            </p>
+
+            @Html.ActionLink(
+                "View Rooms",
+                "Index",
+                "Rooms",
+                null,
+                new { @class = "dashboard-button" }
+            )
+
+        </div>
+
+
+        <!-- My Applications -->
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                📋
+            </div>
+
+            <h2>My Applications</h2>
+
+            <p>
+                View and track the applications you have submitted.
+            </p>
+
+            @Html.ActionLink(
+                "My Applications",
+                "Index",
+                "Applications",
+                null,
+                new { @class = "dashboard-button" }
+            )
+
+        </div>
+
+    </div>
+
+</div>

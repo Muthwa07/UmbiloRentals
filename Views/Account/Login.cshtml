@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<div class="account-page">
+
+    <div class="account-card">
+
+        <div class="account-header">
+
+            <h1>Applicant Login</h1>
+
+            <p>
+                Login to access your Umbilo Rentals account.
+            </p>
+
+        </div>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       required />
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       required />
+
+            </div>
+
+            <button type="submit"
+                    class="btn-register">
+
+                Login
+
+            </button>
+        }
+
+        <div class="account-footer">
+
+            <p>
+                Don't have an account?
+
+                @Html.ActionLink(
+                    "Register here",
+                    "Register",
+                    "Account"
+                )
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

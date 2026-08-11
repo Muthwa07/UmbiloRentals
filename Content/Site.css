@@ -537,3 +537,171 @@
         padding: 25px;
     }
 }
+
+/* ==========================================
+   ACCOUNT / REGISTRATION
+   ========================================== */
+
+.account-page {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+.account-card {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .account-header h1 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .account-header p {
+        color: #666;
+    }
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+.form-control {
+    width: 100%;
+    height: 42px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background: #337ab7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .btn-register:hover {
+        background: #286090;
+    }
+
+.account-footer {
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* ==========================================
+   APPLICANT DASHBOARD
+   ========================================== */
+
+.dashboard-page {
+    padding: 50px 20px;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+    .dashboard-header h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-header p {
+        color: #666;
+        font-size: 17px;
+    }
+
+
+/* Dashboard cards */
+
+.dashboard-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 35px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+.dashboard-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.dashboard-card h2 {
+    margin-bottom: 15px;
+}
+
+.dashboard-card p {
+    color: #666;
+    line-height: 1.6;
+    min-height: 55px;
+    margin-bottom: 25px;
+}
+
+
+/* Dashboard buttons */
+
+.dashboard-button {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 15px;
+    background: #337ab7;
+    color: white !important;
+    border-radius: 5px;
+    text-decoration: none !important;
+}
+
+    .dashboard-button:hover {
+        background: #286090;
+    }
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
