@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="94c2f63c7d974c6a87ba8657858a92b8" Name="Diagram1">
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Allocation" Width="1.5" PointX="6" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Announcement" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Application" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Complaint" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.LostFound" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.MaintenanceAssignment" Width="1.5" PointX="6" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.MaintenanceRequest" Width="1.5" PointX="6" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Payment" Width="1.5" PointX="3" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Role" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Room" Width="1.5" PointX="3.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.User" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.VisitorRequest" Width="1.5" PointX="3" PointY="30" IsExpanded="true" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Allocatio__RoomI__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Allocatio__UserI__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Announcem__Poste__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Complaint__Tenan__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__LostFound__Repor__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Maintenan__Reque__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Maintenan__Staff__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Maintenan__RoomI__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Maintenan__Tenan__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Payments__UserID__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Payments__Verifi__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__VisitorRe__Tenan__6FE99F9F" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
