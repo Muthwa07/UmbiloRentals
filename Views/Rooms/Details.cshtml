@@ -1,58 +1,73 @@
 ﻿@model UmbiloRentals.Models.Room
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Room Details";
 }
 
-<h2>Details</h2>
+<div class="room-details-page">
 
-<div>
-    <h4>Room</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.RoomNumber)
-        </dt>
+    <div class="room-details-card">
 
-        <dd>
-            @Html.DisplayFor(model => model.RoomNumber)
-        </dd>
+        <div class="room-details-image">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MonthlyRent)
-        </dt>
+            @if (!string.IsNullOrEmpty(Model.Photo))
+            {
+                <img src="@Url.Content(Model.Photo)"
+                     alt="Room @Model.RoomNumber" />
+            }
+            else
+            {
+                <div class="room-details-no-photo">
+                    No Photo Available
+                </div>
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.MonthlyRent)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+        <div class="room-details-content">
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <h1>Room @Model.RoomNumber</h1>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
+            <p class="room-details-description">
+                @Model.Description
+            </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
+            <div class="room-details-price">
+                R @String.Format("{0:N2}", Model.MonthlyRent)
+                <span>/ month</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+            <div class="room-details-status">
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+                <strong>Status:</strong>
 
-    </dl>
+                <span class="room-status">
+                    @Model.Status
+                </span>
+
+            </div>
+
+            <div class="room-details-actions">
+
+                @if (Model.Status == "Available")
+                {
+                    <a href="#" class="btn-room">
+                        Apply for This Room
+                    </a>
+                }
+
+                @Html.ActionLink(
+                    "Back to Available Rooms",
+                    "Index",
+                    "Rooms",
+                    null,
+                    new { @class = "btn-back" }
+                )
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.RoomID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

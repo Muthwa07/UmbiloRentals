@@ -1,57 +1,86 @@
 ﻿@model IEnumerable<UmbiloRentals.Models.Room>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Available Rooms";
 }
 
-<h2>Rooms</h2>
+<div class="rooms-page">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.RoomNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MonthlyRent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Photo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
+    <div class="rooms-header">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RoomNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MonthlyRent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Photo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RoomID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RoomID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RoomID })
-        </td>
-    </tr>
-}
+        <h1>Available Rooms</h1>
 
-</table>
+        <p>
+            Find your preferred accommodation at Umbilo Rentals.
+        </p>
+
+    </div>
+
+
+    <div class="room-grid">
+
+        @foreach (var room in Model.Where(r => r.Status == "Available"))
+        {
+
+            <div class="room-card">
+
+                <div class="room-image">
+
+                    @if (!string.IsNullOrEmpty(room.Photo))
+                    {
+                        <img src="@Url.Content(room.Photo)"
+                             alt="Room @room.RoomNumber" />
+                    }
+                    else
+                    {
+                        <div class="no-photo">
+                            No Photo Available
+                        </div>
+                    }
+
+                </div>
+
+
+                <div class="room-content">
+
+                    <h2>
+                        Room @room.RoomNumber
+                    </h2>
+
+                    <p class="room-description">
+                        @room.Description
+                    </p>
+
+                    <p class="room-price">
+
+                        R @String.Format(
+                          "{0:N2}",
+                          room.MonthlyRent
+                      )
+
+                        <span>/ month</span>
+
+                    </p>
+
+                    <p class="room-status">
+                        @room.Status
+                    </p>
+
+
+                    @Html.ActionLink(
+                        "View Details",
+                        "Details",
+                        "Rooms",
+                        new { id = room.RoomID },
+                        new { @class = "btn-room" }
+                    )
+
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>
