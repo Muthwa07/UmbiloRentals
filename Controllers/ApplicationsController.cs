@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -27,35 +26,173 @@ namespace UmbiloRentals.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Application application = db.Applications.Find(id);
+
             if (application == null)
             {
                 return HttpNotFound();
             }
+
             return View(application);
         }
 
         // GET: Applications/Create
-        public ActionResult Create()
+        // Room ID is received from the Rooms page
+        public ActionResult Create(int? id)
         {
+            // Make sure the applicant is logged in
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest,
+                    "Room ID is required."
+                );
+            }
+
+            // Check that the room exists
+            Room room = db.Rooms.Find(id);
+
+            if (room == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Only available rooms can be applied for
+            if (room.Status != "Available")
+            {
+                return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest,
+                    "This room is not available."
+                );
+            }
+
+            ViewBag.RoomNumber = room.RoomNumber;
+            ViewBag.RoomID = room.RoomID;
+
             return View();
         }
 
         // POST: Applications/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ApplicationID,UserID,RoomID,DocumentPath,Status,DateApplied")] Application application)
+        public ActionResult Create(
+            int roomID,
+            HttpPostedFileBase document)
         {
-            if (ModelState.IsValid)
+            // Make sure the applicant is logged in
+            if (Session["UserID"] == null)
             {
-                db.Applications.Add(application);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Account");
             }
 
-            return View(application);
+            // Check room
+            Room room = db.Rooms.Find(roomID);
+
+            if (room == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (room.Status != "Available")
+            {
+                ViewBag.ErrorMessage = "This room is no longer available.";
+                ViewBag.RoomNumber = room.RoomNumber;
+                ViewBag.RoomID = room.RoomID;
+
+                return View();
+            }
+
+            // Document is required
+            if (document == null || document.ContentLength == 0)
+            {
+                ViewBag.ErrorMessage = "Please select a document to upload.";
+                ViewBag.RoomNumber = room.RoomNumber;
+                ViewBag.RoomID = room.RoomID;
+
+                return View();
+            }
+
+            // Allow common document types
+            string extension =
+                System.IO.Path.GetExtension(document.FileName)
+                .ToLower();
+
+            string[] allowedExtensions =
+            {
+                ".pdf",
+                ".doc",
+                ".docx",
+                ".jpg",
+                ".jpeg",
+                ".png"
+            };
+
+            if (!allowedExtensions.Contains(extension))
+            {
+                ViewBag.ErrorMessage =
+                    "Please upload a PDF, Word document, JPG or PNG file.";
+
+                ViewBag.RoomNumber = room.RoomNumber;
+                ViewBag.RoomID = room.RoomID;
+
+                return View();
+            }
+
+            // Maximum file size: 10 MB
+            if (document.ContentLength > 10 * 1024 * 1024)
+            {
+                ViewBag.ErrorMessage =
+                    "The document must be smaller than 10 MB.";
+
+                ViewBag.RoomNumber = room.RoomNumber;
+                ViewBag.RoomID = room.RoomID;
+
+                return View();
+            }
+
+            // Create upload folder
+            string uploadFolder =
+                Server.MapPath("~/UploadedDocuments");
+
+            if (!System.IO.Directory.Exists(uploadFolder))
+            {
+                System.IO.Directory.CreateDirectory(uploadFolder);
+            }
+
+            // Generate a unique filename
+            string fileName =
+                Guid.NewGuid().ToString() + extension;
+
+            string filePath =
+                System.IO.Path.Combine(uploadFolder, fileName);
+
+            // Save document
+            document.SaveAs(filePath);
+
+            // Create application
+            Application application = new Application();
+
+            application.UserID = Convert.ToInt32(Session["UserID"]);
+            application.RoomID = roomID;
+            application.DocumentPath =
+                "~/UploadedDocuments/" + fileName;
+
+            application.Status = "Pending";
+            application.DateApplied = DateTime.Now;
+
+            db.Applications.Add(application);
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] =
+                "Your application has been submitted successfully.";
+
+            return RedirectToAction("Index");
         }
 
         // GET: Applications/Edit/5
@@ -65,27 +202,33 @@ namespace UmbiloRentals.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Application application = db.Applications.Find(id);
+
             if (application == null)
             {
                 return HttpNotFound();
             }
+
             return View(application);
         }
 
         // POST: Applications/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ApplicationID,UserID,RoomID,DocumentPath,Status,DateApplied")] Application application)
+        public ActionResult Edit(
+            [Bind(Include =
+                "ApplicationID,UserID,RoomID,DocumentPath,Status,DateApplied")]
+            Application application)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(application).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
             return View(application);
         }
 
@@ -96,11 +239,14 @@ namespace UmbiloRentals.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Application application = db.Applications.Find(id);
+
             if (application == null)
             {
                 return HttpNotFound();
             }
+
             return View(application);
         }
 
@@ -110,8 +256,13 @@ namespace UmbiloRentals.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Application application = db.Applications.Find(id);
-            db.Applications.Remove(application);
-            db.SaveChanges();
+
+            if (application != null)
+            {
+                db.Applications.Remove(application);
+                db.SaveChanges();
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -121,6 +272,7 @@ namespace UmbiloRentals.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

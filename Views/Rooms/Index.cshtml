@@ -16,12 +16,10 @@
 
     </div>
 
-
     <div class="room-grid">
 
         @foreach (var room in Model.Where(r => r.Status == "Available"))
         {
-
             <div class="room-card">
 
                 <div class="room-image">
@@ -40,7 +38,6 @@
 
                 </div>
 
-
                 <div class="room-content">
 
                     <h2>
@@ -52,33 +49,37 @@
                     </p>
 
                     <p class="room-price">
-
-                        R @String.Format(
-                          "{0:N2}",
-                          room.MonthlyRent
-                      )
-
+                        R @String.Format("{0:N2}", room.MonthlyRent)
                         <span>/ month</span>
-
                     </p>
 
                     <p class="room-status">
                         @room.Status
                     </p>
 
+                    <div class="room-actions">
 
-                    @Html.ActionLink(
-                        "View Details",
-                        "Details",
-                        "Rooms",
-                        new { id = room.RoomID },
-                        new { @class = "btn-room" }
-                    )
+                        @Html.ActionLink(
+                            "View Details",
+                            "Details",
+                            "Rooms",
+                            new { id = room.RoomID },
+                            new { @class = "btn-room" }
+                        )
+
+                        @Html.ActionLink(
+                            "Apply for This Room",
+                            "Create",
+                            "Applications",
+                            new { id = room.RoomID },
+                            new { @class = "btn-apply" }
+                        )
+
+                    </div>
 
                 </div>
 
             </div>
-
         }
 
     </div>

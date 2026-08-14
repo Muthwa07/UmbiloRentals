@@ -51,9 +51,13 @@
 
                 @if (Model.Status == "Available")
                 {
-                    <a href="#" class="btn-room">
-                        Apply for This Room
-                    </a>
+                    @Html.ActionLink(
+                        "Apply for This Room",
+                        "Create",
+                        "Applications",
+                        new { id = Model.RoomID },
+                        new { @class = "btn-room" }
+                    )
                 }
 
                 @Html.ActionLink(

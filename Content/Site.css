@@ -705,3 +705,510 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================================
+   UMBILO RENTALS - HOME PAGE
+   ========================================================= */
+
+/* HOME PAGE */
+
+.home-page {
+    margin: -5px -15px 0 -15px;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.home-hero {
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient( 135deg, #eef6ff 0%, #dcecff 50%, #c9e0fa 100% );
+    position: relative;
+    overflow: hidden;
+}
+
+
+    /* Decorative circles */
+
+    .home-hero::before {
+        content: "";
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: rgba(51, 122, 183, 0.10);
+        left: -120px;
+        bottom: -150px;
+    }
+
+
+    .home-hero::after {
+        content: "";
+        position: absolute;
+        width: 420px;
+        height: 410px;
+        border-radius: 50%;
+        background: rgba(51, 122, 183, 0.08);
+        right: -150px;
+        top: -180px;
+    }
+
+
+/* Hero content */
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+}
+
+
+    .hero-content h1 {
+        margin: 0 0 15px 0;
+        font-size: 58px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #182b49;
+    }
+
+
+    .hero-content h2 {
+        margin: 0 0 20px 0;
+        font-size: 30px;
+        font-weight: 600;
+        color: #1769c2;
+    }
+
+
+    .hero-content p {
+        max-width: 650px;
+        margin: 0 auto 30px auto;
+        font-size: 18px;
+        line-height: 1.7;
+        color: #4f5f72;
+    }
+
+
+/* =========================================================
+   BLUE BUTTON
+   ========================================================= */
+
+.home-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #337ab7;
+    color: white !important;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+
+    .home-button:hover {
+        background: #286090;
+        color: white !important;
+        text-decoration: none !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+
+/* =========================================================
+   WHY CHOOSE US
+   ========================================================= */
+
+.why-us {
+    background: #ffffff;
+    padding: 65px 30px;
+}
+
+
+.home-section-heading {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 45px auto;
+}
+
+
+    .home-section-heading h2 {
+        margin-bottom: 12px;
+        font-size: 34px;
+        font-weight: 700;
+        color: #182b49;
+    }
+
+
+    .home-section-heading p {
+        margin: 0;
+        font-size: 17px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+
+/* =========================================================
+   THREE CARDS
+   ========================================================= */
+
+.why-us-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+
+.why-us-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+    .why-us-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+
+/* Circular icons */
+
+.why-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    background: #e8f1fb;
+    border: 4px solid #d4e7fa;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+
+.why-us-card h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #182b49;
+}
+
+
+.why-us-card p {
+    margin: 0;
+    color: #666;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CALL TO ACTION
+   ========================================================= */
+
+.home-cta {
+    text-align: center;
+    padding: 60px 20px;
+    background: #eef6ff;
+    border-top: 1px solid #dcecff;
+}
+
+
+    .home-cta h2 {
+        margin-bottom: 12px;
+        font-size: 32px;
+        color: #182b49;
+    }
+
+
+    .home-cta p {
+        margin-bottom: 25px;
+        font-size: 17px;
+        color: #666;
+    }
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .why-us-grid {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+
+    .hero-content h1 {
+        font-size: 45px;
+    }
+
+    .hero-content h2 {
+        font-size: 25px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .home-page {
+        margin: 0;
+    }
+
+    .home-hero {
+        min-height: 430px;
+        padding: 50px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 38px;
+    }
+
+    .hero-content h2 {
+        font-size: 22px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .home-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* ==========================================
+   APPLICATIONS PAGE
+   ========================================== */
+
+.applications-page {
+    padding: 50px 20px;
+}
+
+/* Page heading */
+
+.applications-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+    .applications-header h1 {
+        font-size: 38px;
+        font-weight: 600;
+        color: #182b49;
+        margin-bottom: 10px;
+    }
+
+    .applications-header p {
+        font-size: 18px;
+        color: #666;
+    }
+
+/* Action button */
+
+.applications-actions {
+    max-width: 1100px;
+    margin: 0 auto 25px auto;
+    text-align: right;
+}
+
+.application-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #337ab7;
+    color: white !important;
+    border-radius: 6px;
+    text-decoration: none !important;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+    .application-button:hover {
+        background: #286090;
+        color: white !important;
+        text-decoration: none !important;
+    }
+
+/* Table container */
+
+.application-table-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+/* Table */
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .application-table thead {
+        background: #337ab7;
+        color: white;
+    }
+
+    .application-table th {
+        padding: 16px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .application-table td {
+        padding: 16px;
+        border-bottom: 1px solid #eee;
+        color: #444;
+    }
+
+    .application-table tbody tr:hover {
+        background: #f5f9fd;
+    }
+
+/* Status */
+
+.application-status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+/* View button */
+
+.application-view-button {
+    display: inline-block;
+    padding: 7px 14px;
+    background: #337ab7;
+    color: white !important;
+    border-radius: 5px;
+    text-decoration: none !important;
+}
+
+    .application-view-button:hover {
+        background: #286090;
+        text-decoration: none !important;
+    }
+
+/* No applications */
+
+.no-applications {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 50px 30px;
+    text-align: center;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+.no-applications-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.no-applications h2 {
+    color: #182b49;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.no-applications p {
+    color: #666;
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .applications-page {
+        padding: 30px 10px;
+    }
+
+    .applications-header h1 {
+        font-size: 30px;
+    }
+
+    .applications-actions {
+        text-align: center;
+    }
+
+    .application-table-container {
+        overflow-x: auto;
+    }
+
+    .application-table {
+        min-width: 700px;
+    }
+}
+
+/* ==========================================
+   ROOM ACTION BUTTONS
+   ========================================== */
+
+.room-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+    .room-actions .btn-room,
+    .room-actions .btn-apply {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        padding: 11px 15px;
+        border-radius: 5px;
+        text-decoration: none !important;
+    }
+
+    /* View Details */
+    .room-actions .btn-room {
+        background: #337ab7;
+        color: white !important;
+    }
+
+        .room-actions .btn-room:hover {
+            background: #286090;
+            color: white !important;
+        }
+
+    /* Apply */
+    .room-actions .btn-apply {
+        background: #e8f1fb;
+        color: #337ab7 !important;
+        border: 1px solid #337ab7;
+    }
+
+        .room-actions .btn-apply:hover {
+            background: #337ab7;
+            color: white !important;
+        }
