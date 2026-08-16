@@ -100,5 +100,18 @@ namespace UmbiloRentals.Controllers
 
             return View();
         }
+
+        // GET: Account/Logout
+        public ActionResult Logout()
+        {
+            // Clear all session information
+            Session.Clear();
+
+            // Abandon the current session
+            Session.Abandon();
+
+            // Return to the home page
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

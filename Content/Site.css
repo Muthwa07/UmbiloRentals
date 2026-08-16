@@ -1,457 +1,598 @@
-﻿/* ================================
-   UMBILO RENTALS - ROOM PAGE
-   ================================ */
+﻿/* =========================================================
+   UMBILO RENTALS - MAIN SITE STYLES
+   ========================================================= */
 
-.rooms-page {
-    padding: 40px 20px;
+/* =========================================================
+   UMBILO RENTALS NAVIGATION
+   ========================================================= */
+
+.umbilo-navbar {
+    width: 100%;
+    min-height: 64px;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e4e9ee;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 1000;
 }
 
-.rooms-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
 
-    .rooms-header h1 {
-        font-size: 36px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .rooms-header p {
-        font-size: 18px;
-        color: #666;
-    }
-
-.room-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.room-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease;
-}
-
-    .room-card:hover {
-        transform: translateY(-5px);
-    }
-
-.room-image {
-    height: 200px;
-    background: #f2f2f2;
-    overflow: hidden;
-}
-
-    .room-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-.no-photo {
-    height: 100%;
+.umbilo-nav-container {
+    min-height: 64px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #777;
+    justify-content: space-between;
 }
 
-.room-content {
-    padding: 20px;
+
+/* =========================================================
+   WEBSITE BRAND
+   ========================================================= */
+
+.umbilo-brand {
+    display: flex;
+    align-items: center;
 }
 
-    .room-content h2 {
-        margin-top: 0;
+
+    .umbilo-brand a {
+        display: block;
+        padding: 20px 0;
+        color: #17345c !important;
         font-size: 24px;
+        font-weight: 700;
+        text-decoration: none !important;
+        letter-spacing: 0.3px;
     }
 
-.room-description {
-    color: #666;
-    min-height: 45px;
+
+        .umbilo-brand a:hover {
+            color: #2878bd !important;
+            text-decoration: none !important;
+        }
+
+
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
+
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.room-price {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 15px;
-}
 
-    .room-price span {
-        font-size: 14px;
-        font-weight: normal;
-        color: #777;
+    .umbilo-links > a {
+        display: inline-block;
+        padding: 22px 14px;
+        color: #333333 !important;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none !important;
+        border-radius: 5px;
+        transition: all 0.2s ease;
     }
 
-.room-status {
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 15px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-weight: bold;
+
+        .umbilo-links > a:hover {
+            color: #2878bd !important;
+            background-color: #f1f7fc;
+            text-decoration: none !important;
+        }
+
+
+        /* =========================================================
+   LOGIN / LOGOUT BUTTON
+   ========================================================= */
+
+        .umbilo-links > a.umbilo-login {
+            margin-left: 8px;
+            padding: 10px 18px;
+            color: #ffffff !important;
+            background-color: #347fba;
+            border-radius: 5px;
+        }
+
+
+            .umbilo-links > a.umbilo-login:hover {
+                color: #ffffff !important;
+                background-color: #28699e;
+            }
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.body-content {
+    padding-top: 0;
 }
 
-.btn-room {
-    display: block;
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    color: #666666;
     text-align: center;
-    margin-top: 15px;
-    padding: 10px;
-    background: #337ab7;
-    color: white;
-    border-radius: 5px;
+    border-top: 1px solid #e5e5e5;
+}
+
+
+    footer p {
+        margin: 0;
+    }
+
+
+/* =========================================================
+   GENERAL PAGE SETTINGS
+   ========================================================= */
+
+body {
+    padding-top: 0;
+    padding-bottom: 30px;
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+
+.navbar {
+    min-height: 60px;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-header {
+    min-height: 60px;
+}
+
+.navbar-brand {
+    height: 60px;
+    padding: 18px 15px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #17345c !important;
     text-decoration: none;
 }
 
-    .btn-room:hover {
-        color: white;
+    .navbar-brand:hover {
+        color: #2878bd !important;
         text-decoration: none;
-        background: #286090;
     }
 
-/* =========================================
-   UMBILO RENTALS - AVAILABLE ROOMS
-   ========================================= */
 
-.rooms-page {
-    padding: 40px 0;
+/* Navigation links */
+
+.navbar-nav {
+    margin: 0;
 }
 
-.rooms-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-    .rooms-header h1 {
-        font-size: 38px;
+    .navbar-nav > li > a {
+        height: 60px;
+        padding: 20px 16px;
+        font-size: 15px;
         font-weight: 600;
-        margin-bottom: 10px;
+        color: #333333 !important;
+        text-decoration: none;
+        transition: all 0.2s ease;
     }
 
-    .rooms-header p {
-        font-size: 18px;
-        color: #666;
+        .navbar-nav > li > a:hover,
+        .navbar-nav > li > a:focus {
+            color: #2878bd !important;
+            background-color: #f1f7fc !important;
+        }
+
+
+    /* Active navigation link */
+
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:hover,
+    .navbar-nav > .active > a:focus {
+        color: #2878bd !important;
+        background-color: #eef6fc !important;
     }
 
-/* Room card container */
-.room-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    margin-top: 30px;
+
+/* Login/Register area */
+
+.navbar-right {
+    margin-right: 0;
 }
 
-/* Individual room */
-.room-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+/* Mobile navigation button */
+
+.navbar-toggle {
+    position: relative;
+    float: right;
+    margin-top: 13px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    padding: 9px 10px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
 }
 
-/* Room image */
-.room-image {
-    width: 100%;
-    height: 220px;
-    background: #f1f1f1;
-    overflow: hidden;
-}
+    .navbar-toggle:hover {
+        background-color: #f2f7fb;
+    }
 
-    .room-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .navbar-toggle .icon-bar {
         display: block;
+        width: 22px;
+        height: 2px;
+        margin-top: 4px;
+        background-color: #333333;
     }
 
-.no-photo {
-    width: 100%;
-    height: 100%;
+        .navbar-toggle .icon-bar:first-child {
+            margin-top: 0;
+        }
+
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+.home-page {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Hero */
+
+.hero-section {
+    position: relative;
+    min-height: 600px;
+    margin: 0;
+    padding: 110px 40px 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #777;
-    font-size: 16px;
-}
-
-/* Room information */
-.room-content {
-    padding: 22px;
-}
-
-    .room-content h2 {
-        margin-top: 0;
-        margin-bottom: 12px;
-        font-size: 25px;
-    }
-
-.room-description {
-    color: #666;
-    margin-bottom: 18px;
-}
-
-.room-price {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-    .room-price span {
-        font-size: 14px;
-        font-weight: normal;
-        color: #777;
-    }
-
-/* Availability */
-.room-status {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-/* Details button */
-.btn-room {
-    display: inline-block;
-    width: 100%;
     text-align: center;
-    padding: 11px 15px;
-    background: #337ab7;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #eef7ff 0%, #dceeff 50%, #c9e1f7 100% );
+}
+
+
+    /* Decorative circles */
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        left: -120px;
+        bottom: -120px;
+    }
+
+    .hero-section::after {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        right: -120px;
+        top: -120px;
+    }
+
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    margin: auto;
+}
+
+
+    .hero-content h1 {
+        margin: 0 0 20px;
+        font-size: 64px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #17345c;
+    }
+
+
+    .hero-content h2 {
+        margin: 0 0 25px;
+        font-size: 36px;
+        font-weight: 500;
+        color: #2878bd;
+    }
+
+
+    .hero-content p {
+        max-width: 760px;
+        margin: 0 auto 35px;
+        font-size: 20px;
+        line-height: 1.7;
+        color: #40566e;
+    }
+
+
+/* Hero button */
+
+.hero-button {
+    display: inline-block;
+    padding: 18px 35px;
+    border-radius: 7px;
+    background-color: #347fba;
     color: white !important;
-    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
     text-decoration: none !important;
-    box-sizing: border-box;
+    transition: all 0.25s ease;
 }
 
-    .btn-room:hover {
-        background: #286090;
+    .hero-button:hover {
+        background-color: #28699e;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     }
 
-/* Responsive layout */
-@media (max-width: 768px) {
 
-    .room-grid {
-        grid-template-columns: 1fr;
-    }
+/* =========================================================
+   WHY CHOOSE US
+   ========================================================= */
+
+.why-section {
+    padding: 70px 20px;
+    text-align: center;
 }
 
-/* ==========================================
-   UMBILO RENTALS
-   AVAILABLE ROOMS
-   ========================================== */
+    .why-section h2 {
+        margin-bottom: 40px;
+        font-size: 38px;
+        color: #17345c;
+    }
+
+.why-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.why-card {
+    padding: 35px 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e1e8ef;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+    .why-card h3 {
+        margin-bottom: 15px;
+        color: #2878bd;
+        font-size: 23px;
+    }
+
+    .why-card p {
+        line-height: 1.6;
+        color: #666666;
+    }
+
+
+/* =========================================================
+   ROOMS PAGE
+   ========================================================= */
 
 .rooms-page {
-    padding: 40px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 20px;
 }
 
-/* Page heading */
-
 .rooms-header {
-    text-align: center;
     margin-bottom: 40px;
+    text-align: center;
 }
 
     .rooms-header h1 {
-        font-size: 38px;
-        font-weight: 600;
         margin-bottom: 10px;
+        font-size: 42px;
+        color: #17345c;
     }
 
     .rooms-header p {
         font-size: 18px;
-        color: #666;
+        color: #666666;
     }
 
 
-/* ==========================================
-   ROOM GRID
-   ========================================== */
+/* Room grid */
 
 .room-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    margin-top: 30px;
 }
 
 
-/* ==========================================
-   ROOM CARD
-   ========================================== */
+/* Room card */
 
 .room-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 10px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
 }
 
     .room-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
     }
 
 
-/* ==========================================
-   ROOM IMAGE
-   ========================================== */
+/* Room image */
 
 .room-image {
     width: 100%;
-    height: 220px;
-    background: #f2f2f2;
+    height: 230px;
     overflow: hidden;
+    background-color: #edf2f5;
 }
 
     .room-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        display: block;
     }
 
 .no-photo {
-    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #777;
-    font-size: 18px;
+    color: #777777;
+    font-size: 16px;
 }
 
 
-/* ==========================================
-   ROOM INFORMATION
-   ========================================== */
+/* Room content */
 
 .room-content {
-    padding: 22px;
+    padding: 25px;
 }
 
     .room-content h2 {
         margin-top: 0;
         margin-bottom: 12px;
+        color: #17345c;
         font-size: 25px;
     }
 
 .room-description {
-    color: #666;
-    min-height: 40px;
-    margin-bottom: 18px;
+    min-height: 45px;
+    color: #666666;
+    line-height: 1.5;
 }
 
-
-/* ==========================================
-   PRICE
-   ========================================== */
-
 .room-price {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    margin-top: 18px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #2878bd;
 }
 
     .room-price span {
         font-size: 14px;
-        font-weight: normal;
-        color: #777;
+        font-weight: 400;
+        color: #777777;
     }
-
-
-/* ==========================================
-   STATUS
-   ========================================== */
 
 .room-status {
     display: inline-block;
-    padding: 6px 14px;
+    margin: 8px 0 18px;
+    padding: 6px 12px;
     border-radius: 20px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-weight: bold;
-    margin-bottom: 15px;
+    background-color: #e7f5ea;
+    color: #28733b;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 
-/* ==========================================
-   DETAILS BUTTON
-   ========================================== */
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn-room,
+.btn-register,
+.btn-back {
+    display: inline-block;
+    margin: 5px 4px 5px 0;
+    padding: 10px 17px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
 
 .btn-room {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 11px 15px;
-    background: #337ab7;
-    color: white !important;
-    border-radius: 5px;
-    text-decoration: none !important;
-    box-sizing: border-box;
+    background-color: #347fba;
+    color: #ffffff !important;
 }
 
     .btn-room:hover {
-        background: #286090;
-        color: white !important;
+        background-color: #28699e;
+        color: #ffffff !important;
+    }
+
+.btn-register {
+    background-color: #17345c;
+    color: #ffffff !important;
+}
+
+    .btn-register:hover {
+        background-color: #102844;
+        color: #ffffff !important;
+    }
+
+.btn-back {
+    background-color: #eeeeee;
+    color: #333333 !important;
+}
+
+    .btn-back:hover {
+        background-color: #dddddd;
     }
 
 
-/* ==========================================
-   MOBILE
-   ========================================== */
-
-@media (max-width: 768px) {
-
-    .room-grid {
-        grid-template-columns: 1fr;
-    }
-}
-.room-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 30px !important;
-}
-
-.room-card {
-    background: white !important;
-    border: 2px solid #333 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* ==========================================
+/* =========================================================
    ROOM DETAILS
-   ========================================== */
+   ========================================================= */
 
 .room-details-page {
-    padding: 50px 0;
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
 }
 
 .room-details-card {
-    max-width: 1000px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #dce3e9;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
 .room-details-image {
     min-height: 450px;
-    background: #f2f2f2;
+    background-color: #edf2f5;
 }
 
     .room-details-image img {
@@ -462,117 +603,84 @@
     }
 
 .room-details-no-photo {
+    height: 100%;
     min-height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #777;
-    font-size: 20px;
+    color: #777777;
 }
 
 .room-details-content {
-    padding: 45px;
+    padding: 50px;
 }
 
     .room-details-content h1 {
-        font-size: 36px;
-        margin-bottom: 20px;
+        margin-top: 0;
+        color: #17345c;
+        font-size: 38px;
     }
 
 .room-details-description {
-    color: #666;
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 30px;
+    margin: 25px 0;
+    line-height: 1.7;
+    color: #666666;
+    font-size: 17px;
 }
 
 .room-details-price {
-    font-size: 26px;
-    font-weight: bold;
     margin-bottom: 25px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #2878bd;
 }
 
     .room-details-price span {
-        font-size: 16px;
-        font-weight: normal;
-        color: #777;
+        font-size: 15px;
+        color: #777777;
+        font-weight: 400;
     }
 
 .room-details-status {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
-.room-details-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
 
-.btn-back {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-    padding: 11px 15px;
-    border: 1px solid #777;
-    color: #555 !important;
-    border-radius: 5px;
-    text-decoration: none !important;
-}
-
-    .btn-back:hover {
-        background: #f2f2f2;
-    }
-
-
-/* Mobile */
-
-@media (max-width: 768px) {
-
-    .room-details-card {
-        grid-template-columns: 1fr;
-    }
-
-    .room-details-content {
-        padding: 25px;
-    }
-}
-
-/* ==========================================
-   ACCOUNT / REGISTRATION
-   ========================================== */
+/* =========================================================
+   ACCOUNT / LOGIN / REGISTER
+   ========================================================= */
 
 .account-page {
-    min-height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 20px;
+    min-height: 650px;
+    padding: 60px 20px;
+    background-color: #f5f8fb;
 }
 
 .account-card {
-    width: 100%;
-    max-width: 500px;
-    background: white;
+    max-width: 550px;
+    margin: auto;
     padding: 40px;
+    background-color: #ffffff;
     border-radius: 10px;
-    border: 1px solid #ddd;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .account-header {
-    text-align: center;
     margin-bottom: 30px;
+    text-align: center;
 }
 
     .account-header h1 {
-        font-size: 30px;
         margin-bottom: 10px;
+        color: #17345c;
     }
 
     .account-header p {
-        color: #666;
+        color: #777777;
     }
+
+
+/* Forms */
 
 .form-group {
     margin-bottom: 20px;
@@ -580,635 +688,597 @@
 
     .form-group label {
         display: block;
-        font-weight: 600;
         margin-bottom: 7px;
+        font-weight: 600;
+        color: #333333;
     }
 
 .form-control {
     width: 100%;
-    height: 42px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #ccd5dd;
     border-radius: 5px;
     box-sizing: border-box;
+    font-size: 15px;
 }
 
-.btn-register {
-    width: 100%;
-    padding: 12px;
-    background: #337ab7;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-    .btn-register:hover {
-        background: #286090;
+    .form-control:focus {
+        border-color: #347fba;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(52, 127, 186, 0.12);
     }
 
 .account-footer {
-    text-align: center;
     margin-top: 25px;
-}
-
-/* ==========================================
-   APPLICANT DASHBOARD
-   ========================================== */
-
-.dashboard-page {
-    padding: 50px 20px;
-}
-
-.dashboard-header {
     text-align: center;
-    margin-bottom: 45px;
 }
 
-    .dashboard-header h1 {
-        font-size: 36px;
-        margin-bottom: 10px;
-    }
-
-    .dashboard-header p {
-        color: #666;
-        font-size: 17px;
+    .account-footer a {
+        color: #2878bd;
+        text-decoration: none;
     }
 
 
-/* Dashboard cards */
+/* =========================================================
+   APPLICATIONS
+   ========================================================= */
 
-.dashboard-grid {
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+.application-page {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 0 20px;
 }
 
-.dashboard-card {
-    background: white;
-    padding: 35px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-    .dashboard-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    .application-page h1 {
+        color: #17345c;
     }
 
-.dashboard-icon {
-    font-size: 45px;
-    margin-bottom: 15px;
-}
-
-.dashboard-card h2 {
-    margin-bottom: 15px;
-}
-
-.dashboard-card p {
-    color: #666;
-    line-height: 1.6;
-    min-height: 55px;
-    margin-bottom: 25px;
+.application-card {
+    margin-bottom: 20px;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 }
 
 
-/* Dashboard buttons */
+/* Application table */
 
-.dashboard-button {
-    display: inline-block;
+.table {
     width: 100%;
-    box-sizing: border-box;
-    padding: 11px 15px;
-    background: #337ab7;
-    color: white !important;
-    border-radius: 5px;
-    text-decoration: none !important;
+    margin-top: 25px;
+    border-collapse: collapse;
+    background-color: #ffffff;
 }
 
-    .dashboard-button:hover {
-        background: #286090;
+    .table th {
+        padding: 15px;
+        background-color: #17345c;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 14px 15px;
+        border-bottom: 1px solid #e1e6eb;
+    }
+
+    .table tr:hover {
+        background-color: #f5f9fc;
     }
 
 
-/* Mobile */
+/* =========================================================
+   ALERTS
+   ========================================================= */
 
-@media (max-width: 768px) {
+.alert {
+    padding: 15px 18px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
 
-    .dashboard-grid {
+.alert-danger {
+    background-color: #fbeaea;
+    border: 1px solid #efb5b5;
+    color: #9b2525;
+}
+
+.alert-success {
+    background-color: #eaf7ed;
+    border: 1px solid #b9dfc0;
+    color: #28733b;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    margin-top: 50px;
+    padding: 25px 0;
+    border-top: 1px solid #e5e5e5;
+    color: #666666;
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .room-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .why-grid {
         grid-template-columns: 1fr;
     }
-}
-
-
-/* =========================================================
-   UMBILO RENTALS - HOME PAGE
-   ========================================================= */
-
-/* HOME PAGE */
-
-.home-page {
-    margin: -5px -15px 0 -15px;
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.home-hero {
-    min-height: 480px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient( 135deg, #eef6ff 0%, #dcecff 50%, #c9e0fa 100% );
-    position: relative;
-    overflow: hidden;
-}
-
-
-    /* Decorative circles */
-
-    .home-hero::before {
-        content: "";
-        position: absolute;
-        width: 350px;
-        height: 350px;
-        border-radius: 50%;
-        background: rgba(51, 122, 183, 0.10);
-        left: -120px;
-        bottom: -150px;
-    }
-
-
-    .home-hero::after {
-        content: "";
-        position: absolute;
-        width: 420px;
-        height: 410px;
-        border-radius: 50%;
-        background: rgba(51, 122, 183, 0.08);
-        right: -150px;
-        top: -180px;
-    }
-
-
-/* Hero content */
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 850px;
-}
-
 
     .hero-content h1 {
-        margin: 0 0 15px 0;
-        font-size: 58px;
-        font-weight: 800;
-        letter-spacing: 2px;
-        color: #182b49;
+        font-size: 50px;
     }
-
 
     .hero-content h2 {
-        margin: 0 0 20px 0;
-        font-size: 30px;
-        font-weight: 600;
-        color: #1769c2;
+        font-size: 28px;
     }
 
-
-    .hero-content p {
-        max-width: 650px;
-        margin: 0 auto 30px auto;
-        font-size: 18px;
-        line-height: 1.7;
-        color: #4f5f72;
-    }
-
-
-/* =========================================================
-   BLUE BUTTON
-   ========================================================= */
-
-.home-button {
-    display: inline-block;
-    padding: 15px 30px;
-    background: #337ab7;
-    color: white !important;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none !important;
-    transition: all 0.25s ease;
-}
-
-
-    .home-button:hover {
-        background: #286090;
-        color: white !important;
-        text-decoration: none !important;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
-
-
-/* =========================================================
-   WHY CHOOSE US
-   ========================================================= */
-
-.why-us {
-    background: #ffffff;
-    padding: 65px 30px;
-}
-
-
-.home-section-heading {
-    text-align: center;
-    max-width: 750px;
-    margin: 0 auto 45px auto;
-}
-
-
-    .home-section-heading h2 {
-        margin-bottom: 12px;
-        font-size: 34px;
-        font-weight: 700;
-        color: #182b49;
-    }
-
-
-    .home-section-heading p {
-        margin: 0;
-        font-size: 17px;
-        color: #666;
-        line-height: 1.6;
-    }
-
-
-/* =========================================================
-   THREE CARDS
-   ========================================================= */
-
-.why-us-grid {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-
-.why-us-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 35px 25px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-
-    .why-us-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-
-/* Circular icons */
-
-.why-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px auto;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 35px;
-    background: #e8f1fb;
-    border: 4px solid #d4e7fa;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-}
-
-
-.why-us-card h3 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #182b49;
-}
-
-
-.why-us-card p {
-    margin: 0;
-    color: #666;
-    font-size: 15px;
-    line-height: 1.7;
-}
-
-
-/* =========================================================
-   CALL TO ACTION
-   ========================================================= */
-
-.home-cta {
-    text-align: center;
-    padding: 60px 20px;
-    background: #eef6ff;
-    border-top: 1px solid #dcecff;
-}
-
-
-    .home-cta h2 {
-        margin-bottom: 12px;
-        font-size: 32px;
-        color: #182b49;
-    }
-
-
-    .home-cta p {
-        margin-bottom: 25px;
-        font-size: 17px;
-        color: #666;
-    }
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .why-us-grid {
+    .room-details-card {
         grid-template-columns: 1fr;
-        max-width: 600px;
+    }
+
+    .room-details-image {
+        min-height: 350px;
+    }
+
+        .room-details-image img {
+            min-height: 350px;
+        }
+}
+
+
+@media (max-width: 767px) {
+
+    /* Navigation */
+
+    .navbar-header {
+        min-height: 60px;
+    }
+
+
+    .navbar-collapse {
+        border-top: 1px solid #eeeeee;
+        background-color: #ffffff;
+    }
+
+
+        .navbar-nav > li > a {
+            height: auto;
+            padding: 14px 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+    .navbar-right {
+        float: none !important;
+    }
+
+
+    /* Hero */
+
+    .hero-section {
+        min-height: 520px;
+        padding: 80px 20px;
     }
 
     .hero-content h1 {
-        font-size: 45px;
+        font-size: 40px;
     }
 
     .hero-content h2 {
         font-size: 25px;
     }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+
+    /* Rooms */
+
+    .room-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rooms-header h1 {
+        font-size: 34px;
+    }
+
+
+    /* Account */
+
+    .account-card {
+        padding: 25px;
+    }
+
+
+    /* Room details */
+
+    .room-details-content {
+        padding: 30px;
+    }
+
+        .room-details-content h1 {
+            font-size: 30px;
+        }
+
+
+    /* Tables */
+
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }
 
 
-@media (max-width: 600px) {
-
-    .home-page {
-        margin: 0;
-    }
-
-    .home-hero {
-        min-height: 430px;
-        padding: 50px 20px;
-    }
+@media (max-width: 480px) {
 
     .hero-content h1 {
-        font-size: 38px;
+        font-size: 32px;
     }
 
     .hero-content h2 {
-        font-size: 22px;
+        font-size: 21px;
     }
 
-    .hero-content p {
-        font-size: 16px;
+    .hero-button {
+        padding: 14px 22px;
+        font-size: 15px;
     }
 
-    .home-button {
-        width: 100%;
-        box-sizing: border-box;
+    .rooms-page {
+        padding: 30px 15px;
+    }
+
+    .account-card {
+        padding: 20px;
     }
 }
 
-/* ==========================================
-   APPLICATIONS PAGE
-   ========================================== */
+/* =========================================================
+   UMBILO RENTALS NAVIGATION BAR
+   ========================================================= */
 
-.applications-page {
-    padding: 50px 20px;
-}
-
-/* Page heading */
-
-.applications-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-    .applications-header h1 {
-        font-size: 38px;
-        font-weight: 600;
-        color: #182b49;
-        margin-bottom: 10px;
-    }
-
-    .applications-header p {
-        font-size: 18px;
-        color: #666;
-    }
-
-/* Action button */
-
-.applications-actions {
-    max-width: 1100px;
-    margin: 0 auto 25px auto;
-    text-align: right;
-}
-
-.application-button {
-    display: inline-block;
-    padding: 12px 22px;
-    background: #337ab7;
-    color: white !important;
-    border-radius: 6px;
-    text-decoration: none !important;
-    font-weight: 600;
-    transition: 0.2s ease;
-}
-
-    .application-button:hover {
-        background: #286090;
-        color: white !important;
-        text-decoration: none !important;
-    }
-
-/* Table container */
-
-.application-table-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
-}
-
-/* Table */
-
-.application-table {
+.umbilo-navbar {
     width: 100%;
-    border-collapse: collapse;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1000;
 }
 
-    .application-table thead {
-        background: #337ab7;
-        color: white;
+    .umbilo-navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
-    .application-table th {
-        padding: 16px;
-        text-align: left;
-        font-weight: 600;
-    }
 
-    .application-table td {
-        padding: 16px;
-        border-bottom: 1px solid #eee;
-        color: #444;
-    }
+/* Website name */
 
-    .application-table tbody tr:hover {
-        background: #f5f9fd;
-    }
-
-/* Status */
-
-.application-status {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-weight: 600;
+.umbilo-brand {
+    display: flex;
+    align-items: center;
 }
 
-/* View button */
-
-.application-view-button {
-    display: inline-block;
-    padding: 7px 14px;
-    background: #337ab7;
-    color: white !important;
-    border-radius: 5px;
-    text-decoration: none !important;
-}
-
-    .application-view-button:hover {
-        background: #286090;
+    .umbilo-brand a {
+        color: #183153 !important;
+        font-size: 25px;
+        font-weight: 700;
         text-decoration: none !important;
+        letter-spacing: 0.3px;
+        transition: color 0.2s ease;
     }
 
-/* No applications */
+        .umbilo-brand a:hover {
+            color: #2878b5 !important;
+        }
 
-.no-applications {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 50px 30px;
-    text-align: center;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+/* Navigation links */
+
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.no-applications-icon {
-    font-size: 50px;
-    margin-bottom: 15px;
+    .umbilo-links a {
+        display: inline-block;
+        color: #34495e !important;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none !important;
+        padding: 10px 14px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+
+        /* Hover effect */
+
+        .umbilo-links a:hover {
+            color: #ffffff !important;
+            background: #337ab7;
+            text-decoration: none !important;
+        }
+
+
+        /* Login button */
+
+        .umbilo-links a.umbilo-login {
+            color: #ffffff !important;
+            background: #337ab7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-left: 5px;
+        }
+
+            .umbilo-links a.umbilo-login:hover {
+                background: #286090;
+                color: #ffffff !important;
+            }
+
+
+        /* Logout button */
+
+        .umbilo-links a[href*="Logout"] {
+            color: #ffffff !important;
+            background: #337ab7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-left: 5px;
+        }
+
+            .umbilo-links a[href*="Logout"]:hover {
+                background: #286090;
+            }
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.body-content {
+    padding-top: 0;
 }
 
-.no-applications h2 {
-    color: #182b49;
-    font-size: 28px;
-    margin-bottom: 10px;
-}
 
-.no-applications p {
-    color: #666;
-    font-size: 17px;
-    margin-bottom: 25px;
-}
-
-/* Mobile */
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
 
 @media (max-width: 768px) {
 
-    .applications-page {
-        padding: 30px 10px;
+    .umbilo-navbar .container {
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
-    .applications-header h1 {
-        font-size: 30px;
+    .umbilo-brand {
+        justify-content: center;
+        margin-bottom: 10px;
     }
 
-    .applications-actions {
-        text-align: center;
+    .umbilo-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
     }
 
-    .application-table-container {
-        overflow-x: auto;
-    }
-
-    .application-table {
-        min-width: 700px;
-    }
-}
-
-/* ==========================================
-   ROOM ACTION BUTTONS
-   ========================================== */
-
-.room-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-    .room-actions .btn-room,
-    .room-actions .btn-apply {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
-        text-align: center;
-        padding: 11px 15px;
-        border-radius: 5px;
-        text-decoration: none !important;
-    }
-
-    /* View Details */
-    .room-actions .btn-room {
-        background: #337ab7;
-        color: white !important;
-    }
-
-        .room-actions .btn-room:hover {
-            background: #286090;
-            color: white !important;
+        .umbilo-links a {
+            font-size: 14px;
+            padding: 8px 10px;
         }
 
-    /* Apply */
-    .room-actions .btn-apply {
-        background: #e8f1fb;
-        color: #337ab7 !important;
-        border: 1px solid #337ab7;
+            .umbilo-links a.umbilo-login,
+            .umbilo-links a[href*="Logout"] {
+                padding: 8px 14px;
+            }
+}
+
+/* =========================================================
+   UMBILO RENTALS NAVIGATION
+   ========================================================= */
+
+.umbilo-navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1000;
+}
+
+    .umbilo-navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
-        .room-actions .btn-apply:hover {
-            background: #337ab7;
-            color: white !important;
+/* Website name */
+.umbilo-brand {
+    display: flex;
+    align-items: center;
+}
+
+    .umbilo-brand a {
+        color: #17365d !important;
+        text-decoration: none !important;
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: color 0.2s ease;
+    }
+
+        .umbilo-brand a:hover {
+            color: #2878c8 !important;
+            text-decoration: none !important;
+        }
+
+/* Navigation links container */
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    /* Individual navigation links */
+    .umbilo-links a {
+        display: inline-block;
+        padding: 10px 14px;
+        color: #334e68 !important;
+        text-decoration: none !important;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+        /* Hover effect */
+        .umbilo-links a:hover {
+            color: #1f6fba !important;
+            background-color: #eef6ff;
+            text-decoration: none !important;
+        }
+
+    /* Login / Logout button */
+    .umbilo-links .umbilo-login {
+        background-color: #2878c8;
+        color: #ffffff !important;
+        padding: 10px 20px;
+        border-radius: 6px;
+        margin-left: 5px;
+        font-weight: 600;
+    }
+
+        /* Login / Logout hover */
+        .umbilo-links .umbilo-login:hover {
+            background-color: #1f5f9e;
+            color: #ffffff !important;
+        }
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .umbilo-navbar .container {
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .umbilo-brand {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .umbilo-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+        .umbilo-links a {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+}
+
+/* ==========================
+   UMBILO NAVIGATION
+   ========================== */
+
+.umbilo-navbar {
+    background: #1f3b5b !important;
+    width: 100%;
+    min-height: 70px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+    .umbilo-navbar .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+    }
+
+.umbilo-brand {
+    display: flex;
+    align-items: center;
+}
+
+    .umbilo-brand a {
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+    .umbilo-links a {
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+        .umbilo-links a:hover {
+            color: #dbeafe !important;
+            text-decoration: none !important;
+        }
+
+    .umbilo-links .umbilo-login {
+        background: #ffffff;
+        color: #1f3b5b !important;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+        .umbilo-links .umbilo-login:hover {
+            background: #e8f1fb;
+            color: #1f3b5b !important;
         }

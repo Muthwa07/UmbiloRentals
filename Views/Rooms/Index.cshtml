@@ -6,6 +6,13 @@
 
 <div class="rooms-page">
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger room-alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
     <div class="rooms-header">
 
         <h1>Available Rooms</h1>
@@ -26,7 +33,7 @@
 
                     @if (!string.IsNullOrEmpty(room.Photo))
                     {
-                        <img src="@Url.Content(room.Photo)"
+                        <img src="@Url.Content("~/Content/Images/" + room.Photo)"
                              alt="Room @room.RoomNumber" />
                     }
                     else

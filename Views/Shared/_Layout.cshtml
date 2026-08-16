@@ -7,111 +7,147 @@
     <title>@ViewBag.Title - Umbilo Rentals</title>
 
     @Styles.Render("~/Content/css")
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    
+
     @Scripts.Render("~/bundles/modernizr")
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <!-- UMBILO RENTALS NAVIGATION -->
+<nav class="umbilo-navbar">
 
-        <div class="container">
+    <div class="container">
 
+        <div class="umbilo-brand">
             @Html.ActionLink(
                 "Umbilo Rentals",
                 "Index",
+                "Home"
+            )
+        </div>
+
+        <div class="umbilo-links">
+
+            @Html.ActionLink(
                 "Home",
-                new { area = "" },
-                new { @class = "navbar-brand" }
+                "Index",
+                "Home"
             )
 
-            <button type="button"
-                    class="navbar-toggler"
-                    data-bs-toggle="collapse"
-                    data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
+            @Html.ActionLink(
+                "About",
+                "About",
+                "Home"
+            )
 
-                <span class="navbar-toggler-icon"></span>
+            @Html.ActionLink(
+                "Rooms",
+                "Index",
+                "Rooms"
+            )
 
-            </button>
+            @if (Session["UserID"] != null)
+            {
+                @Html.ActionLink(
+                    "My Applications",
+                    "Index",
+                    "Applications"
+                )
 
-            <div class="collapse navbar-collapse">
+                @Html.ActionLink(
+                    "Logout",
+                    "Logout",
+                    "Account",
+                    null,
+                    new { @class = "umbilo-login" }
+                )
+            }
+            else
+            {
+                @Html.ActionLink(
+                    "Register",
+                    "Register",
+                    "Account"
+                )
 
-                <ul class="navbar-nav me-auto">
-
-                    <li class="nav-item">
-                        @Html.ActionLink(
-                            "Home",
-                            "Index",
-                            "Home",
-                            null,
-                            new { @class = "nav-link" }
-                        )
-                    </li>
-
-
-
-                    <li class="nav-item">
-                        @Html.ActionLink(
-                            "Rooms",
-                            "Index",
-                            "Rooms",
-                            null,
-                            new { @class = "nav-link" }
-                        )
-                    </li>
-
-
-
-                    <li class="nav-item">
-                        @Html.ActionLink(
-                            "Register",
-                            "Register",
-                            "Account",
-                            null,
-                            new { @class = "nav-link" }
-                        )
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink(
-                            "Login",
-                            "Login",
-                            "Account",
-                            null,
-                            new { @class = "nav-link" }
-                        )
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink(
-                            "About",
-                            "About",
-                            "Home",
-                            null,
-                            new { @class = "nav-link" }
-                        )
-                    </li>
-
-                    <li class="nav-item">
-                        @Html.ActionLink(
-                            "Contact",
-                            "Contact",
-                            "Home",
-                            null,
-                            new { @class = "nav-link" }
-                        )
-                    </li>
-
-                </ul>
-
-            </div>
+                @Html.ActionLink(
+                    "Login",
+                    "Login",
+                    "Account",
+                    null,
+                    new { @class = "umbilo-login" }
+                )
+            }
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
+
+<style>
+    .umbilo-navbar {
+        width: 100%;
+        background: #1f3b5b;
+        min-height: 70px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .umbilo-navbar .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        min-height: 70px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .umbilo-brand a {
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .umbilo-links {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .umbilo-links a {
+        color: white !important;
+        text-decoration: none !important;
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    .umbilo-links a:hover {
+        background: #2d5d87;
+        color: white !important;
+        border-radius: 5px;
+        text-decoration: none !important;
+    }
+
+    .umbilo-links .umbilo-login {
+        background: #ffffff;
+        color: #1f3b5b !important;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .umbilo-links .umbilo-login:hover {
+        background: #e5eef7;
+        color: #1f3b5b !important;
+    }
+</style>
+
+
+    <!-- MAIN CONTENT -->
 
     <main class="container body-content">
 
@@ -120,10 +156,15 @@
         <hr />
 
         <footer>
-            <p>&copy; @DateTime.Now.Year - Umbilo Rentals</p>
+            <p>
+                &copy; @DateTime.Now.Year - Umbilo Rentals
+            </p>
         </footer>
 
     </main>
+
+
+    <!-- SCRIPTS -->
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -11,23 +11,58 @@ namespace UmbiloRentals.Controllers
 {
     public class ApplicationsController : Controller
     {
-        private BuildingManagementDBEntities db = new BuildingManagementDBEntities();
+        private BuildingManagementDBEntities db =
+            new BuildingManagementDBEntities();
 
+
+        // =========================================================
         // GET: Applications
+        // =========================================================
         public ActionResult Index()
         {
-            return View(db.Applications.ToList());
-        }
-
-        // GET: Applications/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
+            // Make sure the user is logged in
+            if (Session["UserID"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Login", "Account");
             }
 
-            Application application = db.Applications.Find(id);
+            int userId = (int)Session["UserID"];
+
+            // Only retrieve applications belonging
+            // to the logged-in user
+            var applications = db.Applications
+                                 .Where(a => a.UserID == userId)
+                                 .ToList();
+
+            return View(applications);
+        }
+
+
+        // =========================================================
+        // GET: Applications/Details/5
+        // =========================================================
+        public ActionResult Details(int? id)
+        {
+            // Make sure the user is logged in
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest);
+            }
+
+            int userId = (int)Session["UserID"];
+
+            // Only find the application if it belongs
+            // to the logged-in user
+            Application application = db.Applications
+                .FirstOrDefault(a =>
+                    a.ApplicationID == id &&
+                    a.UserID == userId);
 
             if (application == null)
             {
@@ -37,8 +72,11 @@ namespace UmbiloRentals.Controllers
             return View(application);
         }
 
+
+        // =========================================================
         // GET: Applications/Create
         // Room ID is received from the Rooms page
+        // =========================================================
         public ActionResult Create(int? id)
         {
             // Make sure the applicant is logged in
@@ -71,6 +109,20 @@ namespace UmbiloRentals.Controllers
                     "This room is not available."
                 );
             }
+            int userId = (int)Session["UserID"];
+
+            bool alreadyApplied = db.Applications.Any(a =>
+                a.UserID == userId &&
+                a.RoomID == room.RoomID
+            );
+
+            if (alreadyApplied)
+            {
+                TempData["ErrorMessage"] =
+                    "You have already applied for this room.";
+
+                return RedirectToAction("Index", "Rooms");
+            }
 
             ViewBag.RoomNumber = room.RoomNumber;
             ViewBag.RoomID = room.RoomID;
@@ -78,7 +130,10 @@ namespace UmbiloRentals.Controllers
             return View();
         }
 
+
+        // =========================================================
         // POST: Applications/Create
+        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
@@ -99,29 +154,58 @@ namespace UmbiloRentals.Controllers
                 return HttpNotFound();
             }
 
+            // Check room availability
             if (room.Status != "Available")
             {
-                ViewBag.ErrorMessage = "This room is no longer available.";
+                ViewBag.ErrorMessage =
+                    "This room is no longer available.";
+
                 ViewBag.RoomNumber = room.RoomNumber;
                 ViewBag.RoomID = room.RoomID;
 
                 return View();
             }
+            int userId = (int)Session["UserID"];
+
+            bool alreadyApplied = db.Applications.Any(a =>
+                a.UserID == userId &&
+                a.RoomID == roomID
+            );
+
+            if (alreadyApplied)
+            {
+                ViewBag.ErrorMessage =
+                    "You have already applied for this room.";
+
+                ViewBag.RoomNumber = room.RoomNumber;
+                ViewBag.RoomID = room.RoomID;
+
+                return View();
+            }
+
+
+            // =====================================================
+            // DOCUMENT VALIDATION
+            // =====================================================
 
             // Document is required
-            if (document == null || document.ContentLength == 0)
+            if (document == null ||
+                document.ContentLength == 0)
             {
-                ViewBag.ErrorMessage = "Please select a document to upload.";
+                ViewBag.ErrorMessage =
+                    "Please select a document to upload.";
+
                 ViewBag.RoomNumber = room.RoomNumber;
                 ViewBag.RoomID = room.RoomID;
 
                 return View();
             }
 
-            // Allow common document types
+
+            // Allowed document types
             string extension =
-                System.IO.Path.GetExtension(document.FileName)
-                .ToLower();
+                System.IO.Path.GetExtension(
+                    document.FileName).ToLower();
 
             string[] allowedExtensions =
             {
@@ -132,6 +216,7 @@ namespace UmbiloRentals.Controllers
                 ".jpeg",
                 ".png"
             };
+
 
             if (!allowedExtensions.Contains(extension))
             {
@@ -144,11 +229,16 @@ namespace UmbiloRentals.Controllers
                 return View();
             }
 
-            // Maximum file size: 10 MB
-            if (document.ContentLength > 10 * 1024 * 1024)
+
+            // =====================================================
+            // MAXIMUM FILE SIZE: 5 MB
+            // =====================================================
+
+            if (document.ContentLength >
+                5 * 1024 * 1024)
             {
                 ViewBag.ErrorMessage =
-                    "The document must be smaller than 10 MB.";
+                    "The document must be smaller than 5 MB.";
 
                 ViewBag.RoomNumber = room.RoomNumber;
                 ViewBag.RoomID = room.RoomID;
@@ -156,22 +246,36 @@ namespace UmbiloRentals.Controllers
                 return View();
             }
 
-            // Create upload folder
+
+            // =====================================================
+            // CREATE UPLOAD FOLDER
+            // =====================================================
+
             string uploadFolder =
                 Server.MapPath("~/UploadedDocuments");
 
             if (!System.IO.Directory.Exists(uploadFolder))
             {
-                System.IO.Directory.CreateDirectory(uploadFolder);
+                System.IO.Directory.CreateDirectory(
+                    uploadFolder);
             }
 
-            // Generate a unique filename
+
+            // =====================================================
+            // GENERATE UNIQUE FILE NAME
+            // =====================================================
+
             string fileName =
-                Guid.NewGuid().ToString() + extension;
+                Guid.NewGuid().ToString() +
+                extension;
 
             string filePath =
-                System.IO.Path.Combine(uploadFolder, fileName);
+                System.IO.Path.Combine(
+                    uploadFolder,
+                    fileName);
 
+
+            // =====================================================
             // Save document
             document.SaveAs(filePath);
 
@@ -187,7 +291,22 @@ namespace UmbiloRentals.Controllers
             application.DateApplied = DateTime.Now;
 
             db.Applications.Add(application);
-            db.SaveChanges();
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage =
+                    "Database error: " + ex.Message;
+
+                ViewBag.RoomNumber = room.RoomNumber;
+                ViewBag.RoomID = room.RoomID;
+
+                return View();
+            }
+
 
             TempData["SuccessMessage"] =
                 "Your application has been submitted successfully.";
@@ -195,15 +314,20 @@ namespace UmbiloRentals.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // =========================================================
         // GET: Applications/Edit/5
+        // =========================================================
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest);
             }
 
-            Application application = db.Applications.Find(id);
+            Application application =
+                db.Applications.Find(id);
 
             if (application == null)
             {
@@ -213,7 +337,10 @@ namespace UmbiloRentals.Controllers
             return View(application);
         }
 
+
+        // =========================================================
         // POST: Applications/Edit/5
+        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
@@ -223,7 +350,9 @@ namespace UmbiloRentals.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(application).State = EntityState.Modified;
+                db.Entry(application).State =
+                    EntityState.Modified;
+
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -232,15 +361,38 @@ namespace UmbiloRentals.Controllers
             return View(application);
         }
 
+
+        // =========================================================
         // GET: Applications/Delete/5
+        // =========================================================
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            // Make sure the user is logged in
+            if (Session["UserID"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction(
+                    "Login",
+                    "Account");
             }
 
-            Application application = db.Applications.Find(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(
+                    HttpStatusCode.BadRequest);
+            }
+
+            int userId =
+                (int)Session["UserID"];
+
+
+            // Only retrieve the application if it belongs
+            // to the logged-in user
+            Application application =
+                db.Applications
+                .FirstOrDefault(a =>
+                    a.ApplicationID == id &&
+                    a.UserID == userId);
+
 
             if (application == null)
             {
@@ -250,23 +402,61 @@ namespace UmbiloRentals.Controllers
             return View(application);
         }
 
+
+        // =========================================================
         // POST: Applications/Delete/5
+        // SECURE DELETE
+        // =========================================================
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Application application = db.Applications.Find(id);
-
-            if (application != null)
+            // Make sure the user is logged in
+            if (Session["UserID"] == null)
             {
-                db.Applications.Remove(application);
-                db.SaveChanges();
+                return RedirectToAction("Login", "Account");
             }
+
+            int userId = (int)Session["UserID"];
+
+            // Only find the application belonging to the logged-in user
+            Application application = db.Applications
+                .FirstOrDefault(a =>
+                    a.ApplicationID == id &&
+                    a.UserID == userId);
+
+            if (application == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Delete the uploaded document from the server
+            if (!string.IsNullOrEmpty(application.DocumentPath))
+            {
+                string filePath = Server.MapPath(application.DocumentPath);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+
+            // Delete the application from the database
+            db.Applications.Remove(application);
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] =
+                "Your application has been deleted successfully.";
 
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+
+        // =========================================================
+        // DISPOSE DATABASE
+        // =========================================================
+        protected override void Dispose(
+            bool disposing)
         {
             if (disposing)
             {

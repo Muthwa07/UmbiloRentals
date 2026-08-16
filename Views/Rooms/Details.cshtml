@@ -12,7 +12,7 @@
 
             @if (!string.IsNullOrEmpty(Model.Photo))
             {
-                <img src="@Url.Content(Model.Photo)"
+                <img src="@Url.Content("~/Content/Images/" + Model.Photo)"
                      alt="Room @Model.RoomNumber" />
             }
             else
