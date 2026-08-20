@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="dashboard-page">
+
+    <div class="dashboard-header">
+
+        <h1>Welcome to Umbilo Rentals</h1>
+
+        <p>
+            Manage your accommodation and applications from your dashboard.
+        </p>
+
+    </div>
+
+
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card">
+
+            <h2>@ViewBag.AvailableRooms</h2>
+
+            <p>Available Rooms</p>
+
+            @Html.ActionLink(
+                "View Rooms",
+                "Index",
+                "Rooms",
+                null,
+                new { @class = "dashboard-button" }
+            )
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>@ViewBag.TotalApplications</h2>
+
+            <p>My Applications</p>
+
+            @Html.ActionLink(
+                "View Applications",
+                "Index",
+                "Applications",
+                null,
+                new { @class = "dashboard-button" }
+            )
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h2>@ViewBag.PendingApplications</h2>
+
+            <p>Pending Applications</p>
+
+            @Html.ActionLink(
+                "Check Status",
+                "Index",
+                "Applications",
+                null,
+                new { @class = "dashboard-button" }
+            )
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-actions">
+
+        <h2>What would you like to do?</h2>
+
+        <div class="dashboard-action-buttons">
+
+            @Html.ActionLink(
+                "Browse Available Rooms",
+                "Index",
+                "Rooms",
+                null,
+                new { @class = "btn-register" }
+            )
+
+            @Html.ActionLink(
+                "My Applications",
+                "Index",
+                "Applications",
+                null,
+                new { @class = "btn-room" }
+            )
+
+        </div>
+
+    </div>
+
+</div>

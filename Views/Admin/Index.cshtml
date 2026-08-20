@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<div class="admin-page">
+
+    <div class="admin-header">
+
+        <h1>Admin Dashboard</h1>
+
+        <p>
+            Manage Umbilo Rentals from one place.
+        </p>
+
+    </div>
+
+    <div class="admin-grid">
+
+        <div class="admin-card">
+            <h2>@ViewBag.PendingApplications</h2>
+            <p>Pending Applications</p>
+        </div>
+
+        <div class="admin-card">
+            <h2>@ViewBag.ApprovedApplications</h2>
+            <p>Approved Applications</p>
+        </div>
+
+        <div class="admin-card">
+            <h2>@ViewBag.AvailableRooms</h2>
+            <p>Available Rooms</p>
+        </div>
+
+        <div class="admin-card">
+            <h2>@ViewBag.OccupiedRooms</h2>
+            <p>Occupied Rooms</p>
+        </div>
+
+        <div class="admin-card">
+            <h2>@ViewBag.TotalUsers</h2>
+            <p>Registered Applicants</p>
+        </div>
+
+    </div>
+
+    <div class="admin-actions">
+
+        @Html.ActionLink(
+            "Manage Applications",
+            "Applications",
+            "Admin",
+            null,
+            new { @class = "btn-register" })
+
+        @Html.ActionLink(
+            "Manage Rooms",
+            "Rooms",
+            "Admin",
+            null,
+            new { @class = "btn-room" })
+
+    </div>
+
+</div>

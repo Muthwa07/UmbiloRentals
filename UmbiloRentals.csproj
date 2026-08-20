@@ -130,12 +130,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationsController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminApplicationViewModel.cs" />
     <Compile Include="Models\Allocation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -270,6 +273,13 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Dashboard.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Applications.cshtml" />
+    <Content Include="Views\Admin\Rooms.cshtml" />
+    <Content Include="Views\Admin\CreateRoom.cshtml" />
+    <Content Include="Views\Admin\EditRoom.cshtml" />
+    <Content Include="Views\Admin\DeleteRoom.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

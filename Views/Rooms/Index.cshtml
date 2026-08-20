@@ -33,8 +33,8 @@
 
                     @if (!string.IsNullOrEmpty(room.Photo))
                     {
-                        <img src="@Url.Content("~/Content/Images/" + room.Photo)"
-                             alt="Room @room.RoomNumber" />
+                        <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                             alt="@room.RoomNumber">
                     }
                     else
                     {

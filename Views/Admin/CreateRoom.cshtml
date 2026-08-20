@@ -1,0 +1,75 @@
+﻿@model UmbiloRentals.Models.Room
+
+@{
+    ViewBag.Title = "Add Room";
+}
+
+<div class="account-page">
+
+    <div class="account-card">
+
+        <div class="account-header">
+
+            <h1>Add New Room</h1>
+
+        </div>
+
+        @using (Html.BeginForm(
+            "CreateRoom",
+            "Admin",
+            FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>Room Number</label>
+                @Html.TextBoxFor(m => m.RoomNumber,
+                    new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Monthly Rent</label>
+                @Html.TextBoxFor(m => m.MonthlyRent,
+                    new { @class = "form-control", type = "number" })
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                @Html.TextAreaFor(m => m.Description,
+                    new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+
+                <label>Room Image</label>
+
+                <input type="file"
+                       name="photoFile"
+                       class="form-control"
+                       accept="image/*" />
+
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+
+                @Html.DropDownListFor(
+                    m => m.Status,
+                    new SelectList(new[]
+                    {
+                        "Available",
+                        "Occupied"
+                    }),
+                    new { @class = "form-control" })
+            </div>
+
+            <button type="submit"
+                    class="btn-register">
+                Save Room
+            </button>
+        }
+
+    </div>
+
+</div>

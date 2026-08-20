@@ -86,7 +86,12 @@ namespace UmbiloRentals.Controllers
             Session["UserName"] = user.FirstName + " " + user.LastName;
             Session["RoleID"] = user.RoleID;
 
-            return RedirectToAction("Dashboard", "Account");
+            if (user.RoleID == 2)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         // GET: Account/Dashboard

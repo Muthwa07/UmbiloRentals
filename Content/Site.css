@@ -1282,3 +1282,533 @@ footer {
             background: #e8f1fb;
             color: #1f3b5b !important;
         }
+
+/* =========================================================
+   UMBILO RENTALS - HOME PAGE
+   ========================================================= */
+
+.home-page {
+    margin: 0;
+    padding: 0;
+}
+
+/* HERO SECTION */
+
+.home-hero {
+    position: relative;
+    min-height: 510px;
+    padding: 90px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #eef7ff 0%, #dceeff 50%, #c9e1f7 100% );
+}
+
+    /* Decorative circles */
+
+    .home-hero::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        left: -120px;
+        bottom: -120px;
+    }
+
+    .home-hero::after {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        right: -120px;
+        top: -120px;
+    }
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    margin: auto;
+}
+
+    .hero-content h1 {
+        margin: 0 0 20px;
+        font-size: 60px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #17345c;
+    }
+
+    .hero-content h2 {
+        margin: 0 0 25px;
+        font-size: 32px;
+        font-weight: 500;
+        color: #2878bd;
+    }
+
+    .hero-content p {
+        max-width: 760px;
+        margin: 0 auto 35px;
+        font-size: 19px;
+        line-height: 1.7;
+        color: #40566e;
+    }
+
+/* HOME BUTTON */
+
+.home-button {
+    display: inline-block;
+    padding: 17px 32px;
+    border-radius: 6px;
+    background-color: #347fba;
+    color: #ffffff !important;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+    .home-button:hover {
+        background-color: #28699e;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+
+/* =========================================================
+   WHY CHOOSE US
+   ========================================================= */
+
+.why-us {
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.home-section-heading {
+    max-width: 850px;
+    margin: 0 auto 45px;
+}
+
+    .home-section-heading h2 {
+        margin: 0 0 18px;
+        font-size: 36px;
+        color: #17345c;
+    }
+
+    .home-section-heading p {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #666666;
+    }
+
+.why-us-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.why-us-card {
+    padding: 35px 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e1e8ef;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transition: all 0.25s ease;
+}
+
+    .why-us-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+
+.why-icon {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.why-us-card h3 {
+    margin: 0 0 15px;
+    color: #2878bd;
+    font-size: 22px;
+}
+
+.why-us-card p {
+    margin: 0;
+    line-height: 1.6;
+    color: #666666;
+}
+
+
+/* =========================================================
+   HOME CALL TO ACTION
+   ========================================================= */
+
+.home-cta {
+    padding: 70px 20px;
+    text-align: center;
+    background-color: #f5f8fb;
+}
+
+    .home-cta h2 {
+        margin: 0 0 15px;
+        font-size: 34px;
+        color: #17345c;
+    }
+
+    .home-cta p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #666666;
+    }
+
+
+/* =========================================================
+   HOME PAGE RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .hero-content h1 {
+        font-size: 50px;
+    }
+
+    .hero-content h2 {
+        font-size: 28px;
+    }
+
+    .why-us-grid {
+        grid-template-columns: 1fr;
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .home-hero {
+        min-height: 480px;
+        padding: 70px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content h2 {
+        font-size: 25px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+    .home-button {
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+
+    .why-us {
+        padding: 50px 20px;
+    }
+
+    .home-section-heading h2 {
+        font-size: 30px;
+    }
+
+    .home-cta {
+        padding: 50px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content h2 {
+        font-size: 21px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .home-section-heading h2 {
+        font-size: 27px;
+    }
+
+    .home-cta h2 {
+        font-size: 28px;
+    }
+}
+
+/* =========================================================
+   ROOMS PAGE - ACTION BUTTONS
+   ========================================================= */
+
+.room-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-apply {
+    display: inline-block;
+    padding: 10px 17px;
+    border-radius: 5px;
+    background-color: #17345c;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+    .btn-apply:hover {
+        background-color: #102844;
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }
+
+/* =========================================================
+   MY APPLICATIONS PAGE
+   ========================================================= */
+
+.applications-page {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 0 20px;
+}
+
+.applications-header {
+    margin-bottom: 25px;
+}
+
+    .applications-header h1 {
+        color: #17345c;
+    }
+
+    .applications-header p {
+        color: #666666;
+    }
+
+.applications-actions {
+    margin-bottom: 25px;
+}
+
+.application-button {
+    display: inline-block;
+    padding: 10px 17px;
+    border-radius: 5px;
+    background-color: #347fba;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+
+    .application-button:hover {
+        background-color: #28699e;
+    }
+
+/* Card wrapper around the table */
+.application-table-container {
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .application-table th {
+        padding: 15px;
+        background-color: #17345c;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .application-table td {
+        padding: 14px 15px;
+        border-bottom: 1px solid #e1e6eb;
+    }
+
+    .application-table tr:hover {
+        background-color: #f5f9fc;
+    }
+
+.application-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #fff7e6;
+    color: #a66a00;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.application-view-button {
+    color: #2878bd;
+    text-decoration: none;
+}
+
+/* Empty state */
+.no-applications {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+}
+
+.no-applications-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+/* ======================================
+   ROOM FEATURES
+====================================== */
+
+.room-features {
+    margin: 35px 0;
+}
+
+    .room-features h3 {
+        color: #17345c;
+        margin-bottom: 20px;
+    }
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.feature-item {
+    background: #f5f8fb;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+    padding: 15px;
+    font-weight: 500;
+    color: #17345c;
+}
+
+/* ======================================
+   ROOM GALLERY
+====================================== */
+
+.room-gallery {
+    margin-top: 40px;
+}
+
+    .room-gallery h3 {
+        color: #17345c;
+        margin-bottom: 20px;
+    }
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+    .gallery-item img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .gallery-item p {
+        margin: 12px;
+        text-align: center;
+        font-weight: 600;
+        color: #17345c;
+    }
+
+/* Mobile */
+
+@media (max-width:768px) {
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ======================================
+   ADMIN DASHBOARD
+====================================== */
+
+.admin-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+    .admin-header h1 {
+        color: #17345c;
+    }
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 25px;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #dce3e9;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+    .admin-card h2 {
+        color: #2878bd;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+.admin-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

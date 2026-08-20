@@ -29,55 +29,47 @@
 
         <div class="umbilo-links">
 
-            @Html.ActionLink(
-                "Home",
-                "Index",
-                "Home"
-            )
+            @Html.ActionLink("Home", "Index", "Home")
 
-            @Html.ActionLink(
-                "About",
-                "About",
-                "Home"
-            )
+            @if (Session["RoleID"] == null || (int)Session["RoleID"] == 1)
+            {
+                @Html.ActionLink("About", "About", "Home")
+                @Html.ActionLink("Rooms", "Index", "Rooms")
+            }
 
-            @Html.ActionLink(
-                "Rooms",
-                "Index",
-                "Rooms"
-            )
+            @if (Session["RoleID"] != null && (int)Session["RoleID"] == 2)
+            {
+                @Html.ActionLink("Dashboard", "Index", "Admin")
+                @Html.ActionLink("Applications", "Applications", "Admin")
+                @Html.ActionLink("Rooms", "Rooms", "Admin")
+            }
 
             @if (Session["UserID"] != null)
             {
-                @Html.ActionLink(
-                    "My Applications",
-                    "Index",
-                    "Applications"
-                )
+                if ((int)Session["RoleID"] == 1)
+                {
+                    @Html.ActionLink("My Applications", "Index", "Applications")
+                }
 
                 @Html.ActionLink(
-                    "Logout",
-                    "Logout",
-                    "Account",
-                    null,
-                    new { @class = "umbilo-login" }
-                )
+                         "Logout",
+                         "Logout",
+                         "Account",
+                         null,
+                         new { @class = "umbilo-login" }
+                     )
             }
             else
             {
-                @Html.ActionLink(
-                    "Register",
-                    "Register",
-                    "Account"
-                )
+                @Html.ActionLink("Register", "Register", "Account")
 
                 @Html.ActionLink(
-                    "Login",
-                    "Login",
-                    "Account",
-                    null,
-                    new { @class = "umbilo-login" }
-                )
+                         "Login",
+                         "Login",
+                         "Account",
+                         null,
+                         new { @class = "umbilo-login" }
+                     )
             }
 
         </div>
