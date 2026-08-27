@@ -1,0 +1,62 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Payment>
+
+@{
+    ViewBag.Title = "My Payments";
+}
+
+<div class="application-page">
+
+    <h1>My Payments</h1>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table">
+
+        <tr>
+            <th>Month</th>
+            <th>Room</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Proof</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.PaymentMonth</td>
+
+                <td>@item.RoomID</td>
+
+                <td>R @item.Amount</td>
+
+                <td>@item.PaymentDate</td>
+
+                <td>
+                    <span class="status-badge status-@item.Status.ToLower()">
+                        @item.Status
+                    </span>
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(item.ProofOfPayment))
+                    {
+                        <a href="@Url.Content(item.ProofOfPayment)"
+                           target="_blank">
+                            View
+                        </a>
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</div>

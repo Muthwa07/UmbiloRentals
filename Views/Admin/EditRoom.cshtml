@@ -9,18 +9,14 @@
     <div class="account-card">
 
         <div class="account-header">
-
             <h1>Edit Room</h1>
-
         </div>
 
-        @using (Html.BeginForm(
-            "EditRoom",
-            "Admin",
-            FormMethod.Post,
+        @using (Html.BeginForm("Edit", "Rooms", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.RoomID)
 
             <div class="form-group">
                 <label>Room Number</label>
@@ -37,44 +33,36 @@
             <div class="form-group">
                 <label>Description</label>
                 @Html.TextAreaFor(m => m.Description,
-                    new { @class = "form-control" })
+                    new { @class = "form-control", rows = 4 })
             </div>
-
-            <div class="form-group">
-
-                <label>Change Room Image</label>
-
-                <input type="file"
-                       name="photoFile"
-                       class="form-control"
-                       accept="image/*" />
-
-            </div>
-
-            @if (!string.IsNullOrEmpty(Model.Photo))
-            {
-                <p>Current Image:</p>
-
-                <img src="@Url.Content("~/Content/RoomImages/" + Model.Photo)"
-                     width="220"
-                     style="border-radius:8px;border:1px solid #ddd;" />
-            }
 
             <div class="form-group">
                 <label>Status</label>
-
                 @Html.DropDownListFor(
                     m => m.Status,
-                    new SelectList(new[]
-                    {
-                        "Available",
-                        "Occupied"
-                    }),
+                    new SelectList(new[] { "Available", "Occupied" }),
                     new { @class = "form-control" })
             </div>
 
-            <button type="submit"
-                    class="btn-register">
+            <div class="form-group">
+                <label>Change Room Image</label>
+                <input type="file"
+                       name="imageFile"
+                       class="form-control"
+                       accept=".jpg,.jpeg,.png" />
+            </div>
+
+            if (!string.IsNullOrEmpty(Model.Photo))
+            {
+                <div class="form-group">
+                    <label>Current Image</label><br />
+                    <img src="@Url.Content("~/Content/RoomImages/" + Model.Photo)"
+                         width="220"
+                         style="border-radius:8px;border:1px solid #ddd;" />
+                </div>
+            }
+
+            <button type="submit" class="btn-register">
                 Update Room
             </button>
         }

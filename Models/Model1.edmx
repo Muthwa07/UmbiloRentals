@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BuildingManagementDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BuildingManagementDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Allocations">
           <Key>
             <PropertyRef Name="AllocationID" />
@@ -80,6 +80,10 @@
           <Property Name="Description" Type="varchar(max)" />
           <Property Name="DateReported" Type="datetime" />
           <Property Name="Status" Type="varchar" MaxLength="30" />
+          <Property Name="Title" Type="varchar" MaxLength="100" />
+          <Property Name="Priority" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DateCompleted" Type="datetime" />
+          <Property Name="AssignedTo" Type="int" />
         </EntityType>
         <EntityType Name="Payments">
           <Key>
@@ -93,6 +97,7 @@
           <Property Name="PaymentDate" Type="datetime" />
           <Property Name="Status" Type="varchar" MaxLength="30" />
           <Property Name="VerifiedBy" Type="int" />
+          <Property Name="RoomID" Type="int" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -284,6 +289,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Maintenance_AssignedTo">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequests">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_VerifiedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="VerifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="BuildingManagementDBModelStoreContainer">
           <EntitySet Name="Allocations" EntityType="Self.Allocations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
@@ -345,9 +398,24 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="VisitorRequests" EntitySet="VisitorRequests" />
           </AssociationSet>
+          <AssociationSet Name="FK_Maintenance_AssignedTo" Association="Self.FK_Maintenance_AssignedTo">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Rooms" Association="Self.FK_Payments_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Users" Association="Self.FK_Payments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_VerifiedBy" Association="Self.FK_Payments_VerifiedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BuildingManagementDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -436,6 +504,11 @@
           <NavigationProperty Name="MaintenanceAssignments" Relationship="Self.FK__Maintenan__Reque__6B24EA82" FromRole="MaintenanceRequests" ToRole="MaintenanceAssignments" />
           <NavigationProperty Name="Room" Relationship="Self.FK__Maintenan__RoomI__66603565" FromRole="MaintenanceRequests" ToRole="Rooms" />
           <NavigationProperty Name="User" Relationship="Self.FK__Maintenan__Tenan__656C112C" FromRole="MaintenanceRequests" ToRole="Users" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Priority" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DateCompleted" Type="DateTime" Precision="3" />
+          <Property Name="AssignedTo" Type="Int32" />
+          <NavigationProperty Name="User1" Relationship="BuildingManagementDBModel.FK_Maintenance_AssignedTo" FromRole="MaintenanceRequest" ToRole="User" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -451,6 +524,8 @@
           <Property Name="VerifiedBy" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Self.FK__Payments__UserID__5EBF139D" FromRole="Payments" ToRole="Users" />
           <NavigationProperty Name="User1" Relationship="Self.FK__Payments__Verifi__5FB337D6" FromRole="Payments" ToRole="Users" />
+          <Property Name="RoomID" Type="Int32" />
+          <NavigationProperty Name="Room" Relationship="BuildingManagementDBModel.FK_Payments_Rooms" FromRole="Payment" ToRole="Room" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -471,6 +546,7 @@
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Allocations" Relationship="Self.FK__Allocatio__RoomI__59063A47" FromRole="Rooms" ToRole="Allocations" />
           <NavigationProperty Name="MaintenanceRequests" Relationship="Self.FK__Maintenan__RoomI__66603565" FromRole="Rooms" ToRole="MaintenanceRequests" />
+          <NavigationProperty Name="Payments" Relationship="BuildingManagementDBModel.FK_Payments_Rooms" FromRole="Room" ToRole="Payment" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -494,6 +570,7 @@
           <NavigationProperty Name="Payments" Relationship="Self.FK__Payments__UserID__5EBF139D" FromRole="Users" ToRole="Payments" />
           <NavigationProperty Name="Payments1" Relationship="Self.FK__Payments__Verifi__5FB337D6" FromRole="Users" ToRole="Payments" />
           <NavigationProperty Name="VisitorRequests" Relationship="Self.FK__VisitorRe__Tenan__6FE99F9F" FromRole="Users" ToRole="VisitorRequests" />
+          <NavigationProperty Name="MaintenanceRequests1" Relationship="BuildingManagementDBModel.FK_Maintenance_AssignedTo" FromRole="User" ToRole="MaintenanceRequest" />
         </EntityType>
         <EntityType Name="VisitorRequest">
           <Key>
@@ -715,7 +792,39 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="VisitorRequests" EntitySet="VisitorRequests" />
           </AssociationSet>
+          <AssociationSet Name="FK_Payments_Rooms" Association="BuildingManagementDBModel.FK_Payments_Rooms">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Maintenance_AssignedTo" Association="BuildingManagementDBModel.FK_Maintenance_AssignedTo">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MaintenanceRequest" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Payments_Rooms">
+          <End Type="BuildingManagementDBModel.Room" Role="Room" Multiplicity="0..1" />
+          <End Type="BuildingManagementDBModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Maintenance_AssignedTo">
+          <End Type="BuildingManagementDBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BuildingManagementDBModel.MaintenanceRequest" Role="MaintenanceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequest">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -796,6 +905,10 @@
           <EntitySetMapping Name="MaintenanceRequests">
             <EntityTypeMapping TypeName="BuildingManagementDBModel.MaintenanceRequest">
               <MappingFragment StoreEntitySet="MaintenanceRequests">
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
                 <ScalarProperty Name="TenantID" ColumnName="TenantID" />
                 <ScalarProperty Name="RoomID" ColumnName="RoomID" />
@@ -808,6 +921,7 @@
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="BuildingManagementDBModel.Payment">
               <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />

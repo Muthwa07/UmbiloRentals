@@ -1,0 +1,87 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Room>
+
+@{
+    ViewBag.Title = "Manage Rooms";
+}
+
+<div class="application-page">
+
+    <div class="page-header">
+
+        <h1>Manage Rooms</h1>
+
+        @Html.ActionLink(
+            "Add New Room",
+            "Create",
+            "Rooms",
+            null,
+            new { @class = "btn-register" })
+
+    </div>
+
+    <table class="table">
+
+        <tr>
+            <th>Photo</th>
+            <th>Room</th>
+            <th>Rent</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var room in Model)
+        {
+            <tr>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(room.Photo))
+                    {
+                        <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                             class="admin-room-thumb" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+
+                </td>
+
+                <td>@room.RoomNumber</td>
+
+                <td>R @room.MonthlyRent</td>
+
+                <td>
+
+                    <span class="room-status-badge @(room.Status=="Available" ? "available" : "occupied")">
+
+                        @room.Status
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    @Html.ActionLink(
+                        "Edit",
+                        "Edit",
+                        "Rooms",
+                        new { id = room.RoomID },
+                        new { @class = "btn-room" })
+
+                    @Html.ActionLink(
+                        "Delete",
+                        "Delete",
+                        "Rooms",
+                        new { id = room.RoomID },
+                        new { @class = "btn-back" })
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</div>

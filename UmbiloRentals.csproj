@@ -134,6 +134,8 @@
     <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MaintenanceController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -280,6 +282,14 @@
     <Content Include="Views\Admin\EditRoom.cshtml" />
     <Content Include="Views\Admin\DeleteRoom.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Admin\Maintenance.cshtml" />
+    <Content Include="Views\Maintenance\Create.cshtml" />
+    <Content Include="Views\Maintenance\MyRequests.cshtml" />
+    <Content Include="Views\Payments\Create.cshtml" />
+    <Content Include="Views\Payments\Index.cshtml" />
+    <Content Include="Views\Admin\Payments.cshtml" />
+    <Content Include="Views\Admin\ManageRooms.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

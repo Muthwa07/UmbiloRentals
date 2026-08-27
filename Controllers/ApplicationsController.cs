@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -320,19 +321,31 @@ namespace UmbiloRentals.Controllers
         // =========================================================
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(
-                    HttpStatusCode.BadRequest);
-            }
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
 
-            Application application =
-                db.Applications.Find(id);
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            int userId = (int)Session["UserID"];
+
+            var application = db.Applications.FirstOrDefault(a =>
+                a.ApplicationID == id &&
+                a.UserID == userId);
 
             if (application == null)
-            {
                 return HttpNotFound();
+
+            if (application.Status != "Pending")
+            {
+                TempData["ErrorMessage"] =
+                    "Only pending applications can be edited.";
+
+                return RedirectToAction("Index");
             }
+
+            ViewBag.RoomNumber =
+                db.Rooms.Find(application.RoomID).RoomNumber;
 
             return View(application);
         }
@@ -344,21 +357,65 @@ namespace UmbiloRentals.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
-            [Bind(Include =
-                "ApplicationID,UserID,RoomID,DocumentPath,Status,DateApplied")]
-            Application application)
+            int ApplicationID,
+            HttpPostedFileBase document)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(application).State =
-                    EntityState.Modified;
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
 
-                db.SaveChanges();
+            int userId = (int)Session["UserID"];
+
+            var application = db.Applications.FirstOrDefault(a =>
+                a.ApplicationID == ApplicationID &&
+                a.UserID == userId);
+
+            if (application == null)
+                return HttpNotFound();
+
+            if (application.Status != "Pending")
+            {
+                TempData["ErrorMessage"] =
+                    "Only pending applications can be edited.";
 
                 return RedirectToAction("Index");
             }
 
-            return View(application);
+            if (document != null &&
+                document.ContentLength > 0)
+            {
+                string extension =
+                    Path.GetExtension(document.FileName).ToLower();
+
+                string[] allowed =
+                {
+            ".pdf",".doc",".docx",".jpg",".jpeg",".png"
+        };
+
+                if (allowed.Contains(extension))
+                {
+                    string folder =
+                        Server.MapPath("~/UploadedDocuments");
+
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+
+                    string fileName =
+                        Guid.NewGuid() + extension;
+
+                    document.SaveAs(
+                        Path.Combine(folder, fileName));
+
+                    application.DocumentPath =
+                        "~/UploadedDocuments/" + fileName;
+                }
+            }
+
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] =
+                "Application updated successfully.";
+
+            return RedirectToAction("Index");
         }
 
 

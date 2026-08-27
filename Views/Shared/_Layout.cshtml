@@ -7,7 +7,6 @@
     <title>@ViewBag.Title - Umbilo Rentals</title>
 
     @Styles.Render("~/Content/css")
-    
 
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -15,129 +14,157 @@
 <body>
 
     <!-- UMBILO RENTALS NAVIGATION -->
-<nav class="umbilo-navbar">
+    <nav class="umbilo-navbar">
 
-    <div class="container">
+        <div class="container">
 
-        <div class="umbilo-brand">
-            @Html.ActionLink(
-                "Umbilo Rentals",
-                "Index",
-                "Home"
-            )
-        </div>
+            <div class="umbilo-brand">
+                @Html.ActionLink(
+                    "Umbilo Rentals",
+                    "Index",
+                    "Home"
+                )
+            </div>
 
-        <div class="umbilo-links">
+            <div class="umbilo-links">
 
-            @Html.ActionLink("Home", "Index", "Home")
+                @Html.ActionLink(
+                    "Home",
+                    "Index",
+                    "Home"
+                )
 
-            @if (Session["RoleID"] == null || (int)Session["RoleID"] == 1)
-            {
-                @Html.ActionLink("About", "About", "Home")
-                @Html.ActionLink("Rooms", "Index", "Rooms")
-            }
-
-            @if (Session["RoleID"] != null && (int)Session["RoleID"] == 2)
-            {
-                @Html.ActionLink("Dashboard", "Index", "Admin")
-                @Html.ActionLink("Applications", "Applications", "Admin")
-                @Html.ActionLink("Rooms", "Rooms", "Admin")
-            }
-
-            @if (Session["UserID"] != null)
-            {
-                if ((int)Session["RoleID"] == 1)
+                @if (Session["UserID"] == null)
                 {
-                    @Html.ActionLink("My Applications", "Index", "Applications")
+                    @Html.ActionLink(
+                        "About",
+                        "About",
+                        "Home"
+                    )
+                }
+                else if ((int)Session["RoleID"] == 1)
+                {
+                    @Html.ActionLink(
+                        "Dashboard",
+                        "Index",
+                        "Dashboard"
+                    )
+
+                    @Html.ActionLink(
+                        "Profile",
+                        "Profile",
+                        "Account"
+                    )
                 }
 
-                @Html.ActionLink(
-                         "Logout",
-                         "Logout",
-                         "Account",
-                         null,
-                         new { @class = "umbilo-login" }
-                     )
-            }
-            else
-            {
-                @Html.ActionLink("Register", "Register", "Account")
+                @if (Session["RoleID"] == null || (int)Session["RoleID"] == 1)
+                {
+                    @Html.ActionLink(
+                        "Rooms",
+                        "Index",
+                        "Rooms"
+                    )
+                }
 
-                @Html.ActionLink(
-                         "Login",
-                         "Login",
-                         "Account",
-                         null,
-                         new { @class = "umbilo-login" }
-                     )
-            }
+                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 2)
+                {
+                    @Html.ActionLink("Dashboard", "Index", "Admin")
+                    @Html.ActionLink("Applications", "Applications", "Admin")
+                    @Html.ActionLink("Rooms", "Rooms", "Admin")
+                }
+
+                @if (Session["UserID"] != null)
+                {
+                    if ((int)Session["RoleID"] == 1)
+                    {
+                        @Html.ActionLink("My Applications", "Index", "Applications")
+                    }
+
+                    @Html.ActionLink(
+                        "Logout",
+                        "Logout",
+                        "Account",
+                        null,
+                        new { @class = "umbilo-login" }
+                    )
+                }
+                else
+                {
+                    @Html.ActionLink("Register", "Register", "Account")
+
+                    @Html.ActionLink(
+                        "Login",
+                        "Login",
+                        "Account",
+                        null,
+                        new { @class = "umbilo-login" }
+                    )
+                }
+
+            </div>
 
         </div>
 
-    </div>
+    </nav>
 
-</nav>
+    <style>
+        .umbilo-navbar {
+            width: 100%;
+            background: #1f3b5b;
+            min-height: 70px;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-    .umbilo-navbar {
-        width: 100%;
-        background: #1f3b5b;
-        min-height: 70px;
-        margin: 0;
-        padding: 0;
-    }
+            .umbilo-navbar .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+                min-height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
 
-    .umbilo-navbar .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        min-height: 70px;
+        .umbilo-brand a {
+            color: white !important;
+            text-decoration: none !important;
+            font-size: 25px;
+            font-weight: bold;
+        }
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+        .umbilo-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .umbilo-brand a {
-        color: white !important;
-        text-decoration: none !important;
-        font-size: 25px;
-        font-weight: bold;
-    }
+            .umbilo-links a {
+                color: white !important;
+                text-decoration: none !important;
+                padding: 10px 14px;
+                font-size: 15px;
+            }
 
-    .umbilo-links {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+                .umbilo-links a:hover {
+                    background: #2d5d87;
+                    color: white !important;
+                    border-radius: 5px;
+                    text-decoration: none !important;
+                }
 
-    .umbilo-links a {
-        color: white !important;
-        text-decoration: none !important;
-        padding: 10px 14px;
-        font-size: 15px;
-    }
+            .umbilo-links .umbilo-login {
+                background: #ffffff;
+                color: #1f3b5b !important;
+                border-radius: 5px;
+                font-weight: bold;
+            }
 
-    .umbilo-links a:hover {
-        background: #2d5d87;
-        color: white !important;
-        border-radius: 5px;
-        text-decoration: none !important;
-    }
-
-    .umbilo-links .umbilo-login {
-        background: #ffffff;
-        color: #1f3b5b !important;
-        border-radius: 5px;
-        font-weight: bold;
-    }
-
-    .umbilo-links .umbilo-login:hover {
-        background: #e5eef7;
-        color: #1f3b5b !important;
-    }
-</style>
-
+                .umbilo-links .umbilo-login:hover {
+                    background: #e5eef7;
+                    color: #1f3b5b !important;
+                }
+    </style>
 
     <!-- MAIN CONTENT -->
 
@@ -148,13 +175,10 @@
         <hr />
 
         <footer>
-            <p>
-                &copy; @DateTime.Now.Year - Umbilo Rentals
-            </p>
+            <p>&copy; @DateTime.Now.Year - Umbilo Rentals</p>
         </footer>
 
     </main>
-
 
     <!-- SCRIPTS -->
 
