@@ -1,0 +1,121 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Application>
+
+@{
+    ViewBag.Title = "My Applications";
+}
+
+<div class="applications-page">
+
+    <div class="applications-header">
+        <h1>My Applications</h1>
+        <p>View and manage your accommodation applications.</p>
+    </div>
+
+    <div class="applications-actions">
+        @Html.ActionLink(
+            "View Available Rooms",
+            "Index",
+            "Rooms",
+            null,
+           
+        
+        new { @class = "application-button" }
+        )
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="application-table-container">
+
+            <table class="application-table">
+
+                <thead>
+                    <tr>
+                        <th>Room ID</th>
+                        <th>Document</th>
+                        <th>Status</th>
+                        <th>Date Applied</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @item.RoomID
+                            </td>
+
+                            <td>
+                                @item.DocumentPath
+                            </td>
+
+                            <td>
+                                <span class="application-status">
+                                    @item.Status
+                                </span>
+                            </td>
+
+                            <td>
+                                @(item.DateApplied.HasValue
+                                    ? item.DateApplied.Value.ToString("dd MMM yyyy")
+                                    : "Not available")
+                            </td>
+
+
+                            <td>
+                                @Html.ActionLink(
+                                    "View",
+                                    "Details",
+                                    "Applications",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn btn-primary btn-sm" }
+                                )
+
+                                @Html.ActionLink(
+                                    "Delete",
+                                    "Delete",
+                                    "Applications",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn btn-danger btn-sm" }
+                                )
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+<div class="no-applications">
+
+    <div class="no-applications-icon">
+        📋
+    </div>
+
+    <h2>No Applications Yet</h2>
+
+    <p>
+        You have not submitted an accommodation application yet.
+    </p>
+
+    @Html.ActionLink(
+        "View Available Rooms",
+        "Index",
+        "Rooms",
+        null,
+                    new { @class = "application-button" }
+                )
+
+</div>
+    }
+
+</div>

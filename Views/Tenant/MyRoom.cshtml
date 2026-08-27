@@ -1,0 +1,57 @@
+﻿@model UmbiloRentals.Models.Room
+
+@{
+    ViewBag.Title = "My Room";
+}
+
+<div class="dashboard">
+
+    <div class="dashboard-header">
+        <h1>My Room</h1>
+
+        <p>
+            Your allocated room information.
+        </p>
+    </div>
+
+    @if (Model == null)
+    {
+        <div class="dashboard-card">
+            <h3>No Room Allocated</h3>
+
+            <p>
+                You have not been allocated a room yet.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="dashboard-card">
+
+
+            <h2>Room Information</h2>
+
+            <p>
+                <strong>Room Number:</strong>
+                @Model.RoomNumber
+            </p>
+
+            <p>
+                <strong>Monthly Rent:</strong>
+                R @Model.MonthlyRent
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+                @Model.Description
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                @Model.Status
+            </p>
+
+        </div>
+    }
+
+</div>

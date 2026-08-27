@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Building Manager Dashboard";
+}
+
+<style>
+    .dashboard {
+        padding: 40px;
+        background: #f5f6f8;
+        min-height: 80vh;
+    }
+
+    .dashboard-header {
+        background: #263238;
+        color: white;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+    }
+
+        .dashboard-header h1 {
+            margin: 0 0 8px 0;
+            font-size: 30px;
+        }
+
+        .dashboard-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .dashboard-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+        .dashboard-card .icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .dashboard-card h3 {
+            margin: 5px 0;
+            color: #263238;
+        }
+
+        .dashboard-card p {
+            color: #777;
+            font-size: 14px;
+        }
+</style>
+
+
+<div class="dashboard">
+
+    <div class="dashboard-header">
+        <h1>Building Manager Dashboard</h1>
+
+        <p>
+            Welcome back. Manage the building from one place.
+        </p>
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+
+            <h3>
+                @Html.ActionLink(
+                         "Manage Rooms",
+                         "Rooms",
+                         "Admin")
+            </h3>
+
+            <p>Manage available and occupied rooms.</p>
+        </div>
+
+
+        <div class="dashboard-card">
+
+
+            <h3>
+                @Html.ActionLink(
+                         "Applications",
+                         "Applications",
+                         "Admin")
+            </h3>
+
+            <p>Review applications from applicants.</p>
+        </div>
+
+
+        <div class="dashboard-card">
+
+
+
+            <h3>
+                @Html.ActionLink(
+                         "Manage Users",
+                         "Users",
+                         "Admin"
+                     )
+            </h3>
+
+            <p>View and manage building users.</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>Proof of Payments</h3>
+            <p>View tenant proof of payments.</p>
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>Maintenance</h3>
+            <p>Manage tenant maintenance requests.</p>
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>
+                @Html.ActionLink(
+                         "Announcements",
+                         "CreateAnnouncement",
+                         "Admin"
+                     )
+            </h3>
+
+            <p>Send announcements to selected users.</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>Visitors</h3>
+            <p>View and manage building visitors.</p>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+</div>

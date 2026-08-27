@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Applicant Registration";
+}
+
+<div class="account-page">
+
+    <div class="account-card">
+
+        <div class="account-header">
+
+            <h1>Create Applicant Account</h1>
+
+            <p>
+                Register with Umbilo Rentals to apply for accommodation.
+            </p>
+
+        </div>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+
+                <label>First Name</label>
+
+                <input type="text"
+                       name="firstName"
+                       class="form-control"
+                       required />
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Last Name</label>
+
+                <input type="text"
+                       name="lastName"
+                       class="form-control"
+                       required />
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       required />
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Phone Number</label>
+
+                <input type="text"
+                       name="phone"
+                       class="form-control"
+                       required />
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       required />
+
+            </div>
+
+
+            <button type="submit"
+                    class="btn-register">
+
+                Create Account
+
+            </button>
+        }
+
+        <div class="account-footer">
+
+            <p>
+                Already have an account?
+
+                @Html.ActionLink(
+                    "Login here",
+                    "Login",
+                    "Account"
+                )
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - Umbilo Rentals</title>
+
+    @Styles.Render("~/Content/css")
+    
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+
+    <!-- UMBILO RENTALS NAVIGATION -->
+    <nav class="umbilo-navbar">
+
+        <div class="container">
+
+            <div class="umbilo-brand">
+                @Html.ActionLink(
+                         "Umbilo Rentals",
+                         "Index",
+                         "Home"
+                     )
+            </div>
+
+            <div class="umbilo-links">
+
+                @* TENANT *@
+                @if (Session["UserID"] != null && Session["RoleID"] != null)
+                {
+                    int userId = (int)Session["UserID"];
+                    int roleId = (int)Session["RoleID"];
+
+                    var isTenant = false;
+
+                    if (roleId == 1)
+                    {
+                        using (var db = new UmbiloRentals.Models.BuildingManagementDBEntities())
+                        {
+                            isTenant = db.Applications.Any(a =>
+                                a.UserID == userId &&
+                                a.Status == "Approved");
+                        }
+                    }
+
+                    @* BUILDING MANAGER *@
+                    if (roleId == 2)
+                    {
+                        @Html.ActionLink("Dashboard", "Index", "Admin")
+
+                        @Html.ActionLink(
+                                 "Logout",
+                                 "Logout",
+                                 "Account",
+                                 null,
+                                 new { @class = "umbilo-login" }
+                             )
+                    }
+
+                    @* TENANT *@
+                    else if (isTenant)
+                    {
+                        @Html.ActionLink(
+                                 "Logout",
+                                 "Logout",
+                                 "Account",
+                                 null,
+                                 new { @class = "umbilo-login" }
+                             )
+                    }
+
+                    @* APPLICANT *@
+                    else if (roleId == 1)
+                    {
+                        @Html.ActionLink("Home", "Index", "Home")
+                        @Html.ActionLink("About", "About", "Home")
+                        @Html.ActionLink("Rooms", "Index", "Rooms")
+
+                        @Html.ActionLink(
+                                 "Logout",
+                                 "Logout",
+                                 "Account",
+                                 null,
+                                 new { @class = "umbilo-login" }
+                             )
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Home", "Index", "Home")
+                    @Html.ActionLink("About", "About", "Home")
+                    @Html.ActionLink("Rooms", "Index", "Rooms")
+
+                    @Html.ActionLink("Register", "Register", "Account")
+
+                    @Html.ActionLink(
+                             "Login",
+                             "Login",
+                             "Account",
+                             null,
+                             new { @class = "umbilo-login" }
+                         )
+                }
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <style>
+        .umbilo-navbar {
+            width: 100%;
+            background: #1f3b5b;
+            min-height: 70px;
+            margin: 0;
+            padding: 0;
+        }
+
+            .umbilo-navbar .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+                min-height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+        .umbilo-brand a {
+            color: white !important;
+            text-decoration: none !important;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .umbilo-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .umbilo-links a {
+                color: white !important;
+                text-decoration: none !important;
+                padding: 10px 14px;
+                font-size: 15px;
+            }
+
+                .umbilo-links a:hover {
+                    background: #2d5d87;
+                    color: white !important;
+                    border-radius: 5px;
+                    text-decoration: none !important;
+                }
+
+            .umbilo-links .umbilo-login {
+                background: #ffffff;
+                color: #1f3b5b !important;
+                border-radius: 5px;
+                font-weight: bold;
+            }
+
+                .umbilo-links .umbilo-login:hover {
+                    background: #e5eef7;
+                    color: #1f3b5b !important;
+                }
+    </style>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container body-content">
+
+        @RenderBody()
+
+        <hr />
+
+        <footer>
+            <p>
+                &copy; @DateTime.Now.Year - Umbilo Rentals
+            </p>
+        </footer>
+
+    </main>
+
+
+    <!-- SCRIPTS -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

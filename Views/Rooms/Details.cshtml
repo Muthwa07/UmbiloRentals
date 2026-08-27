@@ -1,0 +1,149 @@
+﻿@model UmbiloRentals.Models.Room
+
+@{
+    ViewBag.Title = "Room Details";
+}
+
+<div class="room-details-page">
+
+    <div class="room-details-card">
+
+        <div class="room-details-image">
+
+            @if (!string.IsNullOrEmpty(Model.Photo))
+            {
+                <img src="@Url.Content("~/Content/RoomImages/" + Model.Photo)"
+                     alt="@Model.RoomNumber">
+            }
+            else
+            {
+                <div class="room-details-no-photo">
+                    No Photo Available
+                </div>
+            }
+
+        </div>
+
+        <div class="room-details-content">
+
+            <h1>Room @Model.RoomNumber</h1>
+
+            <p class="room-details-description">
+                @Model.Description
+            </p>
+
+            <div class="room-details-price">
+                R @String.Format("{0:N2}", Model.MonthlyRent)
+                <span>/ month</span>
+            </div>
+
+            <div class="room-details-status">
+                <strong>Status:</strong>
+
+                <span class="room-status">
+                    @Model.Status
+                </span>
+            </div>
+
+            <hr />
+
+            <div class="room-features">
+
+                <h3>Room Features</h3>
+
+                <div class="feature-grid">
+
+                    <div class="feature-item">
+                        <icon name=bath color=info /> Shared Bathroom
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=cooking-pot color=info /> Shared Kitchen
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=wifi color=info /> Free Wi-Fi
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=droplet color=info /> Water Included
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=bolt color=info /> Electricity Included
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=shield-check color=info /> 24/7 Security
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=shirt color=info /> Laundry Area
+                    </div>
+
+                    <div class="feature-item">
+                        <icon name=car color=info /> Parking Available
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="room-gallery">
+
+                <h3>Room Gallery</h3>
+
+                <div class="gallery-grid">
+
+                    <div class="gallery-item">
+                        <img src="@Url.Content(Model.Photo)"
+                             alt="Room @Model.RoomNumber" />
+                        <p>Bedroom</p>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="@Url.Content("~/Content/RoomImages/Bathroom.jpg")"
+                             alt="Bathroom" />
+                        <p>Shared Bathroom</p>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="@Url.Content("~/Content/RoomImages/Kitchen.jpg")"
+                             alt="Kitchen" />
+                        <p>Shared Kitchen</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="room-details-actions">
+
+                @if (Model.Status == "Available")
+                {
+                    @Html.ActionLink(
+                                  "Apply for This Room",
+                                  "Create",
+                                  "Applications",
+                                  new { id = Model.RoomID },
+                                  new { @class = "btn-room" }
+                              )
+                }
+
+                @Html.ActionLink(
+                              "Back to Available Rooms",
+                              "Index",
+                              "Rooms",
+                              null,
+                              new { @class = "btn-back" }
+                          )
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

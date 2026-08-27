@@ -1,0 +1,122 @@
+﻿@model UmbiloRentals.Models.User
+
+@{
+    ViewBag.Title = "Add Staff";
+}
+
+<style>
+    .staff-page {
+        padding: 40px;
+        background: #f5f6f8;
+        min-height: 80vh;
+    }
+
+    .staff-card {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+        .staff-card h1 {
+            margin-bottom: 25px;
+            color: #263238;
+        }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    .btn-create {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #263238;
+        color: white;
+    }
+</style>
+
+<div class="staff-page">
+
+    <div class="staff-card">
+
+        <h1>Add Staff</h1>
+        @if (ViewBag.Error != null)
+        {
+            <p style="color:red;">@ViewBag.Error</p>
+        }
+
+        @using (Html.BeginForm("CreateStaff", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>First Name</label>
+                @Html.TextBoxFor(m => m.FirstName,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                @Html.TextBoxFor(m => m.LastName,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.Email,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                @Html.TextBoxFor(m => m.Phone,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                @Html.PasswordFor(m => m.Password,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Staff Type</label>
+
+                @Html.DropDownListFor(
+                              m => m.RoleID,
+                              new SelectList(new[]
+                              {
+                        new { ID = 4, Name = "Maintenance" },
+                        new { ID = 5, Name = "Security" }
+                              }, "ID", "Name"),
+                              "Select Staff Type",
+                              new { @class = "form-control" }
+                          )
+            </div>
+
+            <button type="submit" class="btn-create">
+                Create Staff
+            </button>
+        }
+
+    </div>
+
+</div>

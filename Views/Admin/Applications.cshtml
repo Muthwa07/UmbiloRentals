@@ -1,0 +1,75 @@
+﻿@model IEnumerable<UmbiloRentals.Models.AdminApplicationViewModel>
+
+@{
+    ViewBag.Title = "Manage Applications";
+}
+
+<div class="application-page">
+
+    <h1>Manage Applications</h1>
+
+    <table class="table">
+
+        <tr>
+
+            <th>Applicant</th>
+            <th>Room</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Document</th>
+            <th>Actions</th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.ApplicantName</td>
+
+                <td>@item.RoomNumber</td>
+
+                <td>@item.Status</td>
+
+                <td>@item.DateApplied</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(item.DocumentPath))
+                    {
+                        <a href="@Url.Content(item.DocumentPath)"
+                           target="_blank"
+                           class="btn-back">
+                            View
+                        </a>
+                    }
+                </td>
+
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        @Html.ActionLink(
+                            "Approve",
+                            "Approve",
+                            "Admin",
+                            new { id = item.ApplicationID },
+                            new { @class = "btn-register" })
+
+                        @Html.ActionLink(
+                            "Reject",
+                            "Reject",
+                            "Admin",
+                            new { id = item.ApplicationID },
+                            new { @class = "btn-back" })
+                    }
+                    else
+                    {
+                        <text>No Action</text>
+                    }
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</div>

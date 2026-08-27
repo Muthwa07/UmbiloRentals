@@ -1,0 +1,895 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BuildingManagementDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Allocations">
+          <Key>
+            <PropertyRef Name="AllocationID" />
+          </Key>
+          <Property Name="AllocationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoomID" Type="int" Nullable="false" />
+          <Property Name="AllocationDate" Type="datetime" />
+          <Property Name="MoveOutDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Announcements">
+          <Key>
+            <PropertyRef Name="AnnouncementID" />
+          </Key>
+          <Property Name="AnnouncementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" />
+          <Property Name="Message" Type="varchar(max)" />
+          <Property Name="TargetRole" Type="varchar" MaxLength="30" />
+          <Property Name="PostedBy" Type="int" />
+          <Property Name="DatePosted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="RoomID" Type="int" />
+          <Property Name="DocumentPath" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
+          <Property Name="DateApplied" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Complaints">
+          <Key>
+            <PropertyRef Name="ComplaintID" />
+          </Key>
+          <Property Name="ComplaintID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenantID" Type="int" />
+          <Property Name="ComplaintType" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
+          <Property Name="DateSubmitted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LostFound">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemName" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="DateFound" Type="datetime" />
+          <Property Name="ReportedBy" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="MaintenanceAssignments">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="StaffID" Type="int" Nullable="false" />
+          <Property Name="AssignedDate" Type="datetime" />
+          <Property Name="JobStatus" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="MaintenanceRequests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenantID" Type="int" Nullable="false" />
+          <Property Name="RoomID" Type="int" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="DateReported" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ProofOfPayment" Type="varchar" MaxLength="255" />
+          <Property Name="PaymentMonth" Type="varchar" MaxLength="20" />
+          <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
+          <Property Name="VerifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="RoomID" />
+          </Key>
+          <Property Name="RoomID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomNumber" Type="varchar" MaxLength="20" />
+          <Property Name="MonthlyRent" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Photo" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Password" Type="varchar" MaxLength="255" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="VisitorRequests">
+          <Key>
+            <PropertyRef Name="VisitorID" />
+          </Key>
+          <Property Name="VisitorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenantID" Type="int" Nullable="false" />
+          <Property Name="VisitorName" Type="varchar" MaxLength="100" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="VisitDate" Type="date" />
+          <Property Name="ArrivalTime" Type="time" Precision="7" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
+          <Property Name="CheckInTime" Type="datetime" />
+          <Property Name="CheckOutTime" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Allocatio__RoomI__59063A47">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="1" />
+          <End Role="Allocations" Type="Self.Allocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Allocations">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Allocatio__UserI__5812160E">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Allocations" Type="Self.Allocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Allocations">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Announcem__Poste__73BA3083">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Announcements" Type="Self.Announcements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Announcements">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Complaint__Tenan__787EE5A0">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Complaints" Type="Self.Complaints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Complaints">
+              <PropertyRef Name="TenantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LostFound__Repor__7C4F7684">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="LostFound" Type="Self.LostFound" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="LostFound">
+              <PropertyRef Name="ReportedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__Reque__6B24EA82">
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequests" Multiplicity="1" />
+          <End Role="MaintenanceAssignments" Type="Self.MaintenanceAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaintenanceRequests">
+              <PropertyRef Name="RequestID" />
+            </Principal>
+            <Dependent Role="MaintenanceAssignments">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__RoomI__66603565">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequests">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__Staff__6C190EBB">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MaintenanceAssignments" Type="Self.MaintenanceAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceAssignments">
+              <PropertyRef Name="StaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__Tenan__656C112C">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequests">
+              <PropertyRef Name="TenantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payments__UserID__5EBF139D">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payments__Verifi__5FB337D6">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="VerifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VisitorRe__Tenan__6FE99F9F">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="VisitorRequests" Type="Self.VisitorRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="VisitorRequests">
+              <PropertyRef Name="TenantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BuildingManagementDBModelStoreContainer">
+          <EntitySet Name="Allocations" EntityType="Self.Allocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Complaints" EntityType="Self.Complaints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LostFound" EntityType="Self.LostFound" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaintenanceAssignments" EntityType="Self.MaintenanceAssignments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaintenanceRequests" EntityType="Self.MaintenanceRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VisitorRequests" EntityType="Self.VisitorRequests" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Allocatio__RoomI__59063A47" Association="Self.FK__Allocatio__RoomI__59063A47">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Allocations" EntitySet="Allocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Allocatio__UserI__5812160E" Association="Self.FK__Allocatio__UserI__5812160E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Allocations" EntitySet="Allocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Announcem__Poste__73BA3083" Association="Self.FK__Announcem__Poste__73BA3083">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Announcements" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Complaint__Tenan__787EE5A0" Association="Self.FK__Complaint__Tenan__787EE5A0">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Complaints" EntitySet="Complaints" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LostFound__Repor__7C4F7684" Association="Self.FK__LostFound__Repor__7C4F7684">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LostFound" EntitySet="LostFound" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__Reque__6B24EA82" Association="Self.FK__Maintenan__Reque__6B24EA82">
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+            <End Role="MaintenanceAssignments" EntitySet="MaintenanceAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__RoomI__66603565" Association="Self.FK__Maintenan__RoomI__66603565">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__Staff__6C190EBB" Association="Self.FK__Maintenan__Staff__6C190EBB">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MaintenanceAssignments" EntitySet="MaintenanceAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__Tenan__656C112C" Association="Self.FK__Maintenan__Tenan__656C112C">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payments__UserID__5EBF139D" Association="Self.FK__Payments__UserID__5EBF139D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payments__Verifi__5FB337D6" Association="Self.FK__Payments__Verifi__5FB337D6">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VisitorRe__Tenan__6FE99F9F" Association="Self.FK__VisitorRe__Tenan__6FE99F9F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="VisitorRequests" EntitySet="VisitorRequests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BuildingManagementDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Allocation">
+          <Key>
+            <PropertyRef Name="AllocationID" />
+          </Key>
+          <Property Name="AllocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RoomID" Type="Int32" Nullable="false" />
+          <Property Name="AllocationDate" Type="DateTime" Precision="3" />
+          <Property Name="MoveOutDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Room" Relationship="Self.FK__Allocatio__RoomI__59063A47" FromRole="Allocations" ToRole="Rooms" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Allocatio__UserI__5812160E" FromRole="Allocations" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="AnnouncementID" />
+          </Key>
+          <Property Name="AnnouncementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TargetRole" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PostedBy" Type="Int32" />
+          <Property Name="DatePosted" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Announcem__Poste__73BA3083" FromRole="Announcements" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RoomID" Type="Int32" />
+          <Property Name="DocumentPath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DateApplied" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Complaint">
+          <Key>
+            <PropertyRef Name="ComplaintID" />
+          </Key>
+          <Property Name="ComplaintID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenantID" Type="Int32" />
+          <Property Name="ComplaintType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DateSubmitted" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Complaint__Tenan__787EE5A0" FromRole="Complaints" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="LostFound">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateFound" Type="DateTime" Precision="3" />
+          <Property Name="ReportedBy" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__LostFound__Repor__7C4F7684" FromRole="LostFound" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="MaintenanceAssignment">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="StaffID" Type="Int32" Nullable="false" />
+          <Property Name="AssignedDate" Type="DateTime" Precision="3" />
+          <Property Name="JobStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MaintenanceRequest" Relationship="Self.FK__Maintenan__Reque__6B24EA82" FromRole="MaintenanceAssignments" ToRole="MaintenanceRequests" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Maintenan__Staff__6C190EBB" FromRole="MaintenanceAssignments" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="MaintenanceRequest">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenantID" Type="Int32" Nullable="false" />
+          <Property Name="RoomID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateReported" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MaintenanceAssignments" Relationship="Self.FK__Maintenan__Reque__6B24EA82" FromRole="MaintenanceRequests" ToRole="MaintenanceAssignments" />
+          <NavigationProperty Name="Room" Relationship="Self.FK__Maintenan__RoomI__66603565" FromRole="MaintenanceRequests" ToRole="Rooms" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Maintenan__Tenan__656C112C" FromRole="MaintenanceRequests" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ProofOfPayment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentMonth" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="VerifiedBy" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Payments__UserID__5EBF139D" FromRole="Payments" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK__Payments__Verifi__5FB337D6" FromRole="Payments" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="RoomID" />
+          </Key>
+          <Property Name="RoomID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MonthlyRent" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Allocations" Relationship="Self.FK__Allocatio__RoomI__59063A47" FromRole="Rooms" ToRole="Allocations" />
+          <NavigationProperty Name="MaintenanceRequests" Relationship="Self.FK__Maintenan__RoomI__66603565" FromRole="Rooms" ToRole="MaintenanceRequests" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Allocations" Relationship="Self.FK__Allocatio__UserI__5812160E" FromRole="Users" ToRole="Allocations" />
+          <NavigationProperty Name="Announcements" Relationship="Self.FK__Announcem__Poste__73BA3083" FromRole="Users" ToRole="Announcements" />
+          <NavigationProperty Name="Complaints" Relationship="Self.FK__Complaint__Tenan__787EE5A0" FromRole="Users" ToRole="Complaints" />
+          <NavigationProperty Name="LostFounds" Relationship="Self.FK__LostFound__Repor__7C4F7684" FromRole="Users" ToRole="LostFound" />
+          <NavigationProperty Name="MaintenanceAssignments" Relationship="Self.FK__Maintenan__Staff__6C190EBB" FromRole="Users" ToRole="MaintenanceAssignments" />
+          <NavigationProperty Name="MaintenanceRequests" Relationship="Self.FK__Maintenan__Tenan__656C112C" FromRole="Users" ToRole="MaintenanceRequests" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK__Payments__UserID__5EBF139D" FromRole="Users" ToRole="Payments" />
+          <NavigationProperty Name="Payments1" Relationship="Self.FK__Payments__Verifi__5FB337D6" FromRole="Users" ToRole="Payments" />
+          <NavigationProperty Name="VisitorRequests" Relationship="Self.FK__VisitorRe__Tenan__6FE99F9F" FromRole="Users" ToRole="VisitorRequests" />
+        </EntityType>
+        <EntityType Name="VisitorRequest">
+          <Key>
+            <PropertyRef Name="VisitorID" />
+          </Key>
+          <Property Name="VisitorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenantID" Type="Int32" Nullable="false" />
+          <Property Name="VisitorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VisitDate" Type="DateTime" Precision="0" />
+          <Property Name="ArrivalTime" Type="Time" Precision="7" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CheckInTime" Type="DateTime" Precision="3" />
+          <Property Name="CheckOutTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK__VisitorRe__Tenan__6FE99F9F" FromRole="VisitorRequests" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK__Allocatio__RoomI__59063A47">
+          <End Role="Rooms" Type="Self.Room" Multiplicity="1" />
+          <End Role="Allocations" Type="Self.Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Allocations">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Allocatio__UserI__5812160E">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Allocations" Type="Self.Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Allocations">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Announcem__Poste__73BA3083">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Announcements" Type="Self.Announcement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Announcements">
+              <PropertyRef Name="PostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Complaint__Tenan__787EE5A0">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Complaints" Type="Self.Complaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Complaints">
+              <PropertyRef Name="TenantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LostFound__Repor__7C4F7684">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="LostFound" Type="Self.LostFound" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="LostFound">
+              <PropertyRef Name="ReportedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__Reque__6B24EA82">
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequest" Multiplicity="1" />
+          <End Role="MaintenanceAssignments" Type="Self.MaintenanceAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaintenanceRequests">
+              <PropertyRef Name="RequestID" />
+            </Principal>
+            <Dependent Role="MaintenanceAssignments">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__Staff__6C190EBB">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="MaintenanceAssignments" Type="Self.MaintenanceAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceAssignments">
+              <PropertyRef Name="StaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__RoomI__66603565">
+          <End Role="Rooms" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequests">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__Tenan__656C112C">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequests">
+              <PropertyRef Name="TenantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payments__UserID__5EBF139D">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payments__Verifi__5FB337D6">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="VerifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VisitorRe__Tenan__6FE99F9F">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="VisitorRequests" Type="Self.VisitorRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="VisitorRequests">
+              <PropertyRef Name="TenantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BuildingManagementDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Allocations" EntityType="Self.Allocation" />
+          <EntitySet Name="Announcements" EntityType="Self.Announcement" />
+          <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="Complaints" EntityType="Self.Complaint" />
+          <EntitySet Name="LostFounds" EntityType="Self.LostFound" />
+          <EntitySet Name="MaintenanceAssignments" EntityType="Self.MaintenanceAssignment" />
+          <EntitySet Name="MaintenanceRequests" EntityType="Self.MaintenanceRequest" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="VisitorRequests" EntityType="Self.VisitorRequest" />
+          <AssociationSet Name="FK__Allocatio__RoomI__59063A47" Association="Self.FK__Allocatio__RoomI__59063A47">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Allocations" EntitySet="Allocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Allocatio__UserI__5812160E" Association="Self.FK__Allocatio__UserI__5812160E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Allocations" EntitySet="Allocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Announcem__Poste__73BA3083" Association="Self.FK__Announcem__Poste__73BA3083">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Announcements" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Complaint__Tenan__787EE5A0" Association="Self.FK__Complaint__Tenan__787EE5A0">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Complaints" EntitySet="Complaints" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LostFound__Repor__7C4F7684" Association="Self.FK__LostFound__Repor__7C4F7684">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LostFound" EntitySet="LostFounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__Reque__6B24EA82" Association="Self.FK__Maintenan__Reque__6B24EA82">
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+            <End Role="MaintenanceAssignments" EntitySet="MaintenanceAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__Staff__6C190EBB" Association="Self.FK__Maintenan__Staff__6C190EBB">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MaintenanceAssignments" EntitySet="MaintenanceAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__RoomI__66603565" Association="Self.FK__Maintenan__RoomI__66603565">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__Tenan__656C112C" Association="Self.FK__Maintenan__Tenan__656C112C">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payments__UserID__5EBF139D" Association="Self.FK__Payments__UserID__5EBF139D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payments__Verifi__5FB337D6" Association="Self.FK__Payments__Verifi__5FB337D6">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VisitorRe__Tenan__6FE99F9F" Association="Self.FK__VisitorRe__Tenan__6FE99F9F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="VisitorRequests" EntitySet="VisitorRequests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BuildingManagementDBModelStoreContainer" CdmEntityContainer="BuildingManagementDBEntities">
+          <EntitySetMapping Name="Allocations">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Allocation">
+              <MappingFragment StoreEntitySet="Allocations">
+                <ScalarProperty Name="AllocationID" ColumnName="AllocationID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="AllocationDate" ColumnName="AllocationDate" />
+                <ScalarProperty Name="MoveOutDate" ColumnName="MoveOutDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Announcements">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Announcement">
+              <MappingFragment StoreEntitySet="Announcements">
+                <ScalarProperty Name="AnnouncementID" ColumnName="AnnouncementID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="TargetRole" ColumnName="TargetRole" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateApplied" ColumnName="DateApplied" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Complaints">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Complaint">
+              <MappingFragment StoreEntitySet="Complaints">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+                <ScalarProperty Name="ComplaintType" ColumnName="ComplaintType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateSubmitted" ColumnName="DateSubmitted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LostFounds">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.LostFound">
+              <MappingFragment StoreEntitySet="LostFound">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateFound" ColumnName="DateFound" />
+                <ScalarProperty Name="ReportedBy" ColumnName="ReportedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaintenanceAssignments">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.MaintenanceAssignment">
+              <MappingFragment StoreEntitySet="MaintenanceAssignments">
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="AssignedDate" ColumnName="AssignedDate" />
+                <ScalarProperty Name="JobStatus" ColumnName="JobStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaintenanceRequests">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.MaintenanceRequest">
+              <MappingFragment StoreEntitySet="MaintenanceRequests">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateReported" ColumnName="DateReported" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ProofOfPayment" ColumnName="ProofOfPayment" />
+                <ScalarProperty Name="PaymentMonth" ColumnName="PaymentMonth" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="VerifiedBy" ColumnName="VerifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Room">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="MonthlyRent" ColumnName="MonthlyRent" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VisitorRequests">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.VisitorRequest">
+              <MappingFragment StoreEntitySet="VisitorRequests">
+                <ScalarProperty Name="VisitorID" ColumnName="VisitorID" />
+                <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+                <ScalarProperty Name="VisitorName" ColumnName="VisitorName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CheckInTime" ColumnName="CheckInTime" />
+                <ScalarProperty Name="CheckOutTime" ColumnName="CheckOutTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

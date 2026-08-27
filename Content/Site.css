@@ -1,0 +1,1814 @@
+﻿/* =========================================================
+   UMBILO RENTALS - MAIN SITE STYLES
+   ========================================================= */
+
+/* =========================================================
+   UMBILO RENTALS NAVIGATION
+   ========================================================= */
+
+.umbilo-navbar {
+    width: 100%;
+    min-height: 64px;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e4e9ee;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 1000;
+}
+
+
+.umbilo-nav-container {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* =========================================================
+   WEBSITE BRAND
+   ========================================================= */
+
+.umbilo-brand {
+    display: flex;
+    align-items: center;
+}
+
+
+    .umbilo-brand a {
+        display: block;
+        padding: 20px 0;
+        color: #17345c !important;
+        font-size: 24px;
+        font-weight: 700;
+        text-decoration: none !important;
+        letter-spacing: 0.3px;
+    }
+
+
+        .umbilo-brand a:hover {
+            color: #2878bd !important;
+            text-decoration: none !important;
+        }
+
+
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
+
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+    .umbilo-links > a {
+        display: inline-block;
+        padding: 22px 14px;
+        color: #333333 !important;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none !important;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+    }
+
+
+        .umbilo-links > a:hover {
+            color: #2878bd !important;
+            background-color: #f1f7fc;
+            text-decoration: none !important;
+        }
+
+
+        /* =========================================================
+   LOGIN / LOGOUT BUTTON
+   ========================================================= */
+
+        .umbilo-links > a.umbilo-login {
+            margin-left: 8px;
+            padding: 10px 18px;
+            color: #ffffff !important;
+            background-color: #347fba;
+            border-radius: 5px;
+        }
+
+
+            .umbilo-links > a.umbilo-login:hover {
+                color: #ffffff !important;
+                background-color: #28699e;
+            }
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.body-content {
+    padding-top: 0;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    color: #666666;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+
+    footer p {
+        margin: 0;
+    }
+
+
+/* =========================================================
+   GENERAL PAGE SETTINGS
+   ========================================================= */
+
+body {
+    padding-top: 0;
+    padding-bottom: 30px;
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+
+.navbar {
+    min-height: 60px;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-header {
+    min-height: 60px;
+}
+
+.navbar-brand {
+    height: 60px;
+    padding: 18px 15px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #17345c !important;
+    text-decoration: none;
+}
+
+    .navbar-brand:hover {
+        color: #2878bd !important;
+        text-decoration: none;
+    }
+
+
+/* Navigation links */
+
+.navbar-nav {
+    margin: 0;
+}
+
+    .navbar-nav > li > a {
+        height: 60px;
+        padding: 20px 16px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #333333 !important;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+        .navbar-nav > li > a:hover,
+        .navbar-nav > li > a:focus {
+            color: #2878bd !important;
+            background-color: #f1f7fc !important;
+        }
+
+
+    /* Active navigation link */
+
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:hover,
+    .navbar-nav > .active > a:focus {
+        color: #2878bd !important;
+        background-color: #eef6fc !important;
+    }
+
+
+/* Login/Register area */
+
+.navbar-right {
+    margin-right: 0;
+}
+
+
+/* Mobile navigation button */
+
+.navbar-toggle {
+    position: relative;
+    float: right;
+    margin-top: 13px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    padding: 9px 10px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+    .navbar-toggle:hover {
+        background-color: #f2f7fb;
+    }
+
+    .navbar-toggle .icon-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        margin-top: 4px;
+        background-color: #333333;
+    }
+
+        .navbar-toggle .icon-bar:first-child {
+            margin-top: 0;
+        }
+
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+.home-page {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Hero */
+
+.hero-section {
+    position: relative;
+    min-height: 600px;
+    margin: 0;
+    padding: 110px 40px 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #eef7ff 0%, #dceeff 50%, #c9e1f7 100% );
+}
+
+
+    /* Decorative circles */
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        left: -120px;
+        bottom: -120px;
+    }
+
+    .hero-section::after {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        right: -120px;
+        top: -120px;
+    }
+
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    margin: auto;
+}
+
+
+    .hero-content h1 {
+        margin: 0 0 20px;
+        font-size: 64px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #17345c;
+    }
+
+
+    .hero-content h2 {
+        margin: 0 0 25px;
+        font-size: 36px;
+        font-weight: 500;
+        color: #2878bd;
+    }
+
+
+    .hero-content p {
+        max-width: 760px;
+        margin: 0 auto 35px;
+        font-size: 20px;
+        line-height: 1.7;
+        color: #40566e;
+    }
+
+
+/* Hero button */
+
+.hero-button {
+    display: inline-block;
+    padding: 18px 35px;
+    border-radius: 7px;
+    background-color: #347fba;
+    color: white !important;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+    .hero-button:hover {
+        background-color: #28699e;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+
+/* =========================================================
+   WHY CHOOSE US
+   ========================================================= */
+
+.why-section {
+    padding: 70px 20px;
+    text-align: center;
+}
+
+    .why-section h2 {
+        margin-bottom: 40px;
+        font-size: 38px;
+        color: #17345c;
+    }
+
+.why-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.why-card {
+    padding: 35px 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e1e8ef;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+    .why-card h3 {
+        margin-bottom: 15px;
+        color: #2878bd;
+        font-size: 23px;
+    }
+
+    .why-card p {
+        line-height: 1.6;
+        color: #666666;
+    }
+
+
+/* =========================================================
+   ROOMS PAGE
+   ========================================================= */
+
+.rooms-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 20px;
+}
+
+.rooms-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+    .rooms-header h1 {
+        margin-bottom: 10px;
+        font-size: 42px;
+        color: #17345c;
+    }
+
+    .rooms-header p {
+        font-size: 18px;
+        color: #666666;
+    }
+
+
+/* Room grid */
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+
+/* Room card */
+
+.room-card {
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 10px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
+}
+
+    .room-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+
+/* Room image */
+
+.room-image {
+    width: 100%;
+    height: 230px;
+    overflow: hidden;
+    background-color: #edf2f5;
+}
+
+    .room-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.no-photo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777777;
+    font-size: 16px;
+}
+
+
+/* Room content */
+
+.room-content {
+    padding: 25px;
+}
+
+    .room-content h2 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        color: #17345c;
+        font-size: 25px;
+    }
+
+.room-description {
+    min-height: 45px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+.room-price {
+    margin-top: 18px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #2878bd;
+}
+
+    .room-price span {
+        font-size: 14px;
+        font-weight: 400;
+        color: #777777;
+    }
+
+.room-status {
+    display: inline-block;
+    margin: 8px 0 18px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background-color: #e7f5ea;
+    color: #28733b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn-room,
+.btn-register,
+.btn-back {
+    display: inline-block;
+    margin: 5px 4px 5px 0;
+    padding: 10px 17px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+.btn-room {
+    background-color: #347fba;
+    color: #ffffff !important;
+}
+
+    .btn-room:hover {
+        background-color: #28699e;
+        color: #ffffff !important;
+    }
+
+.btn-register {
+    background-color: #17345c;
+    color: #ffffff !important;
+}
+
+    .btn-register:hover {
+        background-color: #102844;
+        color: #ffffff !important;
+    }
+
+.btn-back {
+    background-color: #eeeeee;
+    color: #333333 !important;
+}
+
+    .btn-back:hover {
+        background-color: #dddddd;
+    }
+
+
+/* =========================================================
+   ROOM DETAILS
+   ========================================================= */
+
+.room-details-page {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.room-details-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #dce3e9;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.room-details-image {
+    min-height: 450px;
+    background-color: #edf2f5;
+}
+
+    .room-details-image img {
+        width: 100%;
+        height: 100%;
+        min-height: 450px;
+        object-fit: cover;
+    }
+
+.room-details-no-photo {
+    height: 100%;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777777;
+}
+
+.room-details-content {
+    padding: 50px;
+}
+
+    .room-details-content h1 {
+        margin-top: 0;
+        color: #17345c;
+        font-size: 38px;
+    }
+
+.room-details-description {
+    margin: 25px 0;
+    line-height: 1.7;
+    color: #666666;
+    font-size: 17px;
+}
+
+.room-details-price {
+    margin-bottom: 25px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #2878bd;
+}
+
+    .room-details-price span {
+        font-size: 15px;
+        color: #777777;
+        font-weight: 400;
+    }
+
+.room-details-status {
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   ACCOUNT / LOGIN / REGISTER
+   ========================================================= */
+
+.account-page {
+    min-height: 650px;
+    padding: 60px 20px;
+    background-color: #f5f8fb;
+}
+
+.account-card {
+    max-width: 550px;
+    margin: auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.account-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+    .account-header h1 {
+        margin-bottom: 10px;
+        color: #17345c;
+    }
+
+    .account-header p {
+        color: #777777;
+    }
+
+
+/* Forms */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+.form-control {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #ccd5dd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+    .form-control:focus {
+        border-color: #347fba;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(52, 127, 186, 0.12);
+    }
+
+.account-footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+    .account-footer a {
+        color: #2878bd;
+        text-decoration: none;
+    }
+
+
+/* =========================================================
+   APPLICATIONS
+   ========================================================= */
+
+.application-page {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 0 20px;
+}
+
+    .application-page h1 {
+        color: #17345c;
+    }
+
+.application-card {
+    margin-bottom: 20px;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Application table */
+
+.table {
+    width: 100%;
+    margin-top: 25px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+    .table th {
+        padding: 15px;
+        background-color: #17345c;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 14px 15px;
+        border-bottom: 1px solid #e1e6eb;
+    }
+
+    .table tr:hover {
+        background-color: #f5f9fc;
+    }
+
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+.alert {
+    padding: 15px 18px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.alert-danger {
+    background-color: #fbeaea;
+    border: 1px solid #efb5b5;
+    color: #9b2525;
+}
+
+.alert-success {
+    background-color: #eaf7ed;
+    border: 1px solid #b9dfc0;
+    color: #28733b;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    margin-top: 50px;
+    padding: 25px 0;
+    border-top: 1px solid #e5e5e5;
+    color: #666666;
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .room-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content h1 {
+        font-size: 50px;
+    }
+
+    .hero-content h2 {
+        font-size: 28px;
+    }
+
+    .room-details-card {
+        grid-template-columns: 1fr;
+    }
+
+    .room-details-image {
+        min-height: 350px;
+    }
+
+        .room-details-image img {
+            min-height: 350px;
+        }
+}
+
+
+@media (max-width: 767px) {
+
+    /* Navigation */
+
+    .navbar-header {
+        min-height: 60px;
+    }
+
+
+    .navbar-collapse {
+        border-top: 1px solid #eeeeee;
+        background-color: #ffffff;
+    }
+
+
+        .navbar-nav > li > a {
+            height: auto;
+            padding: 14px 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+    .navbar-right {
+        float: none !important;
+    }
+
+
+    /* Hero */
+
+    .hero-section {
+        min-height: 520px;
+        padding: 80px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content h2 {
+        font-size: 25px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+
+    /* Rooms */
+
+    .room-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rooms-header h1 {
+        font-size: 34px;
+    }
+
+
+    /* Account */
+
+    .account-card {
+        padding: 25px;
+    }
+
+
+    /* Room details */
+
+    .room-details-content {
+        padding: 30px;
+    }
+
+        .room-details-content h1 {
+            font-size: 30px;
+        }
+
+
+    /* Tables */
+
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content h2 {
+        font-size: 21px;
+    }
+
+    .hero-button {
+        padding: 14px 22px;
+        font-size: 15px;
+    }
+
+    .rooms-page {
+        padding: 30px 15px;
+    }
+
+    .account-card {
+        padding: 20px;
+    }
+}
+
+/* =========================================================
+   UMBILO RENTALS NAVIGATION BAR
+   ========================================================= */
+
+.umbilo-navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1000;
+}
+
+    .umbilo-navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+/* Website name */
+
+.umbilo-brand {
+    display: flex;
+    align-items: center;
+}
+
+    .umbilo-brand a {
+        color: #183153 !important;
+        font-size: 25px;
+        font-weight: 700;
+        text-decoration: none !important;
+        letter-spacing: 0.3px;
+        transition: color 0.2s ease;
+    }
+
+        .umbilo-brand a:hover {
+            color: #2878b5 !important;
+        }
+
+
+/* Navigation links */
+
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .umbilo-links a {
+        display: inline-block;
+        color: #34495e !important;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none !important;
+        padding: 10px 14px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+
+        /* Hover effect */
+
+        .umbilo-links a:hover {
+            color: #ffffff !important;
+            background: #337ab7;
+            text-decoration: none !important;
+        }
+
+
+        /* Login button */
+
+        .umbilo-links a.umbilo-login {
+            color: #ffffff !important;
+            background: #337ab7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-left: 5px;
+        }
+
+            .umbilo-links a.umbilo-login:hover {
+                background: #286090;
+                color: #ffffff !important;
+            }
+
+
+        /* Logout button */
+
+        .umbilo-links a[href*="Logout"] {
+            color: #ffffff !important;
+            background: #337ab7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-left: 5px;
+        }
+
+            .umbilo-links a[href*="Logout"]:hover {
+                background: #286090;
+            }
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.body-content {
+    padding-top: 0;
+}
+
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .umbilo-navbar .container {
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .umbilo-brand {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .umbilo-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+        .umbilo-links a {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+
+            .umbilo-links a.umbilo-login,
+            .umbilo-links a[href*="Logout"] {
+                padding: 8px 14px;
+            }
+}
+
+/* =========================================================
+   UMBILO RENTALS NAVIGATION
+   ========================================================= */
+
+.umbilo-navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1000;
+}
+
+    .umbilo-navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+/* Website name */
+.umbilo-brand {
+    display: flex;
+    align-items: center;
+}
+
+    .umbilo-brand a {
+        color: #17365d !important;
+        text-decoration: none !important;
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: color 0.2s ease;
+    }
+
+        .umbilo-brand a:hover {
+            color: #2878c8 !important;
+            text-decoration: none !important;
+        }
+
+/* Navigation links container */
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    /* Individual navigation links */
+    .umbilo-links a {
+        display: inline-block;
+        padding: 10px 14px;
+        color: #334e68 !important;
+        text-decoration: none !important;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+        /* Hover effect */
+        .umbilo-links a:hover {
+            color: #1f6fba !important;
+            background-color: #eef6ff;
+            text-decoration: none !important;
+        }
+
+    /* Login / Logout button */
+    .umbilo-links .umbilo-login {
+        background-color: #2878c8;
+        color: #ffffff !important;
+        padding: 10px 20px;
+        border-radius: 6px;
+        margin-left: 5px;
+        font-weight: 600;
+    }
+
+        /* Login / Logout hover */
+        .umbilo-links .umbilo-login:hover {
+            background-color: #1f5f9e;
+            color: #ffffff !important;
+        }
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .umbilo-navbar .container {
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .umbilo-brand {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .umbilo-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+        .umbilo-links a {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+}
+
+/* ==========================
+   UMBILO NAVIGATION
+   ========================== */
+
+.umbilo-navbar {
+    background: #1f3b5b !important;
+    width: 100%;
+    min-height: 70px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+    .umbilo-navbar .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+    }
+
+.umbilo-brand {
+    display: flex;
+    align-items: center;
+}
+
+    .umbilo-brand a {
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+.umbilo-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+    .umbilo-links a {
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+        .umbilo-links a:hover {
+            color: #dbeafe !important;
+            text-decoration: none !important;
+        }
+
+    .umbilo-links .umbilo-login {
+        background: #ffffff;
+        color: #1f3b5b !important;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+        .umbilo-links .umbilo-login:hover {
+            background: #e8f1fb;
+            color: #1f3b5b !important;
+        }
+
+/* =========================================================
+   UMBILO RENTALS - HOME PAGE
+   ========================================================= */
+
+.home-page {
+    margin: 0;
+    padding: 0;
+}
+
+/* HERO SECTION */
+
+.home-hero {
+    position: relative;
+    min-height: 510px;
+    padding: 90px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #eef7ff 0%, #dceeff 50%, #c9e1f7 100% );
+}
+
+    /* Decorative circles */
+
+    .home-hero::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        left: -120px;
+        bottom: -120px;
+    }
+
+    .home-hero::after {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background-color: rgba(65, 135, 195, 0.08);
+        right: -120px;
+        top: -120px;
+    }
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    margin: auto;
+}
+
+    .hero-content h1 {
+        margin: 0 0 20px;
+        font-size: 60px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #17345c;
+    }
+
+    .hero-content h2 {
+        margin: 0 0 25px;
+        font-size: 32px;
+        font-weight: 500;
+        color: #2878bd;
+    }
+
+    .hero-content p {
+        max-width: 760px;
+        margin: 0 auto 35px;
+        font-size: 19px;
+        line-height: 1.7;
+        color: #40566e;
+    }
+
+/* HOME BUTTON */
+
+.home-button {
+    display: inline-block;
+    padding: 17px 32px;
+    border-radius: 6px;
+    background-color: #347fba;
+    color: #ffffff !important;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+    .home-button:hover {
+        background-color: #28699e;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+
+/* =========================================================
+   WHY CHOOSE US
+   ========================================================= */
+
+.why-us {
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.home-section-heading {
+    max-width: 850px;
+    margin: 0 auto 45px;
+}
+
+    .home-section-heading h2 {
+        margin: 0 0 18px;
+        font-size: 36px;
+        color: #17345c;
+    }
+
+    .home-section-heading p {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #666666;
+    }
+
+.why-us-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.why-us-card {
+    padding: 35px 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e1e8ef;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transition: all 0.25s ease;
+}
+
+    .why-us-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+
+.why-icon {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.why-us-card h3 {
+    margin: 0 0 15px;
+    color: #2878bd;
+    font-size: 22px;
+}
+
+.why-us-card p {
+    margin: 0;
+    line-height: 1.6;
+    color: #666666;
+}
+
+
+/* =========================================================
+   HOME CALL TO ACTION
+   ========================================================= */
+
+.home-cta {
+    padding: 70px 20px;
+    text-align: center;
+    background-color: #f5f8fb;
+}
+
+    .home-cta h2 {
+        margin: 0 0 15px;
+        font-size: 34px;
+        color: #17345c;
+    }
+
+    .home-cta p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #666666;
+    }
+
+
+/* =========================================================
+   HOME PAGE RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .hero-content h1 {
+        font-size: 50px;
+    }
+
+    .hero-content h2 {
+        font-size: 28px;
+    }
+
+    .why-us-grid {
+        grid-template-columns: 1fr;
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .home-hero {
+        min-height: 480px;
+        padding: 70px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content h2 {
+        font-size: 25px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+    .home-button {
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+
+    .why-us {
+        padding: 50px 20px;
+    }
+
+    .home-section-heading h2 {
+        font-size: 30px;
+    }
+
+    .home-cta {
+        padding: 50px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content h2 {
+        font-size: 21px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .home-section-heading h2 {
+        font-size: 27px;
+    }
+
+    .home-cta h2 {
+        font-size: 28px;
+    }
+}
+
+/* =========================================================
+   ROOMS PAGE - ACTION BUTTONS
+   ========================================================= */
+
+.room-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-apply {
+    display: inline-block;
+    padding: 10px 17px;
+    border-radius: 5px;
+    background-color: #17345c;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+    .btn-apply:hover {
+        background-color: #102844;
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }
+
+/* =========================================================
+   MY APPLICATIONS PAGE
+   ========================================================= */
+
+.applications-page {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 0 20px;
+}
+
+.applications-header {
+    margin-bottom: 25px;
+}
+
+    .applications-header h1 {
+        color: #17345c;
+    }
+
+    .applications-header p {
+        color: #666666;
+    }
+
+.applications-actions {
+    margin-bottom: 25px;
+}
+
+.application-button {
+    display: inline-block;
+    padding: 10px 17px;
+    border-radius: 5px;
+    background-color: #347fba;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+
+    .application-button:hover {
+        background-color: #28699e;
+    }
+
+/* Card wrapper around the table */
+.application-table-container {
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .application-table th {
+        padding: 15px;
+        background-color: #17345c;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .application-table td {
+        padding: 14px 15px;
+        border-bottom: 1px solid #e1e6eb;
+    }
+
+    .application-table tr:hover {
+        background-color: #f5f9fc;
+    }
+
+.application-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #fff7e6;
+    color: #a66a00;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.application-view-button {
+    color: #2878bd;
+    text-decoration: none;
+}
+
+/* Empty state */
+.no-applications {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+}
+
+.no-applications-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+/* ======================================
+   ROOM FEATURES
+====================================== */
+
+.room-features {
+    margin: 35px 0;
+}
+
+    .room-features h3 {
+        color: #17345c;
+        margin-bottom: 20px;
+    }
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.feature-item {
+    background: #f5f8fb;
+    border: 1px solid #dce3e9;
+    border-radius: 8px;
+    padding: 15px;
+    font-weight: 500;
+    color: #17345c;
+}
+
+/* ======================================
+   ROOM GALLERY
+====================================== */
+
+.room-gallery {
+    margin-top: 40px;
+}
+
+    .room-gallery h3 {
+        color: #17345c;
+        margin-bottom: 20px;
+    }
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+    .gallery-item img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .gallery-item p {
+        margin: 12px;
+        text-align: center;
+        font-weight: 600;
+        color: #17345c;
+    }
+
+/* Mobile */
+
+@media (max-width:768px) {
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ======================================
+   ADMIN DASHBOARD
+====================================== */
+
+.admin-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+    .admin-header h1 {
+        color: #17345c;
+    }
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 25px;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #dce3e9;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+    .admin-card h2 {
+        color: #2878bd;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+.admin-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+} 

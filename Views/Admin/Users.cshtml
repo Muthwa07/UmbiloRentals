@@ -1,0 +1,99 @@
+﻿@model IEnumerable<UmbiloRentals.Models.User>
+
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<h1>Manage Users</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div style="background:#d4edda;
+                color:#155724;
+                padding:12px;
+                margin-bottom:20px;
+                border-radius:6px;">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div style="margin-bottom: 20px;">
+    @Html.ActionLink(
+            "Add Staff",
+            "CreateStaff",
+            "Admin",
+            null,
+            new { @class = "btn btn-primary" }
+        )
+</div>
+
+<table class="table">
+
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Date Created</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.FirstName</td>
+
+            <td>@user.LastName</td>
+
+            <td>@user.Email</td>
+
+            <td>@user.Phone</td>
+
+            <td>
+                @(user.RoleID == 1 ? "Applicant" :
+                  user.RoleID == 2 ? "Tenant" :
+                  user.RoleID == 3 ? "Building Manager" :
+                  user.RoleID == 4 ? "Maintenance" :
+                  user.RoleID == 5 ? "Security" : "Unknown")
+            </td>
+
+            <td>
+                @user.Status
+            </td>
+
+            <td>
+                @user.DateCreated
+            </td>
+
+            <td>
+                @if ((user.RoleID == 2 ||
+        user.RoleID == 4 ||
+        user.RoleID == 5) &&
+        user.Status == "Active")
+                {
+                    @Html.ActionLink(
+                            "Deactivate",
+                            "DeactivateUser",
+                            "Admin",
+                            new { id = user.UserID },
+                            new
+                            {
+                                @class = "btn btn-danger",
+                                onclick = "return confirm('Are you sure you want to deactivate this account?');"
+                            }
+                        )
+                }
+                else if ((user.RoleID == 2 ||
+                          user.RoleID == 4 ||
+                          user.RoleID == 5) &&
+                          user.Status == "Inactive")
+                {
+                    <span style="color: #777;">Account Inactive</span>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

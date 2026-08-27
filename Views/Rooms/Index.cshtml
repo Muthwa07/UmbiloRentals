@@ -1,0 +1,94 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Room>
+
+@{
+    ViewBag.Title = "Available Rooms";
+}
+
+<div class="rooms-page">
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger room-alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="rooms-header">
+
+        <h1>Available Rooms</h1>
+
+        <p>
+            Find your preferred accommodation at Umbilo Rentals.
+        </p>
+
+    </div>
+
+    <div class="room-grid">
+
+        @foreach (var room in Model.Where(r => r.Status == "Available"))
+        {
+            <div class="room-card">
+
+                <div class="room-image">
+
+                    @if (!string.IsNullOrEmpty(room.Photo))
+                    {
+                        <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                             alt="@room.RoomNumber">
+                    }
+                    else
+                    {
+                        <div class="no-photo">
+                            No Photo Available
+                        </div>
+                    }
+
+                </div>
+
+                <div class="room-content">
+
+                    <h2>
+                        Room @room.RoomNumber
+                    </h2>
+
+                    <p class="room-description">
+                        @room.Description
+                    </p>
+
+                    <p class="room-price">
+                        R @String.Format("{0:N2}", room.MonthlyRent)
+                        <span>/ month</span>
+                    </p>
+
+                    <p class="room-status">
+                        @room.Status
+                    </p>
+
+                    <div class="room-actions">
+
+                        @Html.ActionLink(
+                            "View Details",
+                            "Details",
+                            "Rooms",
+                            new { id = room.RoomID },
+                            new { @class = "btn-room" }
+                        )
+
+                        @Html.ActionLink(
+                            "Apply for This Room",
+                            "Create",
+                            "Applications",
+                            new { id = room.RoomID },
+                            new { @class = "btn-apply" }
+                        )
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
