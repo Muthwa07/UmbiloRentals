@@ -86,7 +86,7 @@ namespace UmbiloRentals.Controllers
             Session["UserName"] = user.FirstName + " " + user.LastName;
             Session["RoleID"] = user.RoleID;
 
-            if (user.RoleID == 3)
+            if (user.RoleID == 2)
             {
                 return RedirectToAction("Index", "Admin");
             }

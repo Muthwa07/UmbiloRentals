@@ -135,7 +135,6 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
-    <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,7 +266,9 @@
     <Content Include="Views\Applications\Edit.cshtml" />
     <Content Include="Views\Applications\Index.cshtml" />
     <Content Include="Views\Rooms\Create.cshtml" />
+    <Content Include="Views\Rooms\Delete.cshtml" />
     <Content Include="Views\Rooms\Details.cshtml" />
+    <Content Include="Views\Rooms\Edit.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -279,14 +280,6 @@
     <Content Include="Views\Admin\EditRoom.cshtml" />
     <Content Include="Views\Admin\DeleteRoom.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-    <Content Include="Views\Admin\CreateAnnouncement.cshtml" />
-    <Content Include="Views\Admin\CreateStaff.cshtml" />
-    <Content Include="Views\Admin\ManageRooms.cshtml" />
-    <Content Include="Views\Admin\Users.cshtml" />
-    <Content Include="Views\Tenant\Announcements.cshtml" />
-    <Content Include="Views\Tenant\Index.cshtml" />
-    <Content Include="Views\Tenant\MyRoom.cshtml" />
-    <Content Include="Views\Tenant\profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

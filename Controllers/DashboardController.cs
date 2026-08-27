@@ -20,16 +20,6 @@ namespace UmbiloRentals.Controllers
 
             int userId = (int)Session["UserID"];
 
-            // Check if the user has an approved application
-            bool isTenant = db.Applications.Any(a =>
-                a.UserID == userId &&
-                a.Status == "Approved");
-
-            if (isTenant)
-            {
-                return RedirectToAction("Index", "Tenant");
-            }
-
             // Get the logged-in user's applications
             var applications = db.Applications
                                  .Where(a => a.UserID == userId)

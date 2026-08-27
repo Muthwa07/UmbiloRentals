@@ -16,7 +16,7 @@ namespace UmbiloRentals.Controllers
         {
             return Session["UserID"] != null &&
                    Session["RoleID"] != null &&
-                   (int)Session["RoleID"] == 3;
+                   (int)Session["RoleID"] == 2;
         }
 
         // Dashboard
@@ -241,73 +241,6 @@ namespace UmbiloRentals.Controllers
 
             return View(room);
         }
-        //Add staff
-        public ActionResult CreateStaff()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateStaff(User user)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            if (string.IsNullOrEmpty(user.FirstName) ||
-                string.IsNullOrEmpty(user.LastName) ||
-                string.IsNullOrEmpty(user.Email) ||
-                string.IsNullOrEmpty(user.Phone) ||
-                string.IsNullOrEmpty(user.Password))
-            {
-                ViewBag.Error = "Please fill in all fields.";
-                return View(user);
-            }
-
-            user.Status = "Active";
-            user.DateCreated = DateTime.Now;
-
-            db.Users.Add(user);
-            db.SaveChanges();
-
-            TempData["SuccessMessage"] = "Staff account created successfully.";
-
-            return RedirectToAction("Users");
-        }
-        // Manage Users
-        public ActionResult Users()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var users = db.Users
-                .OrderBy(u => u.FirstName)
-                .ToList();
-
-            return View(users);
-        }
-        // DEACTIVATE USER
-        public ActionResult DeactivateUser(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var user = db.Users.Find(id);
-
-            if (user == null)
-                return HttpNotFound();
-
-            user.Status = "Inactive";
-
-            db.SaveChanges();
-
-            TempData["SuccessMessage"] =
-                "User account has been deactivated successfully.";
-
-            return RedirectToAction("Users");
-        }
 
         // DELETE ROOM
         public ActionResult DeleteRoom(int id)
@@ -341,46 +274,6 @@ namespace UmbiloRentals.Controllers
             TempData["SuccessMessage"] = "Room deleted successfully.";
 
             return RedirectToAction("Rooms");
-        }
-        // POST ANNOUNCEMENT
-        public ActionResult CreateAnnouncement()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateAnnouncement(string title, string message, string targetRole)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            if (string.IsNullOrWhiteSpace(title) ||
-                string.IsNullOrWhiteSpace(message) ||
-                string.IsNullOrWhiteSpace(targetRole))
-            {
-                ViewBag.Error = "Please fill in all fields.";
-                return View();
-            }
-
-            Announcement announcement = new Announcement();
-
-            announcement.Title = title;
-            announcement.Message = message;
-            announcement.TargetRole = targetRole;
-            announcement.PostedBy = (int)Session["UserID"];
-            announcement.DatePosted = DateTime.Now;
-
-            db.Announcements.Add(announcement);
-            db.SaveChanges();
-
-            ViewBag.Success = "Announcement posted successfully.";
-
-            return View();
         }
     }
 }
