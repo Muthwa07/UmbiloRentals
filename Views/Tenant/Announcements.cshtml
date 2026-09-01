@@ -1,0 +1,55 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Announcement>
+
+@{
+    ViewBag.Title = "Announcements";
+}
+
+<style>
+    .announcement-page {
+        padding: 40px;
+        background: #f5f6f8;
+        min-height: 80vh;
+    }
+
+    .announcement {
+        background: white;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+        .announcement h3 {
+            margin-top: 0;
+            color: #263238;
+        }
+
+        .announcement p {
+            color: #555;
+        }
+
+        .announcement small {
+            color: #888;
+        }
+</style>
+
+<div class="announcement-page">
+
+    <h1>Announcements</h1>
+
+    @foreach (var announcement in Model)
+    {
+        <div class="announcement">
+
+            <h3>@announcement.Title</h3>
+
+            <p>@announcement.Message</p>
+
+            <small>
+                Posted: @announcement.DatePosted
+            </small>
+
+        </div>
+    }
+
+</div>

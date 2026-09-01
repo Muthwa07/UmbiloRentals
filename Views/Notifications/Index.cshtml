@@ -1,0 +1,44 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Notification>
+
+@{
+    ViewBag.Title = "Notifications";
+}
+
+<div class="application-page">
+
+    <div class="dashboard-header">
+        <h1>SMS Notifications</h1>
+        <p>Important updates from Umbilo Rentals.</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="application-card">
+            <p>You have no notifications yet.</p>
+        </div>
+    }
+
+    @foreach (var item in Model)
+    {
+        <div class="application-card">
+
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+
+                <strong>Umbilo Rentals</strong>
+
+                <span style="color:#777;font-size:13px;">
+                    @(item.DateSent.HasValue
+    ? item.DateSent.Value.ToString("dd MMM yyyy HH:mm")
+    : "Just now")
+                </span>
+
+            </div>
+
+            <p style="margin-top:15px;">
+                @item.Message
+            </p>
+
+        </div>
+    }
+
+</div>

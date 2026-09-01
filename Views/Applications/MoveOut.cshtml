@@ -1,0 +1,67 @@
+﻿@model UmbiloRentals.Models.Application
+
+@{
+    ViewBag.Title = "Move Out";
+}
+
+<div class="account-page">
+
+    <div class="account-card glass-surface">
+
+        <div class="account-header">
+
+            <div class="account-icon">
+                <i class="fa-solid fa-door-open"></i>
+            </div>
+
+            <h1>Confirm Move Out</h1>
+
+            <p>You're about to end your accommodation for this room.</p>
+
+        </div>
+
+        <div class="upload-card glass-surface">
+
+            <h3>Room @Model.RoomID</h3>
+
+            <p>
+                Once you confirm, your room allocation will be released and your
+                application status will be updated.
+            </p>
+
+            <div class="alert alert-danger">
+
+                <strong>Important:</strong> Make sure you've collected all of your belongings before confirming.
+
+            </div>
+
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="dashboard-action-buttons">
+
+                <button type="submit" class="btn-register">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Confirm Move Out
+
+                </button>
+
+                @Html.ActionLink(
+                    "Cancel",
+                    "Index",
+                    "Applications",
+                    null,
+                    new { @class = "btn-back" })
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

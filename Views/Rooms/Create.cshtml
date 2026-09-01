@@ -7,14 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm(
-    "Create",
-    "Rooms",
-    FormMethod.Post,
-    new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <h4>Room</h4>
         <hr />
@@ -44,14 +40,11 @@
         </div>
 
         <div class="form-group">
-
-            <label>Room Image</label>
-
-            <input type="file"
-                   name="imageFile"
-                   class="form-control"
-                   accept=".jpg,.jpeg,.png" />
-
+            @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">

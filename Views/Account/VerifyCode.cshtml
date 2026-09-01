@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Verify Code";
+}
+
+<div class="account-page">
+
+    <div class="account-card">
+
+        <div class="account-header">
+
+            <h1>Verify Code</h1>
+
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input type="email"
+                       name="email"
+                       value="@Request["email"]"
+                       class="form-control"
+                       required />
+
+            </div>
+
+            <div class="form-group">
+
+                <label>6-digit Code</label>
+
+                <input type="text"
+                       name="code"
+                       maxlength="6"
+                       class="form-control"
+                       required />
+
+            </div>
+
+            <button class="btn-register">
+
+                Verify Code
+
+            </button>
+        }
+
+    </div>
+
+</div>

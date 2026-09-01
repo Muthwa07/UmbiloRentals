@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -11,10 +12,9 @@ namespace UmbiloRentals.Controllers
 {
     public class RoomsController : Controller
     {
-        private BuildingManagementDBEntities db =
-            new BuildingManagementDBEntities();
+        private BuildingManagementDBEntities db = new BuildingManagementDBEntities();
 
-        // GET: Rooms (Public)
+        // GET: Rooms
         public ActionResult Index()
         {
             return View(db.Rooms.ToList());
@@ -24,69 +24,35 @@ namespace UmbiloRentals.Controllers
         public ActionResult Details(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+            }
             Room room = db.Rooms.Find(id);
-
             if (room == null)
+            {
                 return HttpNotFound();
-
+            }
             return View(room);
         }
 
-        // GET: Rooms/Create (Admin)
+        // GET: Rooms/Create
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Rooms/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(
-            Room room,
-            HttpPostedFileBase imageFile)
+        public ActionResult Create([Bind(Include = "RoomID,RoomNumber,MonthlyRent,Description,Photo,Status")] Room room)
         {
             if (ModelState.IsValid)
             {
-                if (imageFile != null &&
-                    imageFile.ContentLength > 0)
-                {
-                    string extension =
-                        Path.GetExtension(imageFile.FileName)
-                        .ToLower();
-
-                    string[] allowed =
-                    {
-                        ".jpg",
-                        ".jpeg",
-                        ".png"
-                    };
-
-                    if (allowed.Contains(extension))
-                    {
-                        string folder =
-                            Server.MapPath("~/Content/RoomImages");
-
-                        if (!Directory.Exists(folder))
-                            Directory.CreateDirectory(folder);
-
-                        string fileName =
-                            Guid.NewGuid() + extension;
-
-                        imageFile.SaveAs(
-                            Path.Combine(folder, fileName));
-
-                        room.Photo = fileName;
-                    }
-                }
-
                 db.Rooms.Add(room);
                 db.SaveChanges();
-
-                return RedirectToAction(
-                    "ManageRooms",
-                    "Admin");
+                return RedirectToAction("Index");
             }
 
             return View(room);
@@ -96,75 +62,30 @@ namespace UmbiloRentals.Controllers
         public ActionResult Edit(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+            }
             Room room = db.Rooms.Find(id);
-
             if (room == null)
+            {
                 return HttpNotFound();
-
+            }
             return View(room);
         }
 
-        // POST: Rooms/Edit
+        // POST: Rooms/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(
-            Room room,
-            HttpPostedFileBase imageFile)
+        public ActionResult Edit([Bind(Include = "RoomID,RoomNumber,MonthlyRent,Description,Photo,Status")] Room room)
         {
             if (ModelState.IsValid)
             {
-                Room existing =
-                    db.Rooms.Find(room.RoomID);
-
-                if (existing == null)
-                    return HttpNotFound();
-
-                existing.RoomNumber = room.RoomNumber;
-                existing.MonthlyRent = room.MonthlyRent;
-                existing.Description = room.Description;
-                existing.Status = room.Status;
-
-                if (imageFile != null &&
-                    imageFile.ContentLength > 0)
-                {
-                    string extension =
-                        Path.GetExtension(imageFile.FileName)
-                        .ToLower();
-
-                    string[] allowed =
-                    {
-                        ".jpg",
-                        ".jpeg",
-                        ".png"
-                    };
-
-                    if (allowed.Contains(extension))
-                    {
-                        string folder =
-                            Server.MapPath("~/Content/RoomImages");
-
-                        if (!Directory.Exists(folder))
-                            Directory.CreateDirectory(folder);
-
-                        string fileName =
-                            Guid.NewGuid() + extension;
-
-                        imageFile.SaveAs(
-                            Path.Combine(folder, fileName));
-
-                        existing.Photo = fileName;
-                    }
-                }
-
+                db.Entry(room).State = EntityState.Modified;
                 db.SaveChanges();
-
-                return RedirectToAction(
-                    "ManageRooms",
-                    "Admin");
+                return RedirectToAction("Index");
             }
-
             return View(room);
         }
 
@@ -172,13 +93,14 @@ namespace UmbiloRentals.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+            }
             Room room = db.Rooms.Find(id);
-
             if (room == null)
+            {
                 return HttpNotFound();
-
+            }
             return View(room);
         }
 
@@ -188,23 +110,17 @@ namespace UmbiloRentals.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Room room = db.Rooms.Find(id);
-
-            if (room != null)
-            {
-                db.Rooms.Remove(room);
-                db.SaveChanges();
-            }
-
-            return RedirectToAction(
-                "ManageRooms",
-                "Admin");
+            db.Rooms.Remove(room);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
-
+            }
             base.Dispose(disposing);
         }
     }

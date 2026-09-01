@@ -126,11 +126,7 @@ namespace UmbiloRentals.Controllers
             if (!IsAdmin())
                 return RedirectToAction("Login", "Account");
 
-            var rooms = db.Rooms
-                          .OrderBy(r => r.RoomNumber)
-                          .ToList();
-
-            return View(rooms);
+            return View(db.Rooms.OrderBy(r => r.RoomNumber).ToList());
         }
 
         // EDIT ROOM
@@ -278,106 +274,6 @@ namespace UmbiloRentals.Controllers
             TempData["SuccessMessage"] = "Room deleted successfully.";
 
             return RedirectToAction("Rooms");
-        }
-
-        public ActionResult Payments()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var payments = db.Payments
-                           .OrderByDescending(p => p.PaymentDate)
-                           .ToList();
-
-            ViewBag.Pending =
-                payments.Count(p => p.Status == "Pending");
-
-            ViewBag.Processed =
-                payments.Count(p => p.Status == "Processed");
-
-            return View(payments);
-        }
-
-        public ActionResult VerifyPayment(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            Payment payment = db.Payments.Find(id);
-
-            if (payment == null)
-                return HttpNotFound();
-
-            payment.Status = "Processed";
-            payment.VerifiedBy = (int)Session["UserID"];
-
-            db.SaveChanges();
-
-            return RedirectToAction("Payments");
-        }
-
-        // VIEW ALL MAINTENANCE REQUESTS
-        public ActionResult Maintenance()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var requests = db.MaintenanceRequests
-                             .OrderByDescending(r => r.DateReported)
-                             .ToList();
-
-            return View(requests);
-        }
-
-        public ActionResult StartMaintenance(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var request = db.MaintenanceRequests.Find(id);
-
-            if (request == null)
-                return HttpNotFound();
-
-            request.Status = "In Progress";
-            request.AssignedTo = (int)Session["UserID"];
-
-            db.SaveChanges();
-
-            return RedirectToAction("Maintenance");
-        }
-
-        public ActionResult CompleteMaintenance(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var request = db.MaintenanceRequests.Find(id);
-
-            if (request == null)
-                return HttpNotFound();
-
-            request.Status = "Completed";
-            request.DateCompleted = DateTime.Now;
-            request.AssignedTo = (int)Session["UserID"];
-
-            db.SaveChanges();
-
-            return RedirectToAction("Maintenance");
-        }
-
-
-        // ADMIN: View all rooms
-        public ActionResult ManageRooms()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var rooms = db.Rooms
-                          .OrderBy(r => r.RoomNumber)
-                          .ToList();
-
-            return View(rooms);
         }
     }
 }

@@ -118,51 +118,5 @@ namespace UmbiloRentals.Controllers
             // Return to the home page
             return RedirectToAction("Index", "Home");
         }
-
-        // GET: Account/Profile
-        [ActionName("Profile")]
-        public ActionResult MyProfile()
-        {
-            if (Session["UserID"] == null)
-                return RedirectToAction("Login", "Account");
-
-            int userId = (int)Session["UserID"];
-
-            var user = db.Users.Find(userId);
-
-            if (user == null)
-                return HttpNotFound();
-
-            return View(user);
-        }
-
-        // POST: Account/Profile
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ActionName("Profile")]
-        public ActionResult MyProfilePost(User model)
-        {
-            if (Session["UserID"] == null)
-                return RedirectToAction("Login", "Account");
-
-            int userId = (int)Session["UserID"];
-
-            var user = db.Users.Find(userId);
-
-            if (user == null)
-                return HttpNotFound();
-
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Email = model.Email;
-            user.Phone = model.Phone;
-
-            db.SaveChanges();
-
-            TempData["SuccessMessage"] = "Profile updated successfully.";
-
-            return RedirectToAction("Profile");
-        }
     }
-
 }

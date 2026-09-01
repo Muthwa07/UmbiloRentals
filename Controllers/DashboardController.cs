@@ -20,24 +20,16 @@ namespace UmbiloRentals.Controllers
 
             int userId = (int)Session["UserID"];
 
-            // Get logged-in user
-            var user = db.Users.Find(userId);
-
             // Get the logged-in user's applications
             var applications = db.Applications
                                  .Where(a => a.UserID == userId)
                                  .ToList();
 
             // Dashboard statistics
-            ViewBag.FirstName = user?.FirstName ?? "Resident";
-
             ViewBag.TotalApplications = applications.Count;
 
             ViewBag.PendingApplications =
                 applications.Count(a => a.Status == "Pending");
-
-            ViewBag.ApprovedApplications =
-                applications.Count(a => a.Status == "Approved");
 
             ViewBag.AvailableRooms =
                 db.Rooms.Count(r => r.Status == "Available");

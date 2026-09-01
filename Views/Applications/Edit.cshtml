@@ -1,73 +1,74 @@
 ﻿@model UmbiloRentals.Models.Application
 
 @{
-    ViewBag.Title = "Edit Application";
+    ViewBag.Title = "Edit";
 }
 
-<div class="account-page">
+<h2>Edit</h2>
 
-    <div class="account-card">
 
-        <div class="account-header">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Application</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ApplicationID)
 
-            <h1>Edit Application</h1>
-
-            <p>Update your supporting document.</p>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+            </div>
         </div>
 
-        @using (Html.BeginForm(
-            "Edit",
-            "Applications",
-            FormMethod.Post,
-            new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-
-            <input type="hidden"
-                   name="ApplicationID"
-                   value="@Model.ApplicationID" />
-
-            <div class="form-group">
-
-                <label>Room</label>
-
-                <input class="form-control"
-                       value="Room @ViewBag.RoomNumber"
-                       readonly />
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoomID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RoomID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RoomID, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-
-                <label>Current Status</label>
-
-                <input class="form-control"
-                       value="@Model.Status"
-                       readonly />
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.DocumentPath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DocumentPath, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DocumentPath, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-
-                <label>Replace Supporting Document</label>
-
-                <input type="file"
-                       name="document"
-                       class="form-control"
-                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-
-                <small>
-                    Leave empty to keep your current document.
-                </small>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <button class="btn-register">
-                Save Changes
-            </button>
-        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateApplied, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateApplied, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateApplied, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
     </div>
+}
 
+<div>
+    @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

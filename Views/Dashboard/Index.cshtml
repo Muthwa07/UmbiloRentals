@@ -6,27 +6,27 @@
 
     <div class="dashboard-header">
 
-        <h1>Welcome, @ViewBag.FirstName</h1>
+        <h1>Welcome to Umbilo Rentals</h1>
 
-    
         <p>
-            Here's a quick overview of your accommodation and application progress.
+            Manage your accommodation and applications from your dashboard.
         </p>
 
     </div>
 
 
     <div class="dashboard-cards">
+
         <div class="dashboard-card">
 
-            <h2>@ViewBag.ApprovedApplications</h2>
+            <h2>@ViewBag.AvailableRooms</h2>
 
-            <p>Approved Applications</p>
+            <p>Available Rooms</p>
 
             @Html.ActionLink(
-                "View Status",
+                "View Rooms",
                 "Index",
-                "Applications",
+                "Rooms",
                 null,
                 new { @class = "dashboard-button" }
             )
@@ -67,37 +67,6 @@
 
         </div>
 
-        <div class="dashboard-card">
-
-            <h2>🔧</h2>
-
-            <p>Maintenance Requests</p>
-
-            @Html.ActionLink(
-                "View Requests",
-                "MyRequests",
-                "Maintenance",
-                null,
-                new { @class = "dashboard-button" }
-            )
-
-        </div>
-
-        <div class="dashboard-card">
-
-            <h2>💳</h2>
-
-            <p>Payments</p>
-
-            @Html.ActionLink(
-            "View Payments",
-            "Index",
-            "Payments",
-            null,
-            new { @class = "dashboard-button" })
-
-        </div>
-
     </div>
 
 
@@ -122,15 +91,6 @@
                 null,
                 new { @class = "btn-room" }
             )
-
-
-            @Html.ActionLink(
-    "Report Maintenance",
-    "Create",
-    "Maintenance",
-    null,
-    new { @class = "btn-register" }
-)
 
         </div>
 

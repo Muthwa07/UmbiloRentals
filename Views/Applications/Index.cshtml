@@ -67,35 +67,24 @@
 
 
                             <td>
+                                @Html.ActionLink(
+                                    "View",
+                                    "Details",
+                                    "Applications",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn btn-primary btn-sm" }
+                                )
 
                                 @Html.ActionLink(
-                                             "Details",
-                                             "Details",
-                                             new { id = item.ApplicationID },
-                                             new { @class = "btn-room" })
-
-                                @if (item.Status == "Pending")
-                                {
-                                    @Html.ActionLink(
-                                            "Edit",
-                                            "Edit",
-                                            new { id = item.ApplicationID },
-                                            new { @class = "btn-room" })
-                                }
-
-                                @if (item.Status == "Approved")
-                                {
-                                    @Html.ActionLink(
-                                                  "Make Payment",
-                                                  "Create",
-                                                  "Payments",
-                                                  null,
-                                                  new { @class = "btn-register" })
-                                }
-
+                                    "Delete",
+                                    "Delete",
+                                    "Applications",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn btn-danger btn-sm" }
+                                )
                             </td>
 
-                            </tr>
+                        </tr>
                     }
 
                 </tbody>

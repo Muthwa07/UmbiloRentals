@@ -43,73 +43,21 @@
 
     </div>
 
-    <div class="admin-management">
+    <div class="admin-actions">
 
-        <h2>Management</h2>
+        @Html.ActionLink(
+            "Manage Applications",
+            "Applications",
+            "Admin",
+            null,
+            new { @class = "btn-register" })
 
-        <div class="management-grid">
-
-            <a href="@Url.Action("ManageRooms","Admin")"
-               class="management-card">
-
-                <div class="management-icon">
-                    🏠
-                </div>
-
-                <h3>Manage Rooms</h3>
-
-                <p>
-                    Add, edit and manage accommodation rooms.
-                </p>
-
-            </a>
-
-            <a href="@Url.Action("Applications","Admin")"
-               class="management-card">
-
-                <div class="management-icon">
-                    📋
-                </div>
-
-                <h3>Manage Applications</h3>
-
-                <p>
-                    Approve or reject student applications.
-                </p>
-
-            </a>
-
-            <a href="@Url.Action("Payments","Admin")"
-               class="management-card">
-
-                <div class="management-icon">
-                    💳
-                </div>
-
-                <h3>Payments</h3>
-
-                <p>
-                    View pending and processed payments.
-                </p>
-
-            </a>
-
-            <a href="@Url.Action("Maintenance","Admin")"
-               class="management-card">
-
-                <div class="management-icon">
-                    🔧
-                </div>
-
-                <h3>Maintenance Requests</h3>
-
-                <p>
-                    View and manage maintenance requests.
-                </p>
-
-            </a>
-
-        </div>
+        @Html.ActionLink(
+            "Manage Rooms",
+            "Rooms",
+            "Admin",
+            null,
+            new { @class = "btn-room" })
 
     </div>
 
