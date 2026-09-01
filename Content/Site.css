@@ -2074,3 +2074,210 @@ footer {
     font-size: 28px;
     font-weight: bold;
 }
+
+/* =========================================================
+   ABOUT PAGE
+   ========================================================= */
+
+.about-page {
+    background: #ffffff;
+}
+
+/* Hero */
+
+.about-hero {
+    position: relative;
+    height: 450px;
+    background: linear-gradient(rgba(23,52,92,.65), rgba(23,52,92,.65)), url('../Content/Images/about-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.about-overlay {
+    color: white;
+    max-width: 800px;
+    padding: 20px;
+}
+
+    .about-overlay h1 {
+        font-size: 56px;
+        margin-bottom: 20px;
+    }
+
+    .about-overlay p {
+        font-size: 22px;
+        line-height: 1.7;
+    }
+
+/* Main section */
+
+.about-section {
+    padding: 80px 20px;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-text h2 {
+    color: #17345c;
+    font-size: 38px;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    color: #555;
+    line-height: 1.9;
+    font-size: 18px;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+/* Features */
+
+.features-section {
+    background: #f6f9fc;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+    .features-section h2 {
+        color: #17345c;
+        margin-bottom: 45px;
+        font-size: 40px;
+    }
+
+.features-grid {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 25px;
+}
+
+.feature-card {
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+    transition: .25s;
+}
+
+    .feature-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .feature-card h3 {
+        color: #2878bd;
+        margin: 20px 0 15px;
+    }
+
+/* Stats */
+
+.stats-section {
+    padding: 70px 20px;
+}
+
+.stats-grid {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: #17345c;
+    color: white;
+    padding: 35px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+    .stat-card h2 {
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+/* Mission */
+
+.mission-section {
+    padding: 80px 20px;
+    background: white;
+}
+
+.mission-content {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+
+    .mission-content h2 {
+        color: #17345c;
+        margin-bottom: 20px;
+        font-size: 38px;
+    }
+
+    .mission-content p {
+        color: #555;
+        line-height: 1.9;
+        font-size: 18px;
+    }
+
+/* CTA */
+
+.cta-section {
+    background: #17345c;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+    .cta-section h2 {
+        font-size: 40px;
+        margin-bottom: 15px;
+    }
+
+    .cta-section p {
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+/* Responsive */
+
+@media(max-width:900px) {
+
+    .about-container,
+    .features-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-overlay h1 {
+        font-size: 42px;
+    }
+
+    .about-overlay p {
+        font-size: 18px;
+    }
+
+    .about-text h2,
+    .features-section h2,
+    .mission-content h2,
+    .cta-section h2 {
+        font-size: 32px;
+    }
+}

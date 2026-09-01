@@ -126,7 +126,11 @@ namespace UmbiloRentals.Controllers
             if (!IsAdmin())
                 return RedirectToAction("Login", "Account");
 
-            return View(db.Rooms.OrderBy(r => r.RoomNumber).ToList());
+            var rooms = db.Rooms
+                          .OrderBy(r => r.RoomNumber)
+                          .ToList();
+
+            return View(rooms);
         }
 
         // EDIT ROOM

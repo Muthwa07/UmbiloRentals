@@ -1,9 +1,141 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<div class="about-page">
+
+    <!-- HERO -->
+    <section class="about-hero">
+
+        <div class="about-overlay">
+
+            <h1>About Umbilo Rentals</h1>
+
+            <p>
+                Safe, affordable, and comfortable student accommodation
+                designed to help you feel at home while pursuing your studies.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- WHO WE ARE -->
+    <section class="about-section">
+
+        <div class="about-container">
+
+            <div class="about-text">
+
+                <h2>Who We Are</h2>
+
+                <p>
+                    Umbilo Rentals is a student accommodation management platform
+                    that connects students with quality housing in a secure,
+                    convenient, and welcoming environment.
+                </p>
+
+                <p>
+                    Our system simplifies the entire accommodation process—
+                    from browsing rooms and submitting applications to making
+                    payments and tracking application progress online.
+                </p>
+
+            </div>
+
+            <div class="about-image">
+                <AsyncImage query="modern student accommodation building landscaped courtyard South Africa" aspectRatio="5:4" width="100%" maxHeight=420 />
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section">
+
+        <h2>Why Students Choose Umbilo Rentals</h2>
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+                <icon name=shield-check color=info size=2xl />
+                <h3>Secure Accommodation</h3>
+                <p>Safe residences with reliable management and a student-focused environment.</p>
+            </div>
+
+            <div class="feature-card">
+                <icon name=calendar-check color=info size=2xl />
+                <h3>Easy Online Applications</h3>
+                <p>Apply for rooms, upload documents, and track progress digitally.</p>
+            </div>
+
+            <div class="feature-card">
+                <icon name=circle-dollar-sign color=info size=2xl />
+                <h3>Convenient Payments</h3>
+                <p>Submit payment proof online and monitor payment status with ease.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-section">
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h2>24/7</h2>
+                <p>Application Access</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>100%</h2>
+                <p>Digital Management</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>Secure</h2>
+                <p>Student Portal</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MISSION -->
+    <section class="mission-section">
+
+        <div class="mission-content">
+
+            <h2>Our Mission</h2>
+
+            <p>
+                To provide a seamless digital accommodation experience that
+                helps students find quality housing quickly while giving
+                administrators efficient tools to manage rooms, applications,
+                payments, and maintenance requests.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+
+        <h2>Ready to Find Your Next Home?</h2>
+
+        <p>Browse our available rooms and begin your application today.</p>
+
+        @Html.ActionLink(
+            "View Available Rooms",
+            "Index",
+            "Rooms",
+            null,
+            new { @class = "hero-button" })
+
+    </section>
+
+</div>
