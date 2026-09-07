@@ -1,129 +1,211 @@
-﻿@model IEnumerable<UmbiloRentals.Models.Application>
+﻿```cshtml
+@model IEnumerable<UmbiloRentals.Models.Application>
 
 @{
     ViewBag.Title = "My Applications";
+
+    var roomLookup = ViewBag.RoomLookup as Dictionary<int, UmbiloRentals.Models.Room>;
 }
 
 <div class="applications-page">
 
-    <div class="applications-header">
-        <h1>My Applications</h1>
-        <p>View and manage your accommodation applications.</p>
+    <div class="page-header">
+
+        <div>
+            <h1>My Applications</h1>
+
+            <p>
+                Track every accommodation application in one place.
+            </p>
+        </div>
+
+        <div class="application-count">
+            @Model.Count() Applications
+        </div>
+
     </div>
 
-    <div class="applications-actions">
-        @Html.ActionLink(
-            "View Available Rooms",
-            "Index",
-            "Rooms",
-            null,
-           
-        
-        new { @class = "application-button" }
-        )
-    </div>
-
-    @if (Model != null && Model.Any())
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="application-table-container">
+        <div class="success-message">
+            @TempData["SuccessMessage"]
+        </div>
+    }
 
-            <table class="application-table">
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
 
-                <thead>
-                    <tr>
-                        <th>Room ID</th>
-                        <th>Document</th>
-                        <th>Status</th>
-                        <th>Date Applied</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            <div class="empty-icon">
+                🏢
+            </div>
 
-                <tbody>
+            <h2>No applications yet</h2>
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
+            <p>
+                Browse available rooms and submit your first application.
+            </p>
 
-                            <td>
-                                @item.RoomID
-                            </td>
-
-                            <td>
-                                @item.DocumentPath
-                            </td>
-
-                            <td>
-                                <span class="application-status">
-                                    @item.Status
-                                </span>
-                            </td>
-
-                            <td>
-                                @(item.DateApplied.HasValue
-                                    ? item.DateApplied.Value.ToString("dd MMM yyyy")
-                                    : "Not available")
-                            </td>
-
-                            <td>
-                                @Html.ActionLink(
-                                    "View",
-                                    "Details",
-                                    new { id = item.ApplicationID },
-                                    new { @class = "application-view-button" }
-                                )
-                            </td>
-
-                            <td>
-                                @Html.ActionLink(
-                                    "View",
-                                    "Details",
-                                    "Applications",
-                                    new { id = item.ApplicationID },
-                                    new { @class = "btn btn-primary btn-sm" }
-                                )
-
-                                @Html.ActionLink(
-                                    "Delete",
-                                    "Delete",
-                                    "Applications",
-                                    new { id = item.ApplicationID },
-                                    new { @class = "btn btn-danger btn-sm" }
-                                )
-                            </td>
-
-                        </tr>
-                    }
-
-                </tbody>
-
-            </table>
+            @Html.ActionLink(
+                "Browse Rooms",
+                "Index",
+                "Rooms",
+                null,
+                new { @class = "btn-auth" }
+            )
 
         </div>
     }
     else
     {
-<div class="no-applications">
+        <div class="application-card-grid">
 
-    <div class="no-applications-icon">
-        📋
-    </div>
+            @foreach (var item in Model)
+            {
+                UmbiloRentals.Models.Room room = null;
 
-    <h2>No Applications Yet</h2>
+                if (roomLookup != null &&
+                    item.RoomID.HasValue &&
+                    roomLookup.ContainsKey(item.RoomID.Value))
+                {
+                    room = roomLookup[item.RoomID.Value];
+                }
 
-    <p>
-        You have not submitted an accommodation application yet.
-    </p>
+                var status = item.Status ?? "Pending";
+                var statusClass = status.ToLower().Replace(" ", "-");
 
-    @Html.ActionLink(
-        "View Available Rooms",
-        "Index",
-        "Rooms",
-        null,
-                    new { @class = "application-button" }
-                )
+                <div class="application-card glass-card">
 
-</div>
+                    @if (room != null && !string.IsNullOrEmpty(room.Photo))
+                    {
+                        <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                             class="application-card-image"
+                             alt="Room @(room.RoomNumber)" />
+                    }
+                    else
+                    {
+                        <div class="application-card-placeholder">
+                            <div class="placeholder-icon">🏠</div>
+                            <span>Room Image</span>
+                        </div>
+                    }
+
+                    <div class="application-card-body">
+
+                        <div class="card-top">
+
+                            <h3>
+                                @(room != null
+                                    ? "Room " + room.RoomNumber
+                                    : "Accommodation Room")
+                            </h3>
+
+                            <span class="status-chip @statusClass">
+                                @status
+                            </span>
+
+                        </div>
+
+                        @if (room != null)
+                        {
+                            <div class="price-row">
+
+                                <strong>
+                                    R @room.MonthlyRent
+                                </strong>
+
+                                <span>per month</span>
+
+                            </div>
+                        }
+
+                        <div class="timeline">
+
+                            <div class="timeline-item complete">
+                                <span class="timeline-icon">✓</span>
+                                <span>Application Submitted</span>
+                            </div>
+
+                            <div class="timeline-item
+                                @(status == "Pending" ? "current" : "complete")">
+
+                                <span class="timeline-icon">
+                                    @(status == "Pending" ? "◷" : "✓")
+                                </span>
+
+                                <span>Under Review</span>
+
+                            </div>
+
+                            <div class="timeline-item
+                                @(status == "Approved"
+                                    ? "complete"
+                                    : status == "Rejected"
+                                        ? "rejected"
+                                        : "")">
+
+                                <span class="timeline-icon">
+                                    @(status == "Approved"
+                                        ? "✓"
+                                        : status == "Rejected"
+                                            ? "×"
+                                            : "○")
+                                </span>
+
+                                <span>Final Decision</span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="application-meta">
+
+                            <p>
+                                <span class="meta-icon">📅</span>
+
+                                <strong>Applied:</strong>
+
+                                @(item.DateApplied.HasValue
+                                    ? item.DateApplied.Value.ToString("dd MMM yyyy")
+                                    : "Date unavailable")
+                            </p>
+
+                            <p>
+                                <span class="meta-icon">📄</span>
+
+                                Supporting document uploaded
+                            </p>
+
+                        </div>
+
+                        <div class="application-actions">
+
+                            @Html.ActionLink(
+                                "View",
+                                "Details",
+                                new { id = item.ApplicationID },
+                                new { @class = "btn-view" }
+                            )
+
+                            @if (status == "Pending")
+                            {
+                                @Html.ActionLink(
+                                    "Withdraw",
+                                    "Delete",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn-withdraw" }
+                                )
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
     }
 
 </div>
+```

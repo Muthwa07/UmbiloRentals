@@ -1,0 +1,115 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Notification>
+
+@{
+    ViewBag.Title = "Notifications";
+}
+
+<div class="notifications-page">
+
+    <div class="notifications-header">
+
+        <div>
+
+            <h1>Notifications</h1>
+
+            <p>Stay updated with your accommodation journey.</p>
+
+        </div>
+
+        @Html.ActionLink(
+            "Mark All Read",
+            "MarkAllRead",
+            "Notifications",
+            null,
+            new { @class = "btn-room-primary" })
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="notification-empty glass-card">
+
+            <AsyncImage query="empty inbox illustration blue modern" aspectRatio="1:1" maxHeight=220 />
+
+            <h3>No Notifications Yet</h3>
+
+            <p>We'll notify you whenever something important happens.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="notification-list">
+
+            @foreach (var item in Model)
+            {
+                <div class="notification-card @(item.IsRead == true ? "" : "unread")">
+
+                    <div class="notification-icon">
+
+                        @{
+                            string icon = "bell";
+
+                            if (item.Message.Contains("approved"))
+                            {
+                                icon = "circle-check";
+                            }
+                            else if (item.Message.Contains("rejected"))
+                            {
+                                icon = "circle-x";
+                            }
+                            else if (item.Message.Contains("maintenance"))
+                            {
+                                icon = "wrench";
+                            }
+                            else if (item.Message.Contains("payment"))
+                            {
+                                icon = "credit-card";
+                            }
+                            else if (item.Message.Contains("application"))
+                            {
+                                icon = "clipboard";
+                            }
+                        }
+
+                        <icon name={icon} color=info />
+
+                    </div>
+
+                    <div class="notification-content">
+
+                        <div class="notification-time">
+
+                            @(item.DateSent.HasValue
+                ? item.DateSent.Value.ToString("dd MMM yyyy • HH:mm")
+                : "")
+
+                        </div>
+
+                        <div class="notification-message">
+                            @item.Message
+                        </div>
+
+                        @if (item.IsRead != true)
+                        {
+                            <div class="notification-actions">
+
+                                @Html.ActionLink(
+                                    "Mark as Read",
+                                    "MarkAsRead",
+                                    "Notifications",
+                                    new { id = item.NotificationID },
+                                    new { @class = "btn-room-primary" })
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

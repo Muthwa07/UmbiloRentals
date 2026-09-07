@@ -1,9 +1,232 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main> 
+<!-- HERO -->
+
+<section class="about-hero">
+
+    <div class="about-bg">
+
+        <AsyncImage query="modern student residence apartment buildings South Africa evening blue lighting" aspectRatio="16:9" width="100%" maxHeight=600 />
+
+    </div>
+
+    <div class="about-card">
+
+        <h1>About Umbilo Rentals</h1>
+
+        <p>
+            We're creating a simpler, safer and more modern way for students
+            to find accommodation.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- STORY -->
+
+<section class="about-section">
+
+    <div class="container story">
+
+        <div>
+
+            ## Our Story
+
+            Finding student accommodation shouldn't be stressful.
+
+            Umbilo Rentals was designed to give students a secure online platform where they can browse rooms, submit applications, upload documents, make payments and request maintenance—all from one dashboard.
+
+            We combine convenience with transparency to simplify the entire accommodation journey.
+
+        </div>
+
+        <div>
+
+            <AsyncImage query="South African student apartment interior modern study room" aspectRatio="4:5" width="100%" maxHeight=420 />
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- MISSION -->
+
+<section class="about-section">
+
+    <div class="container">
+
+        <div class="about-grid">
+
+            <div class="about-box">
+
+                <div class="icon-circle">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" />
+                    </svg>
+
+                </div>
+
+                ### Our Mission
+
+                Provide affordable, secure and accessible student accommodation through modern digital solutions.
+
+            </div>
+
+            <div class="about-box">
+
+                <div class="icon-circle">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+
+                </div>
+
+                ### Our Vision
+
+                Become the preferred digital accommodation platform for students across South Africa.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- WHY CHOOSE US -->
+
+<section class="about-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            ## Why Students Choose Us
+
+            Everything you need in one place.
+
+        </div>
+
+        <div class="about-grid">
+
+            <div class="about-box">
+
+                <div class="icon-circle">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M3 10L12 3l9 7v10H3z" />
+                    </svg>
+
+                </div>
+
+                ### Modern Accommodation
+
+                Comfortable rooms designed for student living.
+
+            </div>
+
+            <div class="about-box">
+
+                <div class="icon-circle">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+
+                </div>
+
+                ### Secure Platform
+
+                Applications, payments and maintenance requests managed safely.
+
+            </div>
+
+            <div class="about-box">
+
+                <div class="icon-circle">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+
+                </div>
+
+                ### Quick Applications
+
+                Apply online without unnecessary paperwork.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- TRUST -->
+
+<section class="about-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            ## Why Students Trust Umbilo Rentals
+
+        </div>
+
+        <div class="trust">
+
+            <div class="trust-card">
+                <h2>500+</h2>
+                <p>Students Assisted</p>
+            </div>
+
+            <div class="trust-card">
+                <h2>24/7</h2>
+                <p>Support</p>
+            </div>
+
+            <div class="trust-card">
+                <h2>100%</h2>
+                <p>Secure Payments</p>
+            </div>
+
+            <div class="trust-card">
+                <h2>Fast</h2>
+                <p>Online Applications</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+
+<div class="container">
+
+    <div class="about-cta">
+
+        ## Ready to Find Your Student Home?
+
+        Join Umbilo Rentals today and experience a smarter way to secure student accommodation.
+
+        @Html.ActionLink(
+            "Browse Rooms",
+            "Index",
+            "Rooms",
+            null,
+            new { @class = "btn-primary-glass" })
+
+    </div>
+
+</div>

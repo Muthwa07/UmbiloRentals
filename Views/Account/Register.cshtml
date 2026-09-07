@@ -1,115 +1,273 @@
-﻿@{
-    ViewBag.Title = "Applicant Registration";
+﻿@model UmbiloRentals.Models.User
+
+@{
+    ViewBag.Title = "Create Account";
 }
 
-<div class="account-page">
+<div class="auth-page">
 
-    <div class="account-card">
+    <div class="auth-blob blob-1"></div>
+    <div class="auth-blob blob-2"></div>
 
-        <div class="account-header">
+    <div class="auth-card">
 
-            <h1>Create Applicant Account</h1>
-
-            <p>
-                Register with Umbilo Rentals to apply for accommodation.
-            </p>
-
+        <div class="auth-logo">
+            <icon name=building color=info size=2xl />
         </div>
 
-        @if (ViewBag.ErrorMessage != null)
-        {
-            <div class="alert alert-danger">
-                @ViewBag.ErrorMessage
-            </div>
-        }
+        <h1>Create Account</h1>
+
+        <p class="auth-subtitle">
+            Join Umbilo Rentals and start applying for accommodation.
+        </p>
 
         @using (Html.BeginForm("Register", "Account", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
 
+            @Html.ValidationSummary(false, "", new { @class = "auth-alert" })
+
             <div class="form-group">
-
                 <label>First Name</label>
-
                 <input type="text"
                        name="firstName"
+                       value="@Model?.FirstName"
                        class="form-control"
+                       placeholder="First Name"
+                       pattern="[A-Za-z ]+"
+                       title="Only letters are allowed."
                        required />
-
             </div>
 
-
             <div class="form-group">
-
                 <label>Last Name</label>
-
                 <input type="text"
                        name="lastName"
+                       value="@Model?.LastName"
                        class="form-control"
+                       placeholder="Last Name"
+                       pattern="[A-Za-z ]+"
+                       title="Only letters are allowed."
                        required />
-
             </div>
-
 
             <div class="form-group">
-
                 <label>Email Address</label>
-
                 <input type="email"
                        name="email"
+                       value="@Model?.Email"
                        class="form-control"
+                       placeholder="you@example.com"
                        required />
-
             </div>
-
 
             <div class="form-group">
 
                 <label>Phone Number</label>
 
-                <input type="text"
-                       name="phone"
-                       class="form-control"
-                       required />
+                <div class="phone-wrapper">
+
+                    <span class="phone-prefix">+27</span>
+
+                    <input type="tel"
+                           id="Phone"
+                           name="phone"
+                           value="@Model?.Phone"
+                           class="form-control phone-input"
+                           placeholder="82 123 4567"
+                           maxlength="11"
+                           required />
+
+                </div>
+
+                <small class="field-hint">
+                    Example: 82 123 4567
+                </small>
+
+
 
             </div>
 
+            <div class="form-group">
+                <label>Password</label>
+
+                <div class="password-wrapper">
+
+                    <input type="password"
+                           id="Password"
+                           name="password"
+                           class="form-control"
+                           required />
+
+                    <span class="toggle-password"
+                          onclick="togglePassword('Password')">
+                        <icon name=eye />
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="password-strength">
+
+                <div id="strengthBar"></div>
+
+            </div>
+
+            <small id="strengthText"></small>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+
+                <div class="password-wrapper">
+
+                    <input type="password"
+                           id="ConfirmPassword"
+                           name="ConfirmPassword"
+                           class="form-control"
+                           required />
+
+                    <span class="toggle-password"
+                          onclick="togglePassword('ConfirmPassword')">
+                        <icon name=eye />
+                    </span>
+
+                </div>
+
+                <small id="passwordMessage"></small>
+
+            </div>
 
             <div class="form-group">
 
-                <label>Password</label>
+                <label>Supporting Document</label>
 
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       required />
+                <div class="upload-card">
+
+                    <icon name=upload color=info size=2xl />
+
+                    <h4>Upload one combined document</h4>
+
+                    <p>
+                        Include your ID and Proof of Income in a single PDF.
+                    </p>
+
+                    <input type="file"
+                           name="supportDocument"
+                           accept=".pdf" />
+
+                </div>
 
             </div>
 
-
-            <button type="submit"
-                    class="btn-register">
-
-                Create Account
-
+            <button type="submit" class="btn-auth">
+                Create Account →
             </button>
         }
 
-        <div class="account-footer">
+        <div class="auth-footer">
 
-            <p>
-                Already have an account?
+            Already have an account?
 
-                @Html.ActionLink(
-                    "Login here",
-                    "Login",
-                    "Account"
-                )
-
-            </p>
+            @Html.ActionLink("Login here", "Login", "Account")
 
         </div>
 
     </div>
 
 </div>
+
+@section scripts{
+
+    <script>
+
+        function togglePassword(id) {
+
+            const input = document.getElementById(id);
+
+            input.type = input.type === "password"
+                ? "text"
+                : "password";
+        }
+
+        /* Password Match */
+
+        const confirm = document.getElementById("ConfirmPassword");
+        const pass = document.getElementById("Password");
+
+        confirm.addEventListener("keyup", function () {
+
+            const msg = document.getElementById("passwordMessage");
+
+            if (this.value === "") {
+                msg.innerHTML = "";
+                return;
+            }
+
+            if (this.value === pass.value) {
+
+                msg.innerHTML = "Passwords match";
+                msg.style.color = "#16A34A";
+
+            } else {
+
+                msg.innerHTML = "Passwords do not match";
+                msg.style.color = "#DC2626";
+            }
+
+        });
+
+        /* Password Strength */
+
+        pass.addEventListener("input", function () {
+
+            const value = this.value;
+
+            const bar = document.getElementById("strengthBar");
+            const text = document.getElementById("strengthText");
+
+            let score = 0;
+
+            if (value.length >= 8) score++;
+            if (/[A-Z]/.test(value)) score++;
+            if (/[0-9]/.test(value)) score++;
+            if (/[^A-Za-z0-9]/.test(value)) score++;
+
+            const widths = ["0%", "25%", "50%", "75%", "100%"];
+            const colors = ["#ddd", "#EF4444", "#F59E0B", "#3B82F6", "#22C55E"];
+            const labels = ["", "Weak", "Fair", "Good", "Strong"];
+
+            bar.style.width = widths[score];
+            bar.style.background = colors[score];
+            text.innerHTML = labels[score];
+
+        });
+
+        /* South African Phone Formatter */
+
+        const phone = document.getElementById("Phone");
+
+        phone.addEventListener("input", function () {
+
+            let digits = this.value.replace(/\D/g, "");
+
+            digits = digits.substring(0, 9);
+
+            let formatted = "";
+
+            if (digits.length > 0)
+                formatted += digits.substring(0, 2);
+
+            if (digits.length > 2)
+                formatted += " " + digits.substring(2, 5);
+
+            if (digits.length > 5)
+                formatted += " " + digits.substring(5, 9);
+
+            this.value = formatted;
+
+        });
+
+    </script>
+
+}

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using UmbiloRentals.Helpers;
 using UmbiloRentals.Models;
 
 namespace UmbiloRentals.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private BuildingManagementDBEntities db = new BuildingManagementDBEntities();
+        private readonly BuildingManagementDBEntities db =
+            new BuildingManagementDBEntities();
 
         // GET: Account/Register
         public ActionResult Register()
@@ -23,37 +25,91 @@ namespace UmbiloRentals.Controllers
             string lastName,
             string email,
             string phone,
-            string password)
+            string password,
+            string ConfirmPassword)
         {
-            // Check whether the email already exists
-            bool emailExists = db.Users.Any(u => u.Email == email);
-
-            if (emailExists)
+            // Keep entered values if validation fails
+            User model = new User
             {
-                ViewBag.ErrorMessage = "An account with this email already exists.";
-                return View();
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Phone = phone
+            };
+
+            // First name validation
+            if (!System.Text.RegularExpressions.Regex.IsMatch(
+                firstName ?? "",
+                @"^[A-Za-z\s]+$"))
+            {
+                ModelState.AddModelError(
+                    "",
+                    "First name may contain letters only.");
             }
 
-            // Create new applicant
-            User user = new User();
+            // Last name validation
+            if (!System.Text.RegularExpressions.Regex.IsMatch(
+                lastName ?? "",
+                @"^[A-Za-z\s]+$"))
+            {
+                ModelState.AddModelError(
+                    "",
+                    "Last name may contain letters only.");
+            }
 
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.Email = email;
-            user.Phone = phone;
-            user.Password = password;
+            // South African phone validation
+            if (!System.Text.RegularExpressions.Regex.IsMatch(
+                phone ?? "",
+                @"^[0-9]{9}$"))
+            {
+                ModelState.AddModelError(
+                    "",
+                    "Enter a valid South African phone number.");
+            }
 
-            // RoleID 1 = Applicant
-            user.RoleID = 1;
+            // Confirm password
+            if (password != ConfirmPassword)
+            {
+                ModelState.AddModelError(
+                    "",
+                    "Passwords do not match.");
+            }
 
-            user.Status = "Active";
-            user.DateCreated = DateTime.Now;
+            // Email exists
+            if (db.Users.Any(u => u.Email == email))
+            {
+                ModelState.AddModelError(
+                    "",
+                    "An account with this email already exists.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            User user = new User
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Phone = "+27" + phone,
+                Password = password,
+                RoleID = 1,
+                Status = "Active",
+                DateCreated = DateTime.Now
+            };
 
             db.Users.Add(user);
             db.SaveChanges();
 
+            NotificationHelper.CreateNotification(
+                db,
+                user.UserID,
+                "Welcome to Umbilo Rentals! Your account has been created successfully.");
+
             TempData["SuccessMessage"] =
-                "Your account has been created successfully. You can now log in.";
+                "Account created successfully. You can now log in.";
 
             return RedirectToAction("Login");
         }
@@ -72,8 +128,7 @@ namespace UmbiloRentals.Controllers
             User user = db.Users.FirstOrDefault(
                 u => u.Email == email &&
                      u.Password == password &&
-                     u.Status == "Active"
-            );
+                     u.Status == "Active");
 
             if (user == null)
             {
@@ -81,10 +136,21 @@ namespace UmbiloRentals.Controllers
                 return View();
             }
 
-            // Store the logged-in user's information in Session
+            // Store logged-in user's details
             Session["UserID"] = user.UserID;
             Session["UserName"] = user.FirstName + " " + user.LastName;
             Session["RoleID"] = user.RoleID;
+
+            // Admin goes to Admin Dashboard
+            if (user.RoleID == 2)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (user.RoleID == 3)
+            {
+                return RedirectToAction("Index", "Maintenance");
+            }
 
             return RedirectToAction("Dashboard", "Account");
         }
@@ -92,25 +158,188 @@ namespace UmbiloRentals.Controllers
         // GET: Account/Dashboard
         public ActionResult Dashboard()
         {
-            // Make sure the user is logged in
             if (Session["UserID"] == null)
-            {
                 return RedirectToAction("Login");
+
+            int userId = (int)Session["UserID"];
+
+            var applications = db.Applications
+                                 .Where(a => a.UserID == userId)
+                                 .ToList();
+
+            ViewBag.TotalApplications = applications.Count;
+            ViewBag.PendingApplications =
+                applications.Count(a => a.Status == "Pending");
+
+            ViewBag.AvailableRooms =
+                db.Rooms.Count(r => r.Status == "Available");
+
+            ViewBag.NotificationCount = 0;
+
+            // -----------------------------
+            // TENANT MODE
+            // -----------------------------
+
+            var approved = applications
+                .FirstOrDefault(a => a.Status == "Approved");
+
+            ViewBag.IsTenant = false;
+
+            if (approved != null)
+            {
+                var room = db.Rooms.Find(approved.RoomID);
+
+                if (room != null)
+                {
+                    ViewBag.IsTenant = true;
+                    ViewBag.CurrentRoom = room.RoomNumber;
+                    ViewBag.CurrentRent = room.MonthlyRent;
+                    ViewBag.RoomStatus = "Allocated";
+                    ViewBag.MoveInDate = approved.DateApplied;
+                }
             }
 
+            var payment = db.Payments
+                            .Where(p => p.UserID == userId)
+                            .OrderByDescending(p => p.PaymentDate)
+                            .FirstOrDefault();
+
+            ViewBag.PaymentStatus =
+                payment != null ? payment.Status : "No Payment";
+
             return View();
+        }
+
+        // GET: Account/Profile
+        [ActionName("Profile")]
+        public ActionResult MyProfile()
+        {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login");
+
+            int userId = (int)Session["UserID"];
+
+            User user = db.Users.Find(userId);
+
+            if (user == null)
+                return HttpNotFound();
+
+            return View(user);
+        }
+
+        // POST: Account/Profile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Profile")]
+        public ActionResult MyProfilePost(User model)
+        {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login");
+
+            int userId = (int)Session["UserID"];
+
+            User user = db.Users.Find(userId);
+
+            if (user == null)
+                return HttpNotFound();
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.Phone = model.Phone;
+
+            // These fields only save if you've added them to the Users table.
+            user.Occupation = model.Occupation;
+            user.EmergencyContactName = model.EmergencyContactName;
+            user.EmergencyContactPhone = model.EmergencyContactPhone;
+
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Profile updated successfully.";
+
+            return RedirectToAction("Profile");
+        }
+
+        // ==========================================
+        // GET: Account/MoveOut
+        // ==========================================
+        public ActionResult MoveOut()
+        {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login");
+
+            int userId = (int)Session["UserID"];
+
+            var application = db.Applications
+                                .FirstOrDefault(a =>
+                                    a.UserID == userId &&
+                                    a.Status == "Approved");
+
+            if (application == null)
+            {
+                TempData["ErrorMessage"] =
+                    "You do not currently have an allocated room.";
+
+                return RedirectToAction("Dashboard");
+            }
+
+            var room = db.Rooms.Find(application.RoomID);
+
+            ViewBag.RoomNumber = room?.RoomNumber;
+
+            return View();
+        }
+
+
+        // ==========================================
+        // POST: Account/MoveOut
+        // ==========================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("MoveOut")]
+        public ActionResult MoveOutConfirmed()
+        {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login");
+
+            int userId = (int)Session["UserID"];
+
+            var application = db.Applications
+                                .FirstOrDefault(a =>
+                                    a.UserID == userId &&
+                                    a.Status == "Approved");
+
+            if (application == null)
+                return RedirectToAction("Dashboard");
+
+            var room = db.Rooms.Find(application.RoomID);
+
+            if (room != null)
+            {
+                room.Status = "Available";
+            }
+
+            application.Status = "Moved Out";
+
+            NotificationHelper.CreateNotification(
+                db,
+                userId,
+                "🏠 You have successfully moved out.");
+
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] =
+                "You have successfully moved out and your room is now available.";
+
+            return RedirectToAction("Dashboard");
         }
 
         // GET: Account/Logout
         public ActionResult Logout()
         {
-            // Clear all session information
             Session.Clear();
-
-            // Abandon the current session
             Session.Abandon();
 
-            // Return to the home page
             return RedirectToAction("Index", "Home");
         }
     }

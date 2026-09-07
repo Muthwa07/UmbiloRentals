@@ -12,20 +12,14 @@ namespace UmbiloRentals.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Payment
+    public partial class Notification
     {
-        public int PaymentID { get; set; }
+        public int NotificationID { get; set; }
         public int UserID { get; set; }
-        public Nullable<decimal> Amount { get; set; }
-        public string ProofOfPayment { get; set; }
-        public string PaymentMonth { get; set; }
-        public Nullable<System.DateTime> PaymentDate { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> VerifiedBy { get; set; }
-        public Nullable<int> RoomID { get; set; }
+        public string Message { get; set; }
+        public Nullable<System.DateTime> DateSent { get; set; }
+        public Nullable<bool> IsRead { get; set; }
     
         public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
-        public virtual Room Room { get; set; }
     }
 }

@@ -26,10 +26,15 @@ namespace UmbiloRentals.Models
         public string Description { get; set; }
         public Nullable<System.DateTime> DateReported { get; set; }
         public string Status { get; set; }
+        public string Title { get; set; }
+        public string Priority { get; set; }
+        public Nullable<System.DateTime> DateCompleted { get; set; }
+        public Nullable<int> AssignedTo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaintenanceAssignment> MaintenanceAssignments { get; set; }
         public virtual Room Room { get; set; }
         public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

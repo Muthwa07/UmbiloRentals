@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<div class="dashboard-page">
+
+    <!-- HERO -->
+    <div class="dashboard-hero">
+
+        <div class="hero-content">
+
+            <h1>Admin Dashboard</h1>
+
+            <p>
+                Manage rooms, applications, payments and maintenance requests
+                from one central dashboard.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card blue">
+
+            <div class="card-icon">👥</div>
+
+            <h2>@ViewBag.TotalUsers</h2>
+
+            <p>Total Applicants</p>
+
+        </div>
+
+        <div class="dashboard-card green">
+
+            <div class="card-icon">🏠</div>
+
+            <h2>@ViewBag.AvailableRooms</h2>
+
+            <p>Available Rooms</p>
+
+        </div>
+
+        <div class="dashboard-card orange">
+
+            <div class="card-icon">🔒</div>
+
+            <h2>@ViewBag.OccupiedRooms</h2>
+
+            <p>Occupied Rooms</p>
+
+        </div>
+
+    </div>
+
+    <!-- MANAGEMENT -->
+    <div class="dashboard-section">
+
+        <div class="section-title">
+
+            <h2>Management</h2>
+
+            <p>Choose an area to manage.</p>
+
+        </div>
+
+        <div class="quick-grid">
+
+            @Html.ActionLink(
+                "🏠 Manage Rooms",
+                "Rooms",
+                "Admin",
+                null,
+                new { @class = "quick-card" })
+
+            @Html.ActionLink(
+                "📄 Manage Applications",
+                "Applications",
+                "Admin",
+                null,
+                new { @class = "quick-card" })
+
+            @Html.ActionLink(
+                "💳 Payments",
+                "Payments",
+                "Admin",
+                null,
+                new { @class = "quick-card" })
+
+
+
+        </div>
+
+    </div>
+
+    <!-- ADMIN SUMMARY -->
+    <div class="dashboard-bottom">
+
+        <div class="info-panel">
+
+            <h3>Pending Applications</h3>
+
+            <h2>@ViewBag.PendingApplications</h2>
+
+            <p>Applications waiting for review.</p>
+
+        </div>
+
+        <div class="info-panel">
+
+            <h3>Pending Payments</h3>
+
+            <h2>@ViewBag.PendingPayments</h2>
+
+            <p>Payments waiting for verification.</p>
+
+        </div>
+
+
+        </div>
+
+    </div>
+
+</div>

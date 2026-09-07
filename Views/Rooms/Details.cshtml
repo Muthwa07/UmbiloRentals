@@ -6,69 +6,148 @@
 
 <div class="room-details-page">
 
-    <div class="room-details-card">
+    <!-- HERO IMAGE -->
 
-        <div class="room-details-image">
+    <div class="room-hero">
 
-            @if (!string.IsNullOrEmpty(Model.Photo))
-            {
-                <img src="@Url.Content("~/Content/Images/" + Model.Photo)"
-                     alt="Room @Model.RoomNumber" />
-            }
-            else
-            {
-                <div class="room-details-no-photo">
-                    No Photo Available
-                </div>
-            }
+        @if (!string.IsNullOrEmpty(Model.Photo))
+        {
+            <img src="@Url.Content("~/Content/RoomImages/" + Model.Photo)"
+                 alt="Room @Model.RoomNumber" />
+        }
+        else
+        {
+            <AsyncImage query="modern luxury student accommodation bedroom South Africa" aspectRatio="16:9" width="100%" maxHeight=500 />
+        }
 
-        </div>
+    </div>
 
-        <div class="room-details-content">
+    <div class="room-layout">
 
-            <h1>Room @Model.RoomNumber</h1>
+        <!-- LEFT -->
 
-            <p class="room-details-description">
-                @Model.Description
-            </p>
+        <div class="room-info">
 
-            <div class="room-details-price">
-                R @String.Format("{0:N2}", Model.MonthlyRent)
-                <span>/ month</span>
-            </div>
+            <div class="room-header">
 
-            <div class="room-details-status">
+                <h1>Room @Model.RoomNumber</h1>
 
-                <strong>Status:</strong>
-
-                <span class="room-status">
+                <span class="status-pill @(Model.Status == "Available" ? "status-available" : "status-occupied")">
                     @Model.Status
                 </span>
 
             </div>
 
-            <div class="room-details-actions">
+            <div class="price-card">
 
-                @if (Model.Status == "Available")
-                {
-                    @Html.ActionLink(
-                        "Apply for This Room",
-                        "Create",
-                        "Applications",
-                        new { id = Model.RoomID },
-                        new { @class = "btn-room" }
-                    )
-                }
+                <h2>R @Model.MonthlyRent</h2>
 
-                @Html.ActionLink(
-                    "Back to Available Rooms",
-                    "Index",
-                    "Rooms",
-                    null,
-                    new { @class = "btn-back" }
-                )
+                <p>per month</p>
 
             </div>
+
+            <h3>Description</h3>
+
+            <p>@Model.Description</p>
+
+            <h3>Amenities</h3>
+
+            <div class="amenities">
+
+                <div class="amenity">
+                    <icon name=wifi color=info />
+                    Wi-Fi
+                </div>
+
+                <div class="amenity">
+                    <icon name=utensils color=info />
+                    Shared Kitchen
+                </div>
+
+                <div class="amenity">
+                    <icon name=car color=info />
+                    Parking
+                </div>
+
+                <div class="amenity">
+                    <icon name=shield-check color=info />
+                    Secure Access
+                </div>
+
+                <div class="amenity">
+                    <icon name=droplet color=info />
+                    Water Included
+                </div>
+
+                <div class="amenity">
+                    <icon name=zap color=info />
+                    Electricity Available
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="booking-card">
+
+            <h3>Room Summary</h3>
+
+            <ul class="booking-list">
+
+                <li><strong>Room:</strong> @Model.RoomNumber</li>
+
+                <li><strong>Rent:</strong> R @Model.MonthlyRent</li>
+
+                <li><strong>Status:</strong> @Model.Status</li>
+
+                <li><strong>Secure Accommodation</strong></li>
+
+                <li><strong>Online Applications</strong></li>
+
+            </ul>
+
+            @if (Model.Status == "Available")
+            {
+                if (!(bool)ViewBag.IsLoggedIn)
+                {
+                    @Html.ActionLink(
+                        "Login to Apply",
+                        "Login",
+                        "Account",
+                        null,
+                        new { @class = "btn-login-apply" })
+                }
+                else if ((bool)ViewBag.HasApplied)
+                {
+                    <button class="btn-applied" disabled>
+                        ✓ Application Submitted
+                    </button>
+                }
+                else
+                {
+                    @Html.ActionLink(
+                        "Apply Now",
+                        "Create",
+                        "Applications",
+                        new { roomId = Model.RoomID },
+                        new { @class = "btn-apply" })
+                }
+            }
+            else
+            {
+                <button class="btn-occupied" disabled>
+                    Currently Occupied
+                </button>
+            }
+
+            @Html.ActionLink(
+                "Back to Rooms",
+                "Index",
+                "Rooms",
+                null,
+                new { @class = "btn-back" })
 
         </div>
 

@@ -1,0 +1,158 @@
+﻿@model IEnumerable<UmbiloRentals.Models.AdminApplicationViewModel>
+
+@{
+    ViewBag.Title = "Application Review";
+}
+
+<div class="admin-review-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Accommodation Applications</h1>
+
+            <p>
+                Review and manage every tenant application.
+            </p>
+
+        </div>
+
+        <div class="application-count">
+            @Model.Count() Applications
+        </div>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+
+            <icon name=clipboard color=info size=2xl />
+
+            <h2>No applications yet</h2>
+
+            <p>New applications will appear here.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="review-grid">
+
+            @foreach (var item in Model)
+            {
+                <div class="review-card glass-card">
+
+                    <!-- Room Image -->
+
+                    @if (!string.IsNullOrEmpty(item.DocumentPath))
+                    {
+                        <AsyncImage query="modern furnished rental room South Africa" aspectRatio="5:4" width="100%" maxHeight=220 radius={{topLeft:24,topRight:24,bottomLeft:0,bottomRight:0}} />
+                    }
+                    else
+                    {
+                        <AsyncImage query="modern apartment bedroom South Africa" aspectRatio="5:4" width="100%" maxHeight=220 radius={{topLeft:24,topRight:24,bottomLeft:0,bottomRight:0}} />
+                    }
+
+                    <div class="review-body">
+
+                        <div class="review-top">
+
+                            <div>
+
+                                <h3>@item.ApplicantName</h3>
+
+                                <p>Room @item.RoomNumber</p>
+
+                            </div>
+
+                            <span class="status-chip @item.Status.ToLower()">
+                                @item.Status
+                            </span>
+
+                        </div>
+
+                        <div class="review-meta">
+
+                            <div>
+                                <icon name=calendar color=info />
+                                Applied
+                            </div>
+
+                            <strong>
+                                @item.DateApplied.Value.ToString("dd MMM yyyy")
+                            </strong>
+
+                        </div>
+
+                        <!-- Document -->
+
+                        <div class="document-box">
+
+                            <icon name=file color=info />
+
+                            <div>
+
+                                <strong>Supporting Document</strong>
+
+                                <p>ID + Proof of Income</p>
+
+                            </div>
+
+                        </div>
+
+                        <a href="@Url.Content(item.DocumentPath)"
+                           target="_blank"
+                           class="btn-preview">
+
+                            <icon name=eye inline />
+                            Preview Document
+
+                        </a>
+
+                        @if (item.Status == "Pending")
+                        {
+                            <div class="review-actions">
+
+                                @Html.ActionLink(
+                                    "Approve",
+                                    "Approve",
+                                    "Admin",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn-approve" })
+
+                                @Html.ActionLink(
+                                    "Reject",
+                                    "Reject",
+                                    "Admin",
+                                    new { id = item.ApplicationID },
+                                    new { @class = "btn-reject" })
+
+                            </div>
+                        }
+                        else
+                        {
+                    <div class="review-complete">
+
+                        @if (item.Status == "Approved")
+                        {
+                            <span style="color: #198754;">✓ Room Allocated</span>
+                        }
+                        else
+                        {
+                            <span style="color: #dc3545;">Application Closed</span>
+                        }
+
+                    </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

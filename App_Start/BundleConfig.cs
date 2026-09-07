@@ -23,8 +23,16 @@ namespace UmbiloRentals
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/Site.css"));
+    "~/Content/bootstrap.css",
+    "~/Content/Site.css",
+    "~/Content/styles/home.css",
+    "~/Content/styles/about.css",
+    "~/Content/styles/rooms.css",
+    "~/Content/styles/room-details.css",
+    "~/Content/styles/dashboard.css",
+    "~/Content/styles/applications.css",
+    "~/Content/styles/notifications.css"));
+
         }
     }
 }

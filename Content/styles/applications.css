@@ -1,0 +1,143 @@
+﻿/* ==========================================
+   APPLICATIONS V2
+========================================== */
+
+.applications-page {
+    padding: 40px 0 60px;
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+    .app-header h1 {
+        font-size: 42px;
+        color: #17345C;
+    }
+
+    .app-header p {
+        color: #667085;
+    }
+
+.app-grid {
+    display: grid;
+    gap: 25px;
+}
+
+.app-card {
+    background: rgba(255,255,255,.75);
+    backdrop-filter: blur(18px);
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 15px 35px rgba(23,52,92,.08);
+    transition: .3s;
+}
+
+    .app-card:hover {
+        transform: translateY(-6px);
+    }
+
+.app-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.room-pill {
+    background: #EAF4FF;
+    color: #17345C;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.status-badge {
+    padding: 9px 16px;
+    border-radius: 999px;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.pending {
+    background: #F59E0B;
+}
+
+.approved {
+    background: #22C55E;
+}
+
+.rejected {
+    background: #EF4444;
+}
+
+.app-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.meta-box {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+    .meta-box h5 {
+        margin: 0 0 6px;
+        color: #17345C;
+    }
+
+.app-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-action {
+    padding: 12px 22px;
+    border-radius: 14px;
+    text-decoration: none !important;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg,#17345C,#4DA3FF);
+    color: white !important;
+}
+
+.btn-outline {
+    border: 2px solid #17345C;
+    color: #17345C !important;
+}
+
+.btn-danger {
+    background: #EF4444;
+    color: white !important;
+}
+
+.btn-success {
+    background: #22C55E;
+    color: white !important;
+}
+
+.btn-action:hover {
+    transform: translateY(-3px);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+    .empty-state img {
+        width: 220px;
+        margin-bottom: 25px;
+    }

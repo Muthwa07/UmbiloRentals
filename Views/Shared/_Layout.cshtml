@@ -1,170 +1,270 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
 
     <title>@ViewBag.Title - Umbilo Rentals</title>
 
     @Styles.Render("~/Content/css")
-    
 
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 
 <body>
 
-    <!-- UMBILO RENTALS NAVIGATION -->
-<nav class="umbilo-navbar">
+    @{
+        string currentController =
+            ViewContext.RouteData.Values["controller"].ToString();
 
-    <div class="container">
+        string currentAction =
+            ViewContext.RouteData.Values["action"].ToString();
 
-        <div class="umbilo-brand">
-            @Html.ActionLink(
-                "Umbilo Rentals",
-                "Index",
-                "Home"
-            )
-        </div>
+        Func<string, string, string> activeClass = (controller, action) =>
+        {
+            bool active =
+                currentController.Equals(controller,
+                    StringComparison.OrdinalIgnoreCase);
 
-        <div class="umbilo-links">
-
-            @Html.ActionLink(
-                "Home",
-                "Index",
-                "Home"
-            )
-
-            @Html.ActionLink(
-                "About",
-                "About",
-                "Home"
-            )
-
-            @Html.ActionLink(
-                "Rooms",
-                "Index",
-                "Rooms"
-            )
-
-            @if (Session["UserID"] != null)
+            if (!string.IsNullOrEmpty(action))
             {
+                active = active &&
+                    currentAction.Equals(action,
+                        StringComparison.OrdinalIgnoreCase);
+            }
+
+            return active ? "active" : "";
+        };
+    }
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="glass-navbar">
+
+        <div class="glass-nav-inner">
+
+            <div class="brand-section">
+
+                <div class="brand-icon">
+                    <icon name=building color=info />
+                </div>
+
                 @Html.ActionLink(
-                    "My Applications",
+                    "Umbilo Rentals",
                     "Index",
-                    "Applications"
-                )
-
-                @Html.ActionLink(
-                    "Logout",
-                    "Logout",
-                    "Account",
+                    "Home",
                     null,
-                    new { @class = "umbilo-login" }
-                )
-            }
-            else
-            {
-                @Html.ActionLink(
-                    "Register",
-                    "Register",
-                    "Account"
-                )
+                    new { @class = "brand-text" })
 
-                @Html.ActionLink(
-                    "Login",
-                    "Login",
-                    "Account",
-                    null,
-                    new { @class = "umbilo-login" }
-                )
-            }
+            </div>
+
+            <div class="nav-pill">
+
+                <a href="@Url.Action("Index","Home")"
+                   class="@activeClass("Home","Index")">
+                    <icon name=home inline /> Home
+                </a>
+
+                @if (Session["UserID"] == null)
+                {
+                    <a href="@Url.Action("About","Home")"
+                       class="@activeClass("Home","About")">
+                        <icon name=info inline /> About
+                    </a>
+                }
+
+                @if (Session["RoleID"] == null ||
+                    (Session["RoleID"] != null && (int)Session["RoleID"] == 1))
+                {
+                    <a href="@Url.Action("Index","Rooms")"
+                       class="@activeClass("Rooms","Index")">
+                        <icon name=building inline /> Rooms
+                    </a>
+                }
+
+                @if (Session["UserID"] != null &&
+                    (int)Session["RoleID"] == 1)
+                {
+                    <a href="@Url.Action("Dashboard","Account")"
+                       class="@activeClass("Account","Dashboard")">
+                        <icon name=layout-dashboard inline /> Dashboard
+                    </a>
+
+                    <a href="@Url.Action("Profile","Account")"
+                       class="@activeClass("Account","Profile")">
+                        <icon name=circle-user inline /> Profile
+                    </a>
+
+                    <a href="@Url.Action("Index","Applications")"
+                       class="@activeClass("Applications","Index")">
+                        <icon name=clipboard inline /> My Applications
+                    </a>
+                }
+
+                @if (Session["UserID"] != null &&
+                    (int)Session["RoleID"] == 2)
+                {
+                    <a href="@Url.Action("Index","Admin")"
+                       class="@activeClass("Admin","Index")">
+                        <icon name=shield-check inline /> Admin
+                    </a>
+
+                    <a href="@Url.Action("Applications","Admin")"
+                       class="@activeClass("Admin","Applications")">
+                        <icon name=clipboard inline /> Applications
+                    </a>
+
+                    <a href="@Url.Action("Rooms","Admin")"
+                       class="@activeClass("Admin","Rooms")">
+                        <icon name=building inline /> Rooms
+                    </a>
+
+                    <a href="@Url.Action("Payments","Admin")"
+                       class="@activeClass("Admin","Payments")">
+                        <icon name=credit-card inline /> Payments
+                    </a>
+
+                    <a href="@Url.Action("Maintenance","Admin")"
+                       class="@activeClass("Admin","Maintenance")">
+                        <icon name=wrench inline /> Maintenance
+                    </a>
+                }
+
+            </div>
+
+            <div class="nav-actions">
+
+                @if (Session["UserID"] != null &&
+(int)Session["RoleID"] == 1)
+                {
+                    <a href="@Url.Action("Index","Notifications")"
+                       class="notification-bubble @(ViewBag.NotificationCount > 0 ? "has-notifications" : "")">
+
+                        <icon name=bell />
+
+                        @if (ViewBag.NotificationCount > 0)
+                        {
+                            <span class="notification-dot">
+                                @(ViewBag.NotificationCount > 9
+                ? "9+"
+                : ViewBag.NotificationCount.ToString())
+                            </span>
+                        }
+
+                    </a>
+
+                    <div class="profile-bubble">
+
+                        <div class="profile-avatar">
+                            @Session["UserName"].ToString().Substring(0, 1)
+                        </div>
+
+                        <span class="profile-name">
+                            @Session["UserName"].ToString().Split(' ')[0]
+                        </span>
+
+                    </div>
+                }
+
+                @if (Session["UserID"] != null)
+                {
+                    @Html.ActionLink(
+                        "Logout",
+                        "Logout",
+                        "Account",
+                        null,
+                        new { @class = "logout-btn" })
+                }
+                else
+                {
+                    @Html.ActionLink(
+                        "Login",
+                        "Login",
+                        "Account",
+                        null,
+                        new { @class = "logout-btn" })
+                }
+
+            </div>
 
         </div>
+
+    </nav>
+
+    <!-- =============== CONTENT =============== -->
+
+    <div class="page-shell">
+
+        <main class="page-container">
+
+            @RenderBody()
+
+        </main>
 
     </div>
 
-</nav>
+    <!-- ================= FOOTER ================= -->
 
-<style>
-    .umbilo-navbar {
-        width: 100%;
-        background: #1f3b5b;
-        min-height: 70px;
-        margin: 0;
-        padding: 0;
-    }
+    <footer class="glass-footer">
 
-    .umbilo-navbar .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        min-height: 70px;
+        <div class="footer-top">
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+            <div class="footer-brand">
 
-    .umbilo-brand a {
-        color: white !important;
-        text-decoration: none !important;
-        font-size: 25px;
-        font-weight: bold;
-    }
+                <div class="footer-logo">
+                    🏢
+                </div>
 
-    .umbilo-links {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+                <div>
 
-    .umbilo-links a {
-        color: white !important;
-        text-decoration: none !important;
-        padding: 10px 14px;
-        font-size: 15px;
-    }
+                    <h3>Umbilo Rentals</h3>
 
-    .umbilo-links a:hover {
-        background: #2d5d87;
-        color: white !important;
-        border-radius: 5px;
-        text-decoration: none !important;
-    }
+                    <p>Modern student accommodation made simple.</p>
 
-    .umbilo-links .umbilo-login {
-        background: #ffffff;
-        color: #1f3b5b !important;
-        border-radius: 5px;
-        font-weight: bold;
-    }
+                </div>
 
-    .umbilo-links .umbilo-login:hover {
-        background: #e5eef7;
-        color: #1f3b5b !important;
-    }
-</style>
+            </div>
 
+            <div class="footer-links">
 
-    <!-- MAIN CONTENT -->
+                @Html.ActionLink("Home", "Index", "Home")
+                @Html.ActionLink("Rooms", "Index", "Rooms")
 
-    <main class="container body-content">
+                @if (Session["UserID"] == null)
+                {
+                    @Html.ActionLink("About", "About", "Home")
+                }
+                else if ((int)Session["RoleID"] == 1)
+                {
+                    @Html.ActionLink("Dashboard", "Dashboard", "Account")
+                }
 
-        @RenderBody()
+            </div>
 
-        <hr />
+            <div class="footer-contact">
 
-        <footer>
-            <p>
-                &copy; @DateTime.Now.Year - Umbilo Rentals
-            </p>
-        </footer>
+                <span>📍 Umbilo, Durban</span>
 
-    </main>
+                <span>📧 info@umbilorentals.co.za</span>
 
+            </div>
 
-    <!-- SCRIPTS -->
+        </div>
+
+        <div class="footer-bottom">
+
+            © @DateTime.Now.Year
+            <span>Umbilo Rentals</span>.
+            All rights reserved.
+
+        </div>
+
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -172,4 +272,5 @@
     @RenderSection("scripts", required: false)
 
 </body>
+
 </html>

@@ -1,31 +1,24 @@
 ﻿@model IEnumerable<UmbiloRentals.Models.Room>
 
 @{
-    ViewBag.Title = "Available Rooms";
+    ViewBag.Title = "Rooms";
 }
 
 <div class="rooms-page">
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger room-alert">
-            @TempData["ErrorMessage"]
-        </div>
-    }
-
     <div class="rooms-header">
 
-        <h1>Available Rooms</h1>
+        <h1>Available Accommodation</h1>
 
         <p>
-            Find your preferred accommodation at Umbilo Rentals.
+            Browse secure, affordable student rooms designed for comfortable living.
         </p>
 
     </div>
 
     <div class="room-grid">
 
-        @foreach (var room in Model.Where(r => r.Status == "Available"))
+        @foreach (var room in Model)
         {
             <div class="room-card">
 
@@ -33,54 +26,77 @@
 
                     @if (!string.IsNullOrEmpty(room.Photo))
                     {
-                        <img src="@Url.Content("~/Content/Images/" + room.Photo)"
+                        <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
                              alt="Room @room.RoomNumber" />
                     }
                     else
                     {
-                        <div class="no-photo">
-                            No Photo Available
-                        </div>
+                        <AsyncImage query="modern student accommodation bedroom South Africa" aspectRatio="4:3" width="100%" maxHeight=240 />
                     }
+
+                    <div class="room-status @(room.Status == "Available" ? "status-available" : "status-occupied")">
+                        @room.Status
+                    </div>
 
                 </div>
 
-                <div class="room-content">
+                <div class="room-body">
 
-                    <h2>
-                        Room @room.RoomNumber
-                    </h2>
+                    <div class="room-title">
+
+                        <h3>Room @room.RoomNumber</h3>
+
+                        <span class="rent-chip">
+                            R @room.MonthlyRent / month
+                        </span>
+
+                    </div>
 
                     <p class="room-description">
                         @room.Description
                     </p>
 
-                    <p class="room-price">
-                        R @String.Format("{0:N2}", room.MonthlyRent)
-                        <span>/ month</span>
-                    </p>
+                    <div class="room-features">
 
-                    <p class="room-status">
-                        @room.Status
-                    </p>
+                        <div class="feature-item">
+                            <icon name=wifi />
+                            Wi-Fi
+                        </div>
 
-                    <div class="room-actions">
+                        <div class="feature-item">
+                            <icon name=car />
+                            Parking
+                        </div>
+
+                        <div class="feature-item">
+                            <icon name=utensils />
+                            Kitchen
+                        </div>
+
+                        <div class="feature-item">
+                            <icon name=shield-check />
+                            Secure
+                        </div>
+
+                    </div>
+
+                    <div class="room-footer">
 
                         @Html.ActionLink(
                             "View Details",
                             "Details",
-                            "Rooms",
                             new { id = room.RoomID },
-                            new { @class = "btn-room" }
-                        )
+                            new { @class = "btn-room-primary" })
 
-                        @Html.ActionLink(
-                            "Apply for This Room",
-                            "Create",
-                            "Applications",
-                            new { id = room.RoomID },
-                            new { @class = "btn-apply" }
-                        )
+                        @if (room.Status == "Available")
+                        {
+                            @Html.ActionLink(
+                                "Apply",
+                                "Create",
+                                "Applications",
+                                new { roomId = room.RoomID },
+                                new { @class = "btn-room-secondary" })
+                        }
 
                     </div>
 

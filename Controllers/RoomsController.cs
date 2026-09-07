@@ -10,7 +10,7 @@ using UmbiloRentals.Models;
 
 namespace UmbiloRentals.Controllers
 {
-    public class RoomsController : Controller
+    public class RoomsController : BaseController
     {
         private BuildingManagementDBEntities db = new BuildingManagementDBEntities();
 
@@ -27,11 +27,29 @@ namespace UmbiloRentals.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Room room = db.Rooms.Find(id);
+
             if (room == null)
             {
                 return HttpNotFound();
             }
+
+            // Default values
+            ViewBag.HasApplied = false;
+            ViewBag.IsLoggedIn = Session["UserID"] != null;
+
+            // If logged in, check whether this user has already applied
+            if (Session["UserID"] != null)
+            {
+                int userId = (int)Session["UserID"];
+
+                ViewBag.HasApplied = db.Applications.Any(a =>
+                    a.UserID == userId &&
+                    a.RoomID == room.RoomID &&
+                    (a.Status == "Pending" || a.Status == "Approved"));
+            }
+
             return View(room);
         }
 

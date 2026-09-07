@@ -29,6 +29,10 @@
         <AssociationConnector Association="BuildingManagementDBModel.FK__Payments__UserID__5EBF139D" ManuallyRouted="false" />
         <AssociationConnector Association="BuildingManagementDBModel.FK__Payments__Verifi__5FB337D6" ManuallyRouted="false" />
         <AssociationConnector Association="BuildingManagementDBModel.FK__VisitorRe__Tenan__6FE99F9F" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Notification" Width="1.5" PointX="3" PointY="7.375" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Maintenance_AssignedTo" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Notificat__UserI__17F790F9" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Payments_Rooms" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

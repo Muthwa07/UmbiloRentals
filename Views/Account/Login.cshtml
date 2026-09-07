@@ -1,32 +1,29 @@
 ﻿@{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Applicant Login";
 }
 
-<div class="account-page">
+<div class="auth-page">
 
-    <div class="account-card">
+    <!-- Decorative background circles -->
+    <div class="auth-blob blob-1"></div>
+    <div class="auth-blob blob-2"></div>
 
-        <div class="account-header">
+    <div class="auth-card">
 
-            <h1>Applicant Login</h1>
-
-            <p>
-                Login to access your Umbilo Rentals account.
-            </p>
-
+        <div class="auth-logo">
+            <icon name=building color=info size=2xl />
         </div>
+
+        <h1>Welcome Back 👋</h1>
+
+        <p class="auth-subtitle">
+            Sign in to your Umbilo Rentals account
+        </p>
 
         @if (ViewBag.ErrorMessage != null)
         {
-            <div class="alert alert-danger">
+            <div class="auth-alert">
                 @ViewBag.ErrorMessage
-            </div>
-        }
-
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success">
-                @TempData["SuccessMessage"]
             </div>
         }
 
@@ -41,6 +38,7 @@
                 <input type="email"
                        name="email"
                        class="form-control"
+                       placeholder="you@example.com"
                        required />
 
             </div>
@@ -49,31 +47,49 @@
 
                 <label>Password</label>
 
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       required />
+                <div class="password-wrapper">
+
+                    <input type="password"
+                           name="password"
+                           id="LoginPassword"
+                           class="form-control"
+                           placeholder="Enter your password"
+                           required />
+
+                    <span class="toggle-password"
+                          onclick="togglePassword()">
+                        <icon name=eye />
+                    </span>
+
+                </div>
 
             </div>
 
-            <button type="submit"
-                    class="btn-register">
-
-                Login
-
-            </button>
-        }
-
-        <div class="account-footer">
-
-            <p>
-                Don't have an account?
+            <div class="auth-links">
 
                 @Html.ActionLink(
-                    "Register here",
+                    "Forgot Password?",
+                    "ForgotPassword",
+                    "Account")
+
+            </div>
+
+            <button type="submit" class="btn-auth">
+                Login →
+            </button>
+
+        }
+
+        <div class="auth-footer">
+
+            <p>
+                New here?
+
+                @Html.ActionLink(
+                    "Create an account",
                     "Register",
-                    "Account"
-                )
+                    "Account")
+
             </p>
 
         </div>
@@ -81,3 +97,22 @@
     </div>
 
 </div>
+
+@section scripts{
+
+    <script>
+
+function togglePassword(){
+
+    const input =
+        document.getElementById("LoginPassword");
+
+    input.type =
+        input.type === "password"
+        ? "text"
+        : "password";
+}
+
+    </script>
+
+}

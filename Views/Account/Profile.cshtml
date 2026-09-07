@@ -1,0 +1,118 @@
+﻿@model UmbiloRentals.Models.User
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<div class="profile-page">
+
+    <div class="profile-hero">
+
+        <div class="profile-avatar">
+            @(Model.FirstName != null ? Model.FirstName.Substring(0,1).ToUpper() : "U")
+        </div>
+
+        <div>
+
+            <h1>@Model.FirstName @Model.LastName</h1>
+
+            <p>Manage your Umbilo Rentals account</p>
+
+            <div class="profile-badges">
+
+                <span class="status-badge active">
+                    Active Account
+                </span>
+
+                <span class="member-badge">
+                    Member since @Model.DateCreated.Value.ToString("MMM yyyy")
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="success-message">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @using (Html.BeginForm("Profile", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="profile-grid">
+
+            <div class="glass-card">
+
+                <h2>Personal Information</h2>
+
+                <div class="form-group">
+                    <label>First Name</label>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Occupation</label>
+                    @Html.TextBoxFor(m => m.Occupation, new { @class = "form-control", placeholder = "Student, Teacher, Engineer..." })
+                </div>
+
+            </div>
+
+            <div class="glass-card">
+
+                <h2>Emergency Contact</h2>
+
+                <div class="form-group">
+                    <label>Contact Name</label>
+                    @Html.TextBoxFor(m => m.EmergencyContactName, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Phone</label>
+                    @Html.TextBoxFor(m => m.EmergencyContactPhone, new { @class = "form-control" })
+                </div>
+
+                <div class="account-info">
+
+                    <h3>Account Information</h3>
+
+                    <p><strong>Status:</strong> @Model.Status</p>
+
+                    <p><strong>Joined:</strong> @Model.DateCreated.Value.ToString("dd MMM yyyy")</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="save-section">
+
+            <button class="btn-save-profile" type="submit">
+                Save Changes
+            </button>
+
+        </div>
+    }
+
+</div>

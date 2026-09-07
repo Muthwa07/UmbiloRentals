@@ -1,96 +1,135 @@
-﻿@{
+﻿@using UmbiloRentals.Models
+
+@{
     ViewBag.Title = "Apply for Room";
+
+    var room = ViewBag.Room as Room;
 }
 
-<div class="account-page">
+<div class="application-page">
 
-    <div class="account-card">
+    <div class="application-grid">
 
-        <div class="account-header">
+        <!-- LEFT SIDE -->
 
-            <h1>Apply for Room</h1>
+        <div class="application-preview glass-card">
 
-            <p>
-                Complete your application for Room @ViewBag.RoomNumber
-            </p>
+            @if (room != null && !string.IsNullOrEmpty(room.Photo))
+            {
+                <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                     class="application-image"
+                     alt="Room @room.RoomNumber" />
+            }
+            else
+            {
+                <AsyncImage query="modern furnished rental room South Africa" aspectRatio="5:4" width="100%" maxHeight=320 radius=24 />
+            }
+
+            <div class="application-info">
+
+                <span class="room-status available">
+                    Available
+                </span>
+
+                <h2>Room @room.RoomNumber</h2>
+
+                <div class="rent-chip">
+                    R @room.MonthlyRent / month
+                </div>
+
+                <p>@room.Description</p>
+
+                <div class="mini-features">
+
+                    <span><icon name=shield-check inline color=info /> Secure</span>
+
+                    <span><icon name=wifi inline color=info /> Wi-Fi</span>
+
+                    <span><icon name=car inline color=info /> Parking</span>
+
+                </div>
+
+            </div>
 
         </div>
 
-        @if (ViewBag.ErrorMessage != null)
-        {
-            <div class="alert alert-danger">
-                @ViewBag.ErrorMessage
-            </div>
-        }
+        <!-- RIGHT SIDE -->
 
-        @using (Html.BeginForm(
-            "Create",
-            "Applications",
-            FormMethod.Post,
-            new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
+        <div class="glass-card application-form-card">
 
-            <input type="hidden"
-                   name="roomID"
-                   value="@ViewBag.RoomID" />
+            <div class="account-header">
 
-            <div class="form-group">
+                <h1>Complete Your Application</h1>
 
-                <label>Room</label>
-
-                <input type="text"
-                       class="form-control"
-                       value="Room @ViewBag.RoomNumber"
-                       readonly />
+                <p>
+                    You're applying for
+                    <strong>Room @room.RoomNumber</strong>.
+                </p>
 
             </div>
 
-            <div class="form-group">
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="auth-alert">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
 
-                <label for="document">
-                    Supporting Document
-                </label>
+            @using (Html.BeginForm(
+                "Create",
+                "Applications",
+                FormMethod.Post,
+                new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
 
-                <input type="file"
-                       name="document"
-                       id="document"
-                       class="form-control"
-                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                       required />
+                <input type="hidden"
+                       name="roomID"
+                       value="@room.RoomID" />
 
-                <small style="color:#666;">
-                    PDF, Word, JPG or PNG files only.
-                    Maximum size: 5 MB.
-                </small>
+                <div class="upload-card">
 
-            </div>
+                    <icon name=upload color=info size=2xl />
 
-            <div class="form-group">
+                    <h3>Supporting Document</h3>
 
-                <label>Status</label>
+                    <p>
+                        Upload **one combined document**
+                        containing your **ID** and
+                        **Proof of Income**.
+                    </p>
 
-                <input type="text"
-                       class="form-control"
-                       value="Pending"
-                       readonly />
+                    <input type="file"
+                           name="document"
+                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                           required />
 
-            </div>
+                    <small>
+                        PDF, Word, JPG or PNG • Maximum 5 MB
+                    </small>
 
-            <button type="submit"
-                    class="btn-register">
-                Submit Application
-            </button>
+                </div>
 
-        }
+                <div class="application-note">
 
-        <div class="account-footer">
+                    <icon name=info color=info inline />
+
+                    Your application will be reviewed by our
+                    accommodation team before approval.
+
+                </div>
+
+                <button type="submit" class="btn-auth">
+                    Submit Application →
+                </button>
+            }
 
             @Html.ActionLink(
-                "Back to Available Rooms",
-                "Index",
-                "Rooms"
-            )
+                "Back to Room",
+                "Details",
+                "Rooms",
+                new { id = room.RoomID },
+                new { @class = "btn-back-room" })
 
         </div>
 

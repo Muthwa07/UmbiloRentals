@@ -26,6 +26,8 @@ namespace UmbiloRentals.Models
             this.Payments = new HashSet<Payment>();
             this.Payments1 = new HashSet<Payment>();
             this.VisitorRequests = new HashSet<VisitorRequest>();
+            this.MaintenanceRequests1 = new HashSet<MaintenanceRequest>();
+            this.Notifications = new HashSet<Notification>();
         }
     
         public int UserID { get; set; }
@@ -37,6 +39,12 @@ namespace UmbiloRentals.Models
         public Nullable<int> RoleID { get; set; }
         public string Status { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
+        public string ResetCode { get; set; }
+        public Nullable<System.DateTime> ResetCodeExpiry { get; set; }
+        public string Occupation { get; set; }
+        public string EmergencyContactName { get; set; }
+        public string EmergencyContactPhone { get; set; }
+        public string ProfilePhoto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Allocation> Allocations { get; set; }
@@ -56,5 +64,9 @@ namespace UmbiloRentals.Models
         public virtual ICollection<Payment> Payments1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VisitorRequest> VisitorRequests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaintenanceRequest> MaintenanceRequests1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
