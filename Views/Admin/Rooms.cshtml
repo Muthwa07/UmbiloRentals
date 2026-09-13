@@ -1,0 +1,72 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Room>
+
+@{
+    ViewBag.Title = "Manage Rooms";
+}
+
+<div class="application-page">
+
+    <h1>Manage Rooms</h1>
+
+    <p>
+        @Html.ActionLink(
+            "Add New Room",
+            "CreateRoom",
+            "Admin",
+            null,
+            new { @class = "btn-register" })
+    </p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <table class="table">
+
+        <tr>
+
+            <th>Room</th>
+            <th>Rent</th>
+            <th>Status</th>
+            <th>Photo</th>
+            <th>Actions</th>
+
+        </tr>
+
+        @foreach (var room in Model)
+        {
+            <tr>
+
+                <td>@room.RoomNumber</td>
+
+                <td>R @room.MonthlyRent</td>
+
+                <td>@room.Status</td>
+
+                <td>@room.Photo</td>
+
+                <td>
+
+                    @Html.ActionLink(
+                        "Edit",
+                        "EditRoom",
+                        new { id = room.RoomID },
+                        new { @class = "btn-room" })
+
+                    @Html.ActionLink(
+                        "Delete",
+                        "DeleteRoom",
+                        new { id = room.RoomID },
+                        new { @class = "btn-back" })
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</div>

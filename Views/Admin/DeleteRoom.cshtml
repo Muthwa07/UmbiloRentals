@@ -1,0 +1,34 @@
+﻿@model UmbiloRentals.Models.Room
+
+@{
+    ViewBag.Title = "Delete Room";
+}
+
+<div class="account-page">
+
+    <div class="account-card">
+
+        <div class="account-header">
+
+            <h1>Delete Room</h1>
+
+            <p>
+                Are you sure you want to delete
+                <strong>@Model.RoomNumber</strong>?
+            </p>
+
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <button type="submit"
+                    class="btn-register">
+                Delete Room
+            </button>
+        }
+
+    </div>
+
+</div>

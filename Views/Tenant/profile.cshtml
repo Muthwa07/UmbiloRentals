@@ -1,0 +1,117 @@
+﻿@model UmbiloRentals.Models.User
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<style>
+    .profile-page {
+        padding: 40px;
+        background: #f5f6f8;
+        min-height: 80vh;
+    }
+
+    .profile-card {
+        background: white;
+        max-width: 600px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+        .profile-card h1 {
+            color: #263238;
+            margin-bottom: 25px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .save-button {
+        background: #263238;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="profile-page">
+
+    <div class="profile-card">
+
+        <h1>My Profile</h1>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="success-message">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @using (Html.BeginForm("profile", "Tenant", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label>First Name</label>
+                @Html.TextBoxFor(m => m.FirstName,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                @Html.TextBoxFor(m => m.LastName,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.Email,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                @Html.TextBoxFor(m => m.Phone,
+                              new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+
+                @Html.PasswordFor(
+                        m => m.Password,
+                        new { @class = "form-control" }
+                    )
+            </div>
+
+            <button type="submit" class="save-button">
+                Save Changes
+            </button>
+        }
+
+    </div>
+
+</div>
