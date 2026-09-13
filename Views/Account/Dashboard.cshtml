@@ -1,73 +1,280 @@
 ﻿@{
-    ViewBag.Title = "Applicant Dashboard";
-
-    string userName = Session["UserName"] as string;
+    ViewBag.Title = "Dashboard";
 }
 
 <div class="dashboard-page">
 
-    <div class="dashboard-header">
+    <!-- HERO -->
 
-        <h1>Welcome, @userName</h1>
+    <div class="dashboard-hero">
 
-        <p>
-            Welcome to your Umbilo Rentals applicant dashboard.
-        </p>
+        <div class="hero-content">
+
+            <h1>Welcome back, @Session["UserName"] 👋</h1>
+
+            <p>
+                Track your accommodation journey, payments and applications from one place.
+            </p>
+
+        </div>
 
     </div>
 
+    <!-- TOP STATS -->
 
-    <div class="dashboard-grid">
+    @if ((bool)ViewBag.IsTenant)
+    {
+        <div class="tenant-residence-card glass-card">
 
-        <!-- Available Rooms -->
+            <div class="tenant-header">
 
-        <div class="dashboard-card">
+                <div>
 
-            <div class="dashboard-icon">
-                🏠
+                    <h2>🏠 Current Residence</h2>
+
+                    <p>Your accommodation has been allocated.</p>
+
+                </div>
+
+                <span class="tenant-status">
+                    Active Tenant
+                </span>
+
             </div>
 
-            <h2>Available Rooms</h2>
+            <div class="tenant-grid">
 
-            <p>
-                View available rooms and find accommodation
-                that suits your needs.
-            </p>
+                <div class="tenant-item">
+                    <span>Room</span>
+                    <strong>@ViewBag.CurrentRoom</strong>
+                </div>
 
-            @Html.ActionLink(
-                "View Rooms",
-                "Index",
-                "Rooms",
-                null,
-                new { @class = "dashboard-button" }
-            )
+                <div class="tenant-item">
+                    <span>Monthly Rent</span>
+                    <strong>R @ViewBag.CurrentRent</strong>
+                </div>
+
+                <div class="tenant-item">
+                    <span>Status</span>
+                    <strong>@ViewBag.RoomStatus</strong>
+                </div>
+
+                <div class="tenant-item">
+                    <span>Allocated</span>
+                    <strong>@(((DateTime?)ViewBag.MoveInDate)?.ToString("dd MMM yyyy"))</strong>
+                </div>
+
+            </div>
+
+            <div class="tenant-actions">
+
+                @Html.ActionLink(
+                    "Report Maintenance",
+                    "Create",
+                    "Maintenance",
+                    null,
+                    new { @class = "btn-auth" })
+
+                @Html.ActionLink(
+    "Move Out",
+    "MoveOut",
+    "Account",
+    null,
+    new { @class = "btn-secondary-glass" })
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="dashboard-card-grid">
+
+            <div class="dashboard-card glass-card">
+                <icon name=home color=info size=2xl />
+                <h3>Available Rooms</h3>
+                <p>Browse accommodation.</p>
+
+                @Html.ActionLink(
+                    "Browse Rooms",
+                    "Index",
+                    "Rooms",
+                    null,
+                    new { @class = "btn-auth" })
+            </div>
+
+            <div class="dashboard-card glass-card">
+                <icon name=file color=info size=2xl />
+                <h3>My Applications</h3>
+                <p>Track your applications.</p>
+
+                @Html.ActionLink(
+                    "View Applications",
+                    "Index",
+                    "Applications",
+                    null,
+                    new { @class = "btn-auth" })
+            </div>
+
+            <div class="dashboard-card glass-card">
+                <icon name=hourglass color=info size=2xl />
+                <h3>Pending Reviews</h3>
+                <p>Waiting for approval.</p>
+            </div>
+
+        </div>
+    }
+
+    <!-- CURRENT ROOM -->
+
+    <div class="glass-panel">
+
+        <div class="panel-header">
+
+            <h2>Current Room</h2>
+
+            @if (ViewBag.CurrentRoom != null)
+            {
+                <span class="status-chip approved">Allocated</span>
+            }
 
         </div>
 
+        @if (ViewBag.CurrentRoom != null)
+        {
+            <h3>Room @ViewBag.CurrentRoom</h3>
+            <p>Your accommodation has been successfully allocated.</p>
+        }
+        else
+        {
+            <p>No room has been allocated yet.</p>
+        }
 
-        <!-- My Applications -->
+    </div>
 
-        <div class="dashboard-card">
+    <!-- APPLICATION JOURNEY -->
 
-            <div class="dashboard-icon">
-                📋
+    <div class="glass-panel">
+
+        <h2>Application Journey</h2>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <strong>Application Submitted</strong>
+                    <p>Your application has been received.</p>
+                </div>
             </div>
 
-            <h2>My Applications</h2>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <strong>Under Review</strong>
+                    <p>Our team is reviewing your application.</p>
+                </div>
+            </div>
 
-            <p>
-                View and track the applications you have submitted.
-            </p>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <strong>Room Approval</strong>
+                    <p>You'll be notified once approved.</p>
+                </div>
+            </div>
 
-            @Html.ActionLink(
-                "My Applications",
-                "Index",
-                "Applications",
-                null,
-                new { @class = "dashboard-button" }
-            )
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <strong>Payment Verification</strong>
+                    <p>Upload proof of payment after approval.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div>
+                    <strong>Move In</strong>
+                    <p>Enjoy your new student home.</p>
+                </div>
+            </div>
 
         </div>
+
+    </div>
+
+    <!-- PAYMENT -->
+
+    <div class="glass-panel">
+
+        <h2>Latest Payment</h2>
+
+        @if (ViewBag.PaymentStatus == "Processed")
+        {
+            <span class="status-chip processed">Verified</span>
+            <p>Your latest payment has been verified.</p>
+        }
+        else if (ViewBag.PaymentStatus == "Pending")
+        {
+            <span class="status-chip pending">Pending Verification</span>
+            <p>Your payment is awaiting admin verification.</p>
+        }
+        else
+        {
+            <p>No payment has been submitted yet.</p>
+
+            @Html.ActionLink(
+                "Make Payment",
+                "Create",
+                "Payments",
+                null,
+                new { @class = "btn-room-primary" })
+        }
+
+    </div>
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="glass-panel">
+
+        <h2>Quick Actions</h2>
+
+        <div class="quick-actions">
+
+            @Html.ActionLink("Browse Rooms", "Index", "Rooms", null, new { @class = "quick-btn" })
+
+            @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "quick-btn" })
+
+            @Html.ActionLink("Payments", "Index", "Payments", null, new { @class = "quick-btn" })
+
+            @Html.ActionLink("Maintenance", "Index", "Maintenance", null, new { @class = "quick-btn" })
+
+            @Html.ActionLink("Profile", "Profile", "Account", null, new { @class = "quick-btn" })
+
+            @Html.ActionLink("Notifications", "Index", "Notifications", null, new { @class = "quick-btn" })
+
+        </div>
+
+    </div>
+
+    <!-- SUPPORT -->
+
+    <div class="glass-panel">
+
+        <h2>Need Help?</h2>
+
+        <p>
+            If you're experiencing issues with your application,
+            payments or room allocation, our support team is ready to assist.
+        </p>
+
+        @Html.ActionLink(
+            "Contact Us",
+            "Contact",
+            "Home",
+            null,
+            new { @class = "btn-room-primary" })
 
     </div>
 

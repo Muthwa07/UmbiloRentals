@@ -19,6 +19,7 @@ namespace UmbiloRentals.Models
         {
             this.Allocations = new HashSet<Allocation>();
             this.MaintenanceRequests = new HashSet<MaintenanceRequest>();
+            this.Payments = new HashSet<Payment>();
         }
     
         public int RoomID { get; set; }
@@ -32,5 +33,7 @@ namespace UmbiloRentals.Models
         public virtual ICollection<Allocation> Allocations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaintenanceRequest> MaintenanceRequests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

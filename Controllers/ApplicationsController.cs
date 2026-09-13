@@ -5,11 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using UmbiloRentals.Helpers;
 using UmbiloRentals.Models;
 
 namespace UmbiloRentals.Controllers
 {
-    public class ApplicationsController : Controller
+    public class ApplicationsController : BaseController
     {
         private BuildingManagementDBEntities db =
             new BuildingManagementDBEntities();
@@ -20,7 +21,6 @@ namespace UmbiloRentals.Controllers
         // =========================================================
         public ActionResult Index()
         {
-            // Make sure the user is logged in
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -28,11 +28,13 @@ namespace UmbiloRentals.Controllers
 
             int userId = (int)Session["UserID"];
 
-            // Only retrieve applications belonging
-            // to the logged-in user
             var applications = db.Applications
                                  .Where(a => a.UserID == userId)
+                                 .OrderByDescending(a => a.DateApplied)
                                  .ToList();
+
+            // Create a lookup of rooms by RoomID
+            ViewBag.RoomLookup = db.Rooms.ToDictionary(r => r.RoomID);
 
             return View(applications);
         }
@@ -77,58 +79,59 @@ namespace UmbiloRentals.Controllers
         // GET: Applications/Create
         // Room ID is received from the Rooms page
         // =========================================================
-        public ActionResult Create(int? id)
-        {
-            // Make sure the applicant is logged in
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        // =========================================================
+// GET: Applications/Create
+// =========================================================
+public ActionResult Create(int? roomId)
+{
+    if (Session["UserID"] == null)
+    {
+        return RedirectToAction("Login", "Account");
+    }
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(
-                    HttpStatusCode.BadRequest,
-                    "Room ID is required."
-                );
-            }
+    if (roomId == null)
+    {
+        return new HttpStatusCodeResult(
+            HttpStatusCode.BadRequest,
+            "Room ID is required.");
+    }
 
-            // Check that the room exists
-            Room room = db.Rooms.Find(id);
+    Room room = db.Rooms.Find(roomId);
 
-            if (room == null)
-            {
-                return HttpNotFound();
-            }
+    if (room == null)
+    {
+        return HttpNotFound();
+    }
 
-            // Only available rooms can be applied for
-            if (room.Status != "Available")
-            {
-                return new HttpStatusCodeResult(
-                    HttpStatusCode.BadRequest,
-                    "This room is not available."
-                );
-            }
-            int userId = (int)Session["UserID"];
+    if (room.Status != "Available")
+    {
+        TempData["ErrorMessage"] =
+            "This room is no longer available.";
 
-            bool alreadyApplied = db.Applications.Any(a =>
-                a.UserID == userId &&
-                a.RoomID == room.RoomID
-            );
+        return RedirectToAction("Index", "Rooms");
+    }
 
-            if (alreadyApplied)
-            {
-                TempData["ErrorMessage"] =
-                    "You have already applied for this room.";
+    int userId = (int)Session["UserID"];
 
-                return RedirectToAction("Index", "Rooms");
-            }
+    bool alreadyApplied = db.Applications.Any(a =>
+        a.UserID == userId &&
+        a.RoomID == room.RoomID &&
+        (a.Status == "Pending" || a.Status == "Approved"));
 
-            ViewBag.RoomNumber = room.RoomNumber;
-            ViewBag.RoomID = room.RoomID;
+    if (alreadyApplied)
+    {
+        TempData["ErrorMessage"] =
+            "You have already applied for this room.";
 
-            return View();
-        }
+        return RedirectToAction("Details",
+            "Rooms",
+            new { id = room.RoomID });
+    }
+
+    ViewBag.Room = room;
+
+    return View();
+}
 
 
         // =========================================================
@@ -306,7 +309,10 @@ namespace UmbiloRentals.Controllers
 
                 return View();
             }
-
+            NotificationHelper.CreateNotification(
+    db,
+    application.UserID.Value,
+    "📄 Your accommodation application has been submitted.");
 
             TempData["SuccessMessage"] =
                 "Your application has been submitted successfully.";

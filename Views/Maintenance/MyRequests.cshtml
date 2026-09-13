@@ -1,0 +1,147 @@
+﻿@model IEnumerable<UmbiloRentals.Models.MaintenanceRequest>
+
+@{
+    ViewBag.Title = "My Maintenance Requests";
+}
+
+<div class="maintenance-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>My Maintenance Requests</h1>
+
+            <p>Track every repair request from report to completion.</p>
+
+        </div>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="glass-card empty-state">
+
+            <icon name=wrench color=info size=2xl />
+
+            <h2>No maintenance requests yet</h2>
+
+            <p>When you report an issue, it will appear here.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="tenant-request-list">
+
+            @foreach (var item in Model)
+            {
+                <div class="glass-card tenant-request-card">
+
+                    <div class="request-header">
+
+                        <div>
+
+                            <h3>@item.Title</h3>
+
+                            <p>Room @(item.RoomID?.ToString() ?? "-")</p>
+
+                        </div>
+
+                        <span class="priority-badge @item.Priority.ToLower()">
+                            @item.Priority
+                        </span>
+
+                    </div>
+
+                    <p>@item.Description</p>
+
+                    <div class="timeline">
+
+                        <div class="timeline-item completed">
+
+                            <icon name=circle-check color=success />
+
+                            <div>
+
+                                <strong>Reported</strong>
+
+                                <p>@item.DateReported</p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-item @(item.DateStarted.HasValue ? "completed" : "")">
+
+                            <icon name=wrench color={item.DateStarted.HasValue ? "success" : "default" } />
+
+                            <div>
+
+                                <strong>Repair Started</strong>
+
+                                <p>
+                                    @(item.DateStarted.HasValue
+                                        ? item.DateStarted.Value.ToString("dd MMM yyyy HH:mm")
+                                        : "Waiting for technician")
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-item @(item.DateCompleted.HasValue ? "completed" : "")">
+
+                            <icon name=circle-check color={item.DateCompleted.HasValue ? "success" : "default" } />
+
+                            <div>
+
+                                <strong>Completed</strong>
+
+                                <p>
+                                    @(item.DateCompleted.HasValue
+                                        ? item.DateCompleted.Value.ToString("dd MMM yyyy HH:mm")
+                                        : "Pending completion")
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(item.TechnicianNotes))
+                    {
+                        <div class="tech-notes">
+
+                            <icon name=clipboard color=info />
+
+                            <div>
+
+                                <strong>Technician Notes</strong>
+
+                                <p>@item.TechnicianNotes</p>
+
+                            </div>
+
+                        </div>
+                    }
+
+                    @if (item.SLADueDate.HasValue && item.Status != "Completed")
+                    {
+                        <div class="sla-box">
+
+                            <icon name=clock color=info />
+
+                            <span>Target completion: @item.SLADueDate.Value.ToString("dd MMM yyyy HH:mm")</span>
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

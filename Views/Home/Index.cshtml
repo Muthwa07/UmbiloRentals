@@ -1,118 +1,167 @@
 ﻿@{
-        ViewBag.Title = "Home";
+    ViewBag.Title = "Umbilo Rentals";
 }
 
-<div class="home-page">
+<div class="hero-section">
 
-    <!-- HERO SECTION -->
-    <section class="home-hero">
+    <div class="hero-background"></div>
 
-        <div class="hero-content">
+    <div class="hero-overlay"></div>
 
-            <h1>UMBILO RENTALS</h1>
+    <div class="hero-content">
 
-            <h2>Comfortable Living. Convenient Location.</h2>
-
-            <p>
-                Find a place you can comfortably call home.
-                Quality accommodation in a secure environment.
-            </p>
-
-            <a href="@Url.Action("Index", "Rooms")" class="home-button">
-                VIEW AVAILABLE ROOMS
-            </a>
-
+        <div class="welcome-pill">
+            💙 Welcome Home
         </div>
 
-    </section>
-
-
-    <!-- WHY CHOOSE US -->
-    <section class="why-us">
-
-        <div class="home-section-heading">
-
-            <h2>WHY CHOOSE US?</h2>
-
-            <p>
-                We provide comfortable and convenient accommodation
-                designed around the needs of our residents.
-            </p>
-
-        </div>
-
-
-        <div class="why-us-grid">
-
-            <!-- CARD 1 -->
-            <div class="why-us-card">
-
-                <div class="why-icon">
-                    🏠
-                </div>
-
-                <h3>COMFORTABLE LIVING</h3>
-
-                <p>
-                    Well-maintained accommodation designed to give
-                    residents a comfortable place to call home.
-                </p>
-
-            </div>
-
-
-            <!-- CARD 2 -->
-            <div class="why-us-card">
-
-                <div class="why-icon">
-                    🔒
-                </div>
-
-                <h3>SAFE & SECURE</h3>
-
-                <p>
-                    A secure living environment where residents
-                    can feel comfortable and protected.
-                </p>
-
-            </div>
-
-
-            <!-- CARD 3 -->
-            <div class="why-us-card">
-
-                <div class="why-icon">
-                    📍
-                </div>
-
-                <h3>CONVENIENT LOCATION</h3>
-
-                <p>
-                    Easily browse available rooms and manage your
-                    accommodation application online.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CALL TO ACTION -->
-    <section class="home-cta">
-
-        <h2>Ready to Find Your New Home?</h2>
+        <h1>
+            Find Your Perfect
+            <span>Place to Live</span>
+        </h1>
 
         <p>
-            Browse our available rooms and find accommodation
-            that suits your needs.
+            Modern. Secure. Comfortable.
+            Discover premium student accommodation in Umbilo with
+            verified rooms, simple applications and quick support.
         </p>
 
-        <a href="@Url.Action("Index", "Rooms")" class="home-button">
-            EXPLORE ROOMS
-        </a>
+        <div class="hero-buttons">
 
-    </section>
+            @Html.ActionLink(
+                "Browse Rooms →",
+                "Index",
+                "Rooms",
+                null,
+                new { @class = "hero-btn-primary" })
+
+            @if (Session["UserID"] != null &&
+                 (int)Session["RoleID"] == 1)
+            {
+                @Html.ActionLink(
+                    "My Applications",
+                    "Index",
+                    "Applications",
+                    null,
+                    new { @class = "hero-btn-secondary" })
+            }
+            else
+            {
+                @Html.ActionLink(
+                    "Create Account",
+                    "Register",
+                    "Account",
+                    null,
+                    new { @class = "hero-btn-secondary" })
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="stats-bar">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">🏠</div>
+
+        <div>
+
+            <strong>50+</strong>
+
+            <span>Available Rooms</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">🛡</div>
+
+        <div>
+
+            <strong>24/7</strong>
+
+            <span>Security</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">⭐</div>
+
+        <div>
+
+            <strong>98%</strong>
+
+            <span>Resident Satisfaction</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">📍</div>
+
+        <div>
+
+            <strong>Umbilo</strong>
+
+            <span>Prime Location</span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="features-section">
+
+    <div class="section-title">
+
+        <h2>Why Choose Umbilo Rentals?</h2>
+
+        <p>Everything students need in one place.</p>
+
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">🏡</div>
+
+            <h3>Quality Rooms</h3>
+
+            <p>Modern, clean and affordable accommodation.</p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">⚡</div>
+
+            <h3>Quick Applications</h3>
+
+            <p>Apply online and track your application instantly.</p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">🔧</div>
+
+            <h3>Easy Support</h3>
+
+            <p>Report maintenance issues directly from your dashboard.</p>
+
+        </div>
+
+    </div>
 
 </div>

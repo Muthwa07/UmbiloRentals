@@ -3,13 +3,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UmbiloRentals.Helpers;
 using UmbiloRentals.Models;
 
 namespace UmbiloRentals.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        private BuildingManagementDBEntities db =
+        private readonly BuildingManagementDBEntities db =
             new BuildingManagementDBEntities();
 
         private bool IsAdmin()
@@ -19,7 +20,9 @@ namespace UmbiloRentals.Controllers
                    (int)Session["RoleID"] == 2;
         }
 
-        // Dashboard
+        // ==========================
+        // ADMIN DASHBOARD
+        // ==========================
         public ActionResult Index()
         {
             if (!IsAdmin())
@@ -40,10 +43,16 @@ namespace UmbiloRentals.Controllers
             ViewBag.OccupiedRooms =
                 db.Rooms.Count(r => r.Status == "Occupied");
 
+            ViewBag.PendingPayments =
+                db.Payments.Count(p => p.Status == "Pending");
+
+
             return View();
         }
 
-        // View every application
+        // ==========================
+        // APPLICATIONS
+        // ==========================
         public ActionResult Applications()
         {
             if (!IsAdmin())
@@ -59,6 +68,7 @@ namespace UmbiloRentals.Controllers
                      ApplicationID = a.ApplicationID,
                      ApplicantName = u.FirstName + " " + u.LastName,
                      RoomNumber = r.RoomNumber,
+                     RoomPhoto = r.Photo,
                      RoomID = a.RoomID,
                      Status = a.Status,
                      DateApplied = a.DateApplied,
@@ -68,7 +78,6 @@ namespace UmbiloRentals.Controllers
             return View(applications);
         }
 
-        // APPROVE
         public ActionResult Approve(int id)
         {
             if (!IsAdmin())
@@ -79,14 +88,32 @@ namespace UmbiloRentals.Controllers
             if (application == null)
                 return HttpNotFound();
 
+            // Approve application
             application.Status = "Approved";
 
+            // Allocate the room
             var room = db.Rooms.Find(application.RoomID);
 
+            string allocationLetter = null;
+
             if (room != null)
+            {
                 room.Status = "Occupied";
 
-            // Reject every other pending application for the same room
+                // Generate branded allocation letter
+                var applicant = db.Users.Find(application.UserID);
+
+                string applicantName = applicant != null
+                    ? applicant.FirstName + " " + applicant.LastName
+                    : "Applicant";
+
+                allocationLetter = PdfHelper.GenerateAllocationLetter(
+                    applicantName,
+                    room.RoomNumber,
+                    room.MonthlyRent ?? 0);
+            }
+
+            // Reject other pending applications for the same room
             var others = db.Applications.Where(a =>
                 a.RoomID == application.RoomID &&
                 a.ApplicationID != application.ApplicationID &&
@@ -95,14 +122,28 @@ namespace UmbiloRentals.Controllers
             foreach (var app in others)
             {
                 app.Status = "Rejected";
+
+                NotificationHelper.CreateNotification(
+                    db,
+                    app.UserID.Value,
+                    "This room is no longer available because it has been allocated to another applicant.");
             }
 
             db.SaveChanges();
 
+            // Notify successful applicant
+            NotificationHelper.CreateNotification(
+                db,
+                application.UserID.Value,
+                "Congratulations! Your application has been approved. Please upload your proof of payment to continue.");
+
+            // Make the download button appear
+            TempData["AllocationLetter"] = allocationLetter;
+            TempData["SuccessMessage"] = "Room allocated successfully.";
+
             return RedirectToAction("Applications");
         }
 
-        // REJECT
         public ActionResult Reject(int id)
         {
             if (!IsAdmin())
@@ -117,10 +158,17 @@ namespace UmbiloRentals.Controllers
 
             db.SaveChanges();
 
+            NotificationHelper.CreateNotification(
+                db,
+                application.UserID.Value,
+                "❌ Unfortunately your application wasn't successful.");
+
             return RedirectToAction("Applications");
         }
 
-        // ADMIN ROOM LIST
+        // ==========================
+        // ROOMS
+        // ==========================
         public ActionResult Rooms()
         {
             if (!IsAdmin())
@@ -129,7 +177,55 @@ namespace UmbiloRentals.Controllers
             return View(db.Rooms.OrderBy(r => r.RoomNumber).ToList());
         }
 
-        // EDIT ROOM
+        public ActionResult CreateRoom()
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateRoom(Room room, HttpPostedFileBase photoFile)
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            if (ModelState.IsValid)
+            {
+                if (photoFile != null && photoFile.ContentLength > 0)
+                {
+                    string extension =
+                        System.IO.Path.GetExtension(photoFile.FileName);
+
+                    string fileName =
+                        Guid.NewGuid() + extension;
+
+                    string folder =
+                        Server.MapPath("~/Content/RoomImages");
+
+                    if (!System.IO.Directory.Exists(folder))
+                        System.IO.Directory.CreateDirectory(folder);
+
+                    photoFile.SaveAs(
+                        System.IO.Path.Combine(folder, fileName));
+
+                    room.Photo = fileName;
+                }
+
+                db.Rooms.Add(room);
+                db.SaveChanges();
+
+                TempData["SuccessMessage"] =
+                    "Room created successfully.";
+
+                return RedirectToAction("Rooms");
+            }
+
+            return View(room);
+        }
+
         public ActionResult EditRoom(int id)
         {
             if (!IsAdmin())
@@ -150,15 +246,15 @@ namespace UmbiloRentals.Controllers
             if (!IsAdmin())
                 return RedirectToAction("Login", "Account");
 
-            var existingRoom = db.Rooms.Find(room.RoomID);
+            Room existing = db.Rooms.Find(room.RoomID);
 
-            if (existingRoom == null)
+            if (existing == null)
                 return HttpNotFound();
 
-            existingRoom.RoomNumber = room.RoomNumber;
-            existingRoom.MonthlyRent = room.MonthlyRent;
-            existingRoom.Description = room.Description;
-            existingRoom.Status = room.Status;
+            existing.RoomNumber = room.RoomNumber;
+            existing.MonthlyRent = room.MonthlyRent;
+            existing.Description = room.Description;
+            existing.Status = room.Status;
 
             if (photoFile != null && photoFile.ContentLength > 0)
             {
@@ -166,20 +262,18 @@ namespace UmbiloRentals.Controllers
                     System.IO.Path.GetExtension(photoFile.FileName);
 
                 string fileName =
-                    Guid.NewGuid().ToString() + extension;
+                    Guid.NewGuid() + extension;
 
                 string folder =
                     Server.MapPath("~/Content/RoomImages");
 
                 if (!System.IO.Directory.Exists(folder))
-                {
                     System.IO.Directory.CreateDirectory(folder);
-                }
 
                 photoFile.SaveAs(
                     System.IO.Path.Combine(folder, fileName));
 
-                existingRoom.Photo = fileName;
+                existing.Photo = fileName;
             }
 
             db.SaveChanges();
@@ -190,59 +284,6 @@ namespace UmbiloRentals.Controllers
             return RedirectToAction("Rooms");
         }
 
-        // CREATE ROOM
-        public ActionResult CreateRoom()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateRoom(Room room, HttpPostedFileBase photoFile)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            if (ModelState.IsValid)
-            {
-                if (photoFile != null && photoFile.ContentLength > 0)
-                {
-                    string extension = System.IO.Path
-                        .GetExtension(photoFile.FileName);
-
-                    string fileName =
-                        Guid.NewGuid().ToString() + extension;
-
-                    string folder =
-                        Server.MapPath("~/Content/RoomImages");
-
-                    if (!System.IO.Directory.Exists(folder))
-                    {
-                        System.IO.Directory.CreateDirectory(folder);
-                    }
-
-                    photoFile.SaveAs(
-                        System.IO.Path.Combine(folder, fileName));
-
-                    room.Photo = fileName;
-                }
-
-                db.Rooms.Add(room);
-                db.SaveChanges();
-
-                TempData["SuccessMessage"] =
-                    "Room added successfully.";
-
-                return RedirectToAction("Rooms");
-            }
-
-            return View(room);
-        }
-
-        // DELETE ROOM
         public ActionResult DeleteRoom(int id)
         {
             if (!IsAdmin())
@@ -271,9 +312,113 @@ namespace UmbiloRentals.Controllers
                 db.SaveChanges();
             }
 
-            TempData["SuccessMessage"] = "Room deleted successfully.";
-
             return RedirectToAction("Rooms");
+        }
+
+        // ==========================
+        // PAYMENTS
+        // ==========================
+        public ActionResult Payments()
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            var payments = db.Payments
+                .OrderByDescending(p => p.PaymentDate)
+                .ToList();
+
+            ViewBag.TotalRevenue = payments
+                .Where(p => p.Status == "Paid")
+                .Sum(p => p.Amount ?? 0);
+
+            ViewBag.PendingCount = payments
+                .Count(p => p.Status == "Pending");
+
+            ViewBag.PaidCount = payments
+                .Count(p => p.Status == "Paid");
+
+            ViewBag.CancelledCount = payments
+                .Count(p => p.Status == "Cancelled");
+
+            return View(payments);
+        }
+
+        public ActionResult VerifyPayment(int id)
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            Payment payment = db.Payments.Find(id);
+
+            if (payment == null)
+                return HttpNotFound();
+
+            payment.Status = "Processed";
+            payment.VerifiedBy = (int)Session["UserID"];
+
+            db.SaveChanges();
+
+            NotificationHelper.CreateNotification(
+                db,
+                payment.UserID,
+                "💳 Your payment has been verified successfully.");
+
+            return RedirectToAction("Payments");
+        }
+
+        // ==========================
+        // MAINTENANCE
+        // ==========================
+        public ActionResult Maintenance()
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            return View(db.MaintenanceRequests
+                          .OrderByDescending(m => m.DateReported)
+                          .ToList());
+        }
+
+        public ActionResult StartMaintenance(int id)
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            var request = db.MaintenanceRequests.Find(id);
+
+            if (request == null)
+                return HttpNotFound();
+
+            request.Status = "In Progress";
+
+            db.SaveChanges();
+
+            return RedirectToAction("Maintenance");
+        }
+
+        public ActionResult CompleteMaintenance(int id)
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
+            var request = db.MaintenanceRequests.Find(id);
+
+            if (request == null)
+                return HttpNotFound();
+
+            request.Status = "Completed";
+
+            db.SaveChanges();
+
+            return RedirectToAction("Maintenance");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                db.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

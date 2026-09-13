@@ -1,0 +1,279 @@
+﻿@model IEnumerable<UmbiloRentals.Models.MaintenanceRequest>
+
+@{
+    ViewBag.Title = "Maintenance Dashboard";
+
+    var pending = Model.Where(m => m.Status == "Pending").ToList();
+    var progress = Model.Where(m => m.Status == "In Progress").ToList();
+    var completed = Model.Where(m => m.Status == "Completed" &&
+                                m.DateCompleted.HasValue &&
+                                m.DateCompleted.Value.Date == DateTime.Today).ToList();
+}
+
+<div class="maintenance-page">
+
+    <div class="maintenance-hero glass-card">
+
+        <div>
+
+            <span class="tech-tag">
+
+                <icon name=wrench inline />
+
+                Maintenance Team
+
+            </span>
+
+            <h1>Operations Board</h1>
+
+            <p>
+                Respond to priority work orders and keep residents informed.
+            </p>
+
+        </div>
+
+        <div class="tech-avatar-card">
+
+            <div class="tech-avatar">
+
+                @Session["UserName"].ToString().Substring(0, 1)
+
+            </div>
+
+            <div>
+
+                <strong>
+                    @Session["UserName"]
+                </strong>
+
+                <span>On Duty</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="glass-alert error">
+
+        <icon name=triangle-alert color=danger />
+
+        <div>
+
+            <strong>Unable to continue</strong>
+
+            <p>@TempData["ErrorMessage"]</p>
+
+        </div>
+
+    </div>
+}
+
+<div class="kanban-board">
+
+    <!-- ================= PENDING ================= -->
+
+    <div class="kanban-column">
+
+        <div class="kanban-header pending-head">
+            <icon name=triangle-alert color=danger />
+            <h3>Pending</h3>
+        </div>
+
+        @if (!pending.Any())
+        {
+            <div class="empty-column">No pending jobs.</div>
+        }
+
+        @foreach (var item in pending)
+        {
+            bool locked = false;
+
+            if (item.Priority == "Low")
+            {
+                locked = pending.Any(m =>
+                    m.Priority == "Critical" ||
+                    m.Priority == "High" ||
+                    m.Priority == "Medium");
+            }
+            else if (item.Priority == "Medium")
+            {
+                locked = pending.Any(m =>
+                    m.Priority == "Critical" ||
+                    m.Priority == "High");
+            }
+            else if (item.Priority == "High")
+            {
+                locked = pending.Any(m =>
+                    m.Priority == "Critical");
+            }
+
+            var due = item.SLADueDate.HasValue
+                ? item.SLADueDate.Value - DateTime.Now
+                : TimeSpan.Zero;
+
+            <div class="kanban-card glass-card @(locked ? "locked-card" : "")">
+
+                <div class="priority-bar @item.Priority.ToLower()"></div>
+
+                <h4>@item.Title</h4>
+
+                <div class="room-label">
+                    Room @(item.RoomID?.ToString() ?? "-")
+                </div>
+
+                <span class="priority-badge @item.Priority.ToLower()">
+                    @item.Priority
+                </span>
+
+                <p>@item.Description</p>
+
+                <div class="kanban-meta">
+
+                    <div>
+                        <icon name=circle-user color=info />
+                        Tenant #@item.TenantID
+                    </div>
+
+                    <div>
+                        <icon name=tag color=info />
+                        @item.Category
+                    </div>
+
+                </div>
+
+                <div class="sla-box">
+
+                    <icon name=clock color=info />
+
+                    @if (item.SLADueDate.HasValue)
+                    {
+                        if (due.TotalMinutes <= 0)
+                        {
+                            <span class="sla-overdue">
+                                Overdue
+                            </span>
+                        }
+                        else if (due.TotalHours < 1)
+                        {
+                            <span class="sla-warning">
+                                @Math.Floor(due.TotalMinutes) min left
+                            </span>
+                        }
+                        else
+                        {
+                            <span>@Math.Floor(due.TotalHours)h left</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>No SLA</span>
+                    }
+
+                </div>
+
+                @if (locked)
+                {
+                    <button class="btn-locked" disabled>
+                        🔒 Higher priority first
+                    </button>
+                }
+                else
+                {
+                    @Html.ActionLink(
+                        "Start Work",
+                        "Start",
+                        "Maintenance",
+                        new { id = item.RequestID },
+                        new { @class = "btn-start" })
+                }
+
+            </div>
+        }
+
+    </div>
+
+    <!-- ================= IN PROGRESS ================= -->
+
+    <div class="kanban-column">
+
+        <div class="kanban-header progress-head">
+            <icon name=wrench color=warning />
+            <h3>In Progress</h3>
+        </div>
+
+        @if (!progress.Any())
+        {
+            <div class="empty-column">No active repairs.</div>
+        }
+
+        @foreach (var item in progress)
+        {
+            <div class="kanban-card glass-card">
+
+                <div class="priority-bar @item.Priority.ToLower()"></div>
+
+                <h4>@item.Title</h4>
+
+                <div class="room-label">
+                    Room @(item.RoomID?.ToString() ?? "-")
+                </div>
+
+                <p>@item.Description</p>
+
+                @Html.ActionLink(
+                    "Complete Job",
+                    "Complete",
+                    "Maintenance",
+                    new { id = item.RequestID },
+                    new { @class = "btn-complete" })
+
+            </div>
+        }
+
+    </div>
+
+    <!-- ================= COMPLETED ================= -->
+
+    <div class="kanban-column">
+
+        <div class="kanban-header completed-head">
+            <icon name=circle-check color=success />
+            <h3>Completed Today</h3>
+        </div>
+
+        @if (!completed.Any())
+        {
+            <div class="empty-column">Nothing completed today.</div>
+        }
+
+        @foreach (var item in completed)
+        {
+            <div class="kanban-card glass-card completed-card">
+
+                <div class="priority-bar @item.Priority.ToLower()"></div>
+
+                <h4>@item.Title</h4>
+
+                <div class="room-label">
+                    Room @(item.RoomID?.ToString() ?? "-")
+                </div>
+
+                <p>@item.TechnicianNotes</p>
+
+                <div class="completed-tag">
+                    ✔ Completed
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+</div>

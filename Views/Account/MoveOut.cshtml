@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Move Out";
+}
+
+<div class="moveout-page">
+
+    <div class="moveout-card">
+
+        <div class="moveout-icon">
+
+            <icon name=door-open color=warning size=2xl />
+
+        </div>
+
+        <h1>Move Out</h1>
+
+        <p>
+            You're about to end your tenancy for
+            <strong>Room @ViewBag.RoomNumber</strong>.
+        </p>
+
+        <div class="moveout-warning">
+
+            <icon name=triangle-alert color=warning />
+
+            <div>
+
+                <strong>Before you continue</strong>
+
+                <p>
+                    Your room will become available for new applicants,
+                    and your tenancy will be marked as completed.
+                </p>
+
+            </div>
+
+        </div>
+
+        @using (Html.BeginForm("MoveOut", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="moveout-actions">
+
+                <button type="submit"
+                        class="btn-danger-glass">
+                    Confirm Move Out
+                </button>
+
+                @Html.ActionLink(
+                    "Cancel",
+                    "Dashboard",
+                    "Account",
+                    null,
+                    new { @class = "btn-secondary-glass" })
+
+            </div>
+        }
+
+    </div>
+
+</div>

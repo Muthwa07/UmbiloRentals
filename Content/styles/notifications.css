@@ -1,0 +1,64 @@
+﻿/* ==========================================
+   NOTIFICATION CENTER V2
+========================================== */
+
+.notifications-page {
+    padding: 40px 0 60px;
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+    .notifications-header h1 {
+        font-size: 40px;
+        color: #17345C;
+    }
+
+.notification-list {
+    display: grid;
+    gap: 20px;
+}
+
+.notification-card {
+    background: rgba(255,255,255,.74);
+    backdrop-filter: blur(18px);
+    border-radius: 22px;
+    padding: 26px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 15px 35px rgba(23,52,92,.08);
+    transition: .3s;
+    position: relative;
+}
+
+    .notification-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .notification-card.unread {
+        border-left: 6px solid #4DA3FF;
+    }
+
+.notification-time {
+    color: #777;
+    font-size: 13px;
+}
+
+.notification-message {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.notification-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.notification-empty {
+    text-align: center;
+    padding: 60px;
+}

@@ -22,8 +22,13 @@ namespace UmbiloRentals.Models
         public Nullable<System.DateTime> PaymentDate { get; set; }
         public string Status { get; set; }
         public Nullable<int> VerifiedBy { get; set; }
+        public Nullable<int> RoomID { get; set; }
+        public string TransactionReference { get; set; }
+        public string PayFastPaymentID { get; set; }
+        public string Gateway { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

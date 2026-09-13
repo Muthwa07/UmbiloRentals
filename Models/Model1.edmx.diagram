@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="94c2f63c7d974c6a87ba8657858a92b8" Name="Diagram1">
+      <Diagram DiagramId="94c2f63c7d974c6a87ba8657858a92b8" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="BuildingManagementDBModel.Allocation" Width="1.5" PointX="6" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BuildingManagementDBModel.Announcement" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BuildingManagementDBModel.Application" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
@@ -29,6 +29,11 @@
         <AssociationConnector Association="BuildingManagementDBModel.FK__Payments__UserID__5EBF139D" ManuallyRouted="false" />
         <AssociationConnector Association="BuildingManagementDBModel.FK__Payments__Verifi__5FB337D6" ManuallyRouted="false" />
         <AssociationConnector Association="BuildingManagementDBModel.FK__VisitorRe__Tenan__6FE99F9F" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Notification" Width="1.5" PointX="3" PointY="7.375" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Maintenance_AssignedTo" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK__Notificat__UserI__17F790F9" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Payments_Rooms" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Maintenance_AssignedTechnician" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

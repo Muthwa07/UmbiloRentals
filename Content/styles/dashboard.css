@@ -1,0 +1,243 @@
+﻿/* ==========================================
+   DASHBOARD V2
+========================================== */
+
+.dashboard-page {
+    padding: 35px 0 60px;
+}
+
+.dashboard-hero {
+    background: linear-gradient(135deg,#17345C,#2D5D87);
+    color: white;
+    border-radius: 28px;
+    padding: 45px;
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .dashboard-hero::after {
+        content: "";
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        background: rgba(255,255,255,.08);
+        border-radius: 50%;
+        right: -60px;
+        top: -60px;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 42px;
+    }
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 24px;
+}
+
+.glass-panel {
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(18px);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 12px 30px rgba(23,52,92,.08);
+}
+
+.stat-number {
+    font-size: 40px;
+    color: #17345C;
+    font-weight: bold;
+}
+
+.status-chip {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+
+.pending {
+    background: #F59E0B;
+}
+
+.approved {
+    background: #22C55E;
+}
+
+.processed {
+    background: #22C55E;
+}
+
+.timeline {
+    margin-top: 25px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.timeline-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #4DA3FF;
+    margin-top: 5px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 18px;
+}
+
+.quick-btn {
+    text-decoration: none !important;
+    color: #17345C !important;
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    text-align: center;
+    font-weight: 600;
+    transition: .3s;
+}
+
+    .quick-btn:hover {
+        background: #17345C;
+        color: white !important;
+        transform: translateY(-5px);
+    }
+
+/* Dashboard V2 Enhancements */
+
+.glass-panel {
+    position: relative;
+    overflow: hidden;
+}
+
+    .glass-panel::before {
+        content: "";
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        background: rgba(255,255,255,.18);
+        border-radius: 50%;
+        top: -40px;
+        right: -40px;
+    }
+
+    .glass-panel > * {
+        position: relative;
+        z-index: 1;
+    }
+
+.quick-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 110px;
+    border: 1px solid rgba(255,255,255,.35);
+    backdrop-filter: blur(12px);
+}
+
+.stat-number {
+    margin-top: 12px;
+}
+
+/* ---------- Dashboard V2 Additions ---------- */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;
+    margin:35px 0;
+}
+
+.glass-panel{
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(18px);
+    border-radius:22px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 15px 35px rgba(23,52,92,.10);
+    border:1px solid rgba(255,255,255,.35);
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.stat-card{
+    text-align:center;
+}
+
+.stat-icon{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.stat-number{
+    font-size:42px;
+    font-weight:700;
+    color:#17345C;
+}
+
+.timeline-item{
+    display:flex;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.timeline-item p{
+    margin:4px 0 0;
+    color:#666;
+}
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:18px;
+    margin-top:20px;
+}
+
+.quick-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:90px;
+    text-decoration:none!important;
+    background:rgba(255,255,255,.85);
+    border-radius:16px;
+    color:#17345C!important;
+    font-weight:600;
+    transition:.3s;
+    box-shadow:0 10px 25px rgba(23,52,92,.08);
+}
+
+.quick-btn:hover{
+    transform:translateY(-6px);
+    background:#17345C;
+    color:white!important;
+}
+
+.status-chip{
+    padding:8px 14px;
+    border-radius:999px;
+    color:white;
+    font-size:13px;
+    font-weight:700;
+}
+
+.approved{background:#22C55E;}
+.pending{background:#F59E0B;}
+.processed{background:#22C55E;}

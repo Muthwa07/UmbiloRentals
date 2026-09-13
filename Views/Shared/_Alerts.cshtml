@@ -1,0 +1,33 @@
+﻿@if (TempData["SuccessMessage"] != null)
+{
+    <div class="glass-alert success">
+
+        <icon name=circle-check color=success />
+
+        <div>
+
+            <strong>Success</strong>
+
+            <p>@TempData["SuccessMessage"]</p>
+
+        </div>
+
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="glass-alert error">
+
+        <icon name=circle-x color=danger />
+
+        <div>
+
+            <strong>Something went wrong</strong>
+
+            <p>@TempData["ErrorMessage"]</p>
+
+        </div>
+
+    </div>
+}
