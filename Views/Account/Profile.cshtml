@@ -34,12 +34,7 @@
 
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="success-message">
-            @TempData["SuccessMessage"]
-        </div>
-    }
+
 
     @using (Html.BeginForm("Profile", "Account", FormMethod.Post))
     {

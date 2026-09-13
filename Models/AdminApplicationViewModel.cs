@@ -9,6 +9,7 @@ namespace UmbiloRentals.Models
         public string ApplicantName { get; set; }
 
         public string RoomNumber { get; set; }
+        public string RoomPhoto { get; set; }
 
         public int? RoomID { get; set; }
 

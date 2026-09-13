@@ -1,0 +1,75 @@
+﻿@model UmbiloRentals.ViewModels.PaymentCheckoutViewModel
+
+@{
+    ViewBag.Title = "Complete Payment";
+}
+
+<div class="payment-page">
+
+    <div class="payment-card glass-card">
+
+        <div class="payment-header">
+
+            <div>
+
+                <h1>Complete Your Reservation</h1>
+
+                <p>
+                    Your room is reserved while this payment is pending.
+                    Returning to this page will continue the same payment instead of creating another one.
+                </p>
+
+            </div>
+
+            <span class="payment-badge">
+                Sandbox
+            </span>
+
+        </div>
+
+        <div class="payment-summary">
+
+            <div class="summary-row">
+                <span>Applicant</span>
+                <strong>@Model.ApplicantName</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Room</span>
+                <strong>@Model.RoomNumber</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Monthly Rent</span>
+                <strong>R @Model.Amount.ToString("N2")</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Reference</span>
+                <strong>@Model.Reference</strong>
+            </div>
+
+        </div>
+
+        <a href="@Model.CheckoutUrl"
+           class="btn-payfast-large">
+
+            <icon name=lock inline />
+
+            Proceed to Secure PayFast Checkout
+
+        </a>
+
+        <div class="payment-footer">
+
+            <icon name=shield-check color=success />
+
+            <span>
+                Your payment is processed securely through PayFast.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>

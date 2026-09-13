@@ -1,0 +1,165 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Payment>
+
+@{
+    ViewBag.Title = "Payment Management";
+}
+
+<div class="admin-payments-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Payment Management</h1>
+
+            <p>Track every PayFast transaction from one place.</p>
+
+        </div>
+
+    </div>
+
+    <!-- Stats -->
+
+    <div class="payment-stats">
+
+        <div class="stat-card glass-card">
+
+            <icon name=circle-dollar-sign color=success size=2xl />
+
+            <h2>R @(((decimal)ViewBag.TotalRevenue).ToString("N2"))</h2>
+
+            <p>Total Revenue</p>
+
+        </div>
+
+        <div class="stat-card glass-card">
+
+            <icon name=clock color=warning size=2xl />
+
+            <h2>@ViewBag.PendingCount</h2>
+
+            <p>Pending</p>
+
+        </div>
+
+        <div class="stat-card glass-card">
+
+            <icon name=circle-check color=success size=2xl />
+
+            <h2>@ViewBag.PaidCount</h2>
+
+            <p>Paid</p>
+
+        </div>
+
+        <div class="stat-card glass-card">
+
+            <icon name=circle-x color=danger size=2xl />
+
+            <h2>@ViewBag.CancelledCount</h2>
+
+            <p>Cancelled</p>
+
+        </div>
+
+    </div>
+
+    <!-- Payment Cards -->
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+
+            <icon name=credit-card color=info size=2xl />
+
+            <h2>No Payments Yet</h2>
+
+            <p>Payments will appear here once applicants complete checkout.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="payment-grid">
+
+            @foreach (var payment in Model)
+            {
+                <div class="payment-card glass-card">
+
+                    <div class="payment-top">
+
+                        <div>
+
+                            <h3>@payment.User.FirstName @payment.User.LastName</h3>
+
+                            <p>
+                                Room @(payment.Room != null ? payment.Room.RoomNumber : "-")
+                            </p>
+
+                        </div>
+
+                        <span class="status-chip @payment.Status.ToLower()">
+
+                            @payment.Status
+
+                        </span>
+
+                    </div>
+
+                    <div class="payment-amount">
+
+                        R @((payment.Amount ?? 0).ToString("N2"))
+
+                    </div>
+
+                    <div class="payment-details">
+
+                        <p>
+
+                            <icon name=calendar color=info />
+
+                            @(payment.PaymentDate.HasValue
+                                ? payment.PaymentDate.Value.ToString("dd MMM yyyy HH:mm")
+                                : "No payment date")
+
+                        </p>
+
+                        <p>
+
+                            <icon name=receipt color=info />
+
+                            @payment.PaymentMonth
+
+                        </p>
+
+                        @if (!string.IsNullOrEmpty(payment.TransactionReference))
+                        {
+                            <p>
+
+                                <icon name=hash color=info />
+
+                                @payment.TransactionReference
+
+                            </p>
+                        }
+
+                        @if (!string.IsNullOrEmpty(payment.PayFastPaymentID))
+                        {
+                            <p>
+
+                                <icon name=shield-check color=success />
+
+                                PayFast ID: @payment.PayFastPaymentID
+
+                            </p>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

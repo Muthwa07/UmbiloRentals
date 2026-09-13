@@ -1,0 +1,111 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Payment>
+
+@{
+    ViewBag.Title = "Payment History";
+}
+
+<div class="payment-history-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Payment History</h1>
+
+            <p>View every payment you've made through Umbilo Rentals.</p>
+
+        </div>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+
+            <icon name=receipt color=info size=2xl />
+
+            <h2>No Payments Yet</h2>
+
+            <p>Your completed payments will appear here.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="history-grid">
+
+            @foreach (var payment in Model)
+            {
+                <div class="history-card glass-card">
+
+                    <div class="history-top">
+
+                        <div>
+
+                            <h3>Room @(payment.Room != null ? payment.Room.RoomNumber : "-")</h3>
+
+                            <p>@payment.PaymentMonth</p>
+
+                        </div>
+
+                        <span class="status-chip @payment.Status.ToLower()">
+
+                            @payment.Status
+
+                        </span>
+
+                    </div>
+
+                    <div class="history-amount">
+
+                        R @((payment.Amount ?? 0).ToString("N2"))
+
+                    </div>
+
+                    <div class="history-meta">
+
+                        <p>
+
+                            <icon name=calendar color=info />
+
+                            @(payment.PaymentDate.HasValue
+                                ? payment.PaymentDate.Value.ToString("dd MMM yyyy HH:mm")
+                                : "Pending")
+
+                        </p>
+
+                        @if (!string.IsNullOrEmpty(payment.TransactionReference))
+                        {
+                            <p>
+
+                                <icon name=hash color=info />
+
+                                @payment.TransactionReference
+
+                            </p>
+                        }
+
+                    </div>
+
+                    @if (payment.Status == "Paid")
+                    {
+                        <a href="@Url.Action(
+                                "Receipt",
+                                "Payments",
+                                new { id = payment.PaymentID })"
+                           class="btn-download-receipt">
+
+                            <icon name=download inline />
+
+                            Download Receipt
+
+                        </a>
+                    }
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

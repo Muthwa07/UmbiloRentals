@@ -10,19 +10,61 @@
 
         <div>
 
+            <div class="section-tag">
+                <icon name=clipboard color=discovery inline />
+                Application Management
+            </div>
+
             <h1>Accommodation Applications</h1>
 
             <p>
-                Review and manage every tenant application.
+                Review applications, verify documents and allocate rooms.
             </p>
 
         </div>
 
-        <div class="application-count">
-            @Model.Count() Applications
+        <div class="application-count glass-count-card">
+
+            <icon name=users color=info size=lg />
+
+            <div>
+
+                <strong>@Model.Count()</strong>
+
+                <span>Applications</span>
+
+            </div>
+
         </div>
 
     </div>
+
+    @if (TempData["AllocationLetter"] != null)
+    {
+        <div class="glass-alert success">
+
+            <icon name=file-check color=success />
+
+            <div>
+
+                <strong>Allocation Letter Generated</strong>
+
+                <p>The applicant has been allocated a room successfully.</p>
+
+            </div>
+
+            <a href="@Url.Content(TempData["AllocationLetter"].ToString())"
+               target="_blank"
+               class="btn-room-primary">
+
+                <icon name=download inline />
+
+                Download
+
+            </a>
+
+        </div>
+    }
 
     @if (!Model.Any())
     {
@@ -44,15 +86,21 @@
             {
                 <div class="review-card glass-card">
 
-                    <!-- Room Image -->
+                    <!-- Hero Image -->
 
-                    @if (!string.IsNullOrEmpty(item.DocumentPath))
+                    @if (!string.IsNullOrEmpty(item.RoomPhoto))
                     {
-                        <AsyncImage query="modern furnished rental room South Africa" aspectRatio="5:4" width="100%" maxHeight=220 radius={{topLeft:24,topRight:24,bottomLeft:0,bottomRight:0}} />
+                        <img src="@Url.Content("~/Content/RoomImages/" + item.RoomPhoto)"
+                             alt="Room @item.RoomNumber"
+                             class="review-room-image" />
                     }
                     else
                     {
-                        <AsyncImage query="modern apartment bedroom South Africa" aspectRatio="5:4" width="100%" maxHeight=220 radius={{topLeft:24,topRight:24,bottomLeft:0,bottomRight:0}} />
+                        <AsyncImage query="modern furnished rental room South Africa luxury"
+                                    aspectRatio="5:4"
+                                    width="100%"
+                                    maxHeight=220
+                                    radius={{topLeft:24,topRight:24,bottomLeft:0,bottomRight:0}} />
                     }
 
                     <div class="review-body">
@@ -63,7 +111,10 @@
 
                                 <h3>@item.ApplicantName</h3>
 
-                                <p>Room @item.RoomNumber</p>
+                                <p>
+                                    <icon name=building color=info inline />
+                                    Room @item.RoomNumber
+                                </p>
 
                             </div>
 
@@ -75,76 +126,105 @@
 
                         <div class="review-meta">
 
-                            <div>
-                                <icon name=calendar color=info />
-                                Applied
-                            </div>
+                            <div class="meta-item">
 
-                            <strong>
-                                @item.DateApplied.Value.ToString("dd MMM yyyy")
-                            </strong>
+                                <icon name=calendar color=info />
+
+                                <div>
+
+                                    <small>Applied</small>
+
+                                    <strong>@item.DateApplied.Value.ToString("dd MMM yyyy")</strong>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <!-- Document -->
+                        <!-- Document Card -->
 
                         <div class="document-box">
 
-                            <icon name=file color=info />
+                            <div class="document-icon">
+                                <icon name=file color=info />
+                            </div>
 
-                            <div>
+                            <div class="document-info">
 
                                 <strong>Supporting Document</strong>
 
-                                <p>ID + Proof of Income</p>
+                                <span>ID & Proof of Income</span>
 
                             </div>
 
                         </div>
 
-                        <a href="@Url.Content(item.DocumentPath)"
-                           target="_blank"
-                           class="btn-preview">
+                        <button type="button"
+                                class="btn-preview preview-trigger"
+                                data-file="@Url.Content(item.DocumentPath)"
+                                data-name="@item.ApplicantName">
 
                             <icon name=eye inline />
+
                             Preview Document
 
-                        </a>
+                        </button>
 
                         @if (item.Status == "Pending")
                         {
                             <div class="review-actions">
 
-                                @Html.ActionLink(
-                                    "Approve",
-                                    "Approve",
-                                    "Admin",
-                                    new { id = item.ApplicationID },
-                                    new { @class = "btn-approve" })
+                                <button type="button"
+                                        class="btn-approve modal-trigger"
+                                        data-action="@Url.Action("Approve","Admin",new { id = item.ApplicationID })"
+                                        data-name="@item.ApplicantName"
+                                        data-room="@item.RoomNumber"
+                                        data-type="approve">
 
-                                @Html.ActionLink(
-                                    "Reject",
-                                    "Reject",
-                                    "Admin",
-                                    new { id = item.ApplicationID },
-                                    new { @class = "btn-reject" })
+                                    Approve
+
+                                </button>
+
+                                <button type="button"
+                                        class="btn-reject modal-trigger"
+                                        data-action="@Url.Action("Reject","Admin",new { id = item.ApplicationID })"
+                                        data-name="@item.ApplicantName"
+                                        data-room="@item.RoomNumber"
+                                        data-type="reject">
+
+                                    Reject
+
+                                </button>
 
                             </div>
                         }
                         else
                         {
-                    <div class="review-complete">
+                            <div class="review-complete">
 
-                        @if (item.Status == "Approved")
-                        {
-                            <span style="color: #198754;">✓ Room Allocated</span>
-                        }
-                        else
-                        {
-                            <span style="color: #dc3545;">Application Closed</span>
-                        }
+                                @if (item.Status == "Approved")
+                                {
+                                    <div class="decision approved">
 
-                    </div>
+                                        <icon name=circle-check color=success />
+
+                                        <span>Room Allocated</span>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="decision rejected">
+
+                                        <icon name=circle-x color=danger />
+
+                                        <span>Application Closed</span>
+
+                                    </div>
+                                }
+
+                            </div>
                         }
 
                     </div>
@@ -155,4 +235,217 @@
         </div>
     }
 
+    <div id="decisionModal" class="glass-modal">
+
+        <div class="glass-modal-content">
+
+            <div class="modal-icon">
+
+                <icon name=shield-check color=discovery size=2xl />
+
+            </div>
+
+            <h2 id="modalTitle">Approve Application?</h2>
+
+            <p id="modalText"></p>
+
+            <div class="modal-actions">
+
+                <button type="button"
+                        class="btn-cancel-modal"
+                        id="closeModal">
+
+                    Cancel
+
+                </button>
+
+                <a id="confirmAction"
+                   href="#"
+                   class="btn-confirm-modal">
+
+                    Confirm
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+    <div id="previewDrawer" class="preview-drawer">
+
+        <div class="drawer-panel">
+
+            <div class="drawer-header">
+
+                <div>
+
+                    <h3 id="drawerTitle">Document Preview</h3>
+
+                    <p>Supporting Document</p>
+
+                </div>
+
+                <button id="closeDrawer" class="drawer-close">
+
+                    <icon name=x />
+
+                </button>
+
+            </div>
+
+            <div class="drawer-body">
+
+                <iframe id="previewFrame"
+                        src=""
+                        frameborder="0">
+                </iframe>
+
+                <div id="fallbackMessage"
+                     class="drawer-fallback">
+
+                    <icon name=file color=info size=2xl />
+
+                    <h3>Preview unavailable</h3>
+
+                    <p>This document type opens in a new tab.</p>
+
+                    <a id="openFile"
+                       href="#"
+                       target="_blank"
+                       class="btn-room-primary">
+
+                        Open Document
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
+@section scripts{
+
+    <script>
+
+const modal=document.getElementById("decisionModal");
+const title=document.getElementById("modalTitle");
+const text=document.getElementById("modalText");
+const confirm=document.getElementById("confirmAction");
+
+document.querySelectorAll(".modal-trigger").forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+        const type=btn.dataset.type;
+        const name=btn.dataset.name;
+        const room=btn.dataset.room;
+
+        confirm.href=btn.dataset.action;
+
+        if(type==="approve"){
+
+            title.innerText="Approve Application?";
+            confirm.innerText="Confirm Allocation";
+
+        }else{
+
+            title.innerText="Reject Application?";
+            confirm.innerText="Confirm Rejection";
+
+        }
+
+        text.innerText=`${name} • Room ${room}`;
+
+        modal.classList.add("show");
+
+    });
+
+});
+
+document.getElementById("closeModal")
+    .addEventListener("click",()=>{
+
+        modal.classList.remove("show");
+
+});
+
+modal.addEventListener("click",e=>{
+
+    if(e.target===modal){
+
+        modal.classList.remove("show");
+
+    }
+
+});
+
+        const drawer = document.getElementById("previewDrawer");
+        const frame = document.getElementById("previewFrame");
+        const fallback = document.getElementById("fallbackMessage");
+        const openFile = document.getElementById("openFile");
+        const drawerTitle = document.getElementById("drawerTitle");
+
+        document.querySelectorAll(".preview-trigger").forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                const file = btn.dataset.file;
+                const name = btn.dataset.name;
+
+                drawerTitle.innerText = `${name}'s Document`;
+
+                const extension = file.split('.').pop().toLowerCase();
+
+                const previewable = ["pdf", "jpg", "jpeg", "png", "gif", "webp"];
+
+                if (previewable.includes(extension)) {
+
+                    frame.src = file;
+                    frame.style.display = "block";
+                    fallback.style.display = "none";
+
+                } else {
+
+                    frame.style.display = "none";
+                    fallback.style.display = "flex";
+                    openFile.href = file;
+
+                }
+
+                drawer.classList.add("open");
+
+            });
+
+        });
+
+        document.getElementById("closeDrawer")
+            .addEventListener("click", () => {
+
+                drawer.classList.remove("open");
+                frame.src = "";
+
+            });
+
+        drawer.addEventListener("click", e => {
+
+            if (e.target === drawer) {
+
+                drawer.classList.remove("open");
+                frame.src = "";
+
+            }
+
+        });
+
+    </script>
+
+}

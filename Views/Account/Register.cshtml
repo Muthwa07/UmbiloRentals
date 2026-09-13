@@ -21,7 +21,11 @@
             Join Umbilo Rentals and start applying for accommodation.
         </p>
 
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        @using (Html.BeginForm(
+    "Register",
+    "Account",
+    FormMethod.Post,
+    new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -31,7 +35,6 @@
                 <label>First Name</label>
                 <input type="text"
                        name="firstName"
-                       value="@Model?.FirstName"
                        class="form-control"
                        placeholder="First Name"
                        pattern="[A-Za-z ]+"
@@ -43,7 +46,6 @@
                 <label>Last Name</label>
                 <input type="text"
                        name="lastName"
-                       value="@Model?.LastName"
                        class="form-control"
                        placeholder="Last Name"
                        pattern="[A-Za-z ]+"
@@ -55,7 +57,6 @@
                 <label>Email Address</label>
                 <input type="email"
                        name="email"
-                       value="@Model?.Email"
                        class="form-control"
                        placeholder="you@example.com"
                        required />
@@ -72,7 +73,6 @@
                     <input type="tel"
                            id="Phone"
                            name="phone"
-                           value="@Model?.Phone"
                            class="form-control phone-input"
                            placeholder="82 123 4567"
                            maxlength="11"

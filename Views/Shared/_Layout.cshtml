@@ -16,41 +16,65 @@
 
 </head>
 
-<body>
+@{
+    string currentController =
+        ViewContext.RouteData.Values["controller"].ToString();
 
-    @{
-        string currentController =
-            ViewContext.RouteData.Values["controller"].ToString();
+    string currentAction =
+        ViewContext.RouteData.Values["action"].ToString();
 
-        string currentAction =
-            ViewContext.RouteData.Values["action"].ToString();
+    Func<string, string, string> activeClass = (controller, action) =>
+    {
+        bool active = currentController.Equals(
+            controller,
+            StringComparison.OrdinalIgnoreCase);
 
-        Func<string, string, string> activeClass = (controller, action) =>
+        if (!string.IsNullOrEmpty(action))
         {
-            bool active =
-                currentController.Equals(controller,
+            active = active &&
+                currentAction.Equals(
+                    action,
                     StringComparison.OrdinalIgnoreCase);
+        }
 
-            if (!string.IsNullOrEmpty(action))
-            {
-                active = active &&
-                    currentAction.Equals(action,
-                        StringComparison.OrdinalIgnoreCase);
-            }
+        return active ? "active" : "";
+    };
 
-            return active ? "active" : "";
-        };
+    string roleTheme = "theme-guest";
+    string roleLabel = "Guest";
+
+    if (Session["RoleID"] != null)
+    {
+        switch ((int)Session["RoleID"])
+        {
+            case 1:
+                roleTheme = "theme-applicant";
+                roleLabel = "Applicant";
+                break;
+
+            case 2:
+                roleTheme = "theme-admin";
+                roleLabel = "Administrator";
+                break;
+
+            case 3:
+                roleTheme = "theme-maintenance";
+                roleLabel = "Maintenance";
+                break;
+        }
     }
+}
 
+<body class="@roleTheme">
     <!-- ================= NAVBAR ================= -->
 
-    <nav class="glass-navbar">
+    <nav class="floating-navbar">
 
-        <div class="glass-nav-inner">
+        <div class="nav-container">
 
-            <div class="brand-section">
+            <div class="brand">
 
-                <div class="brand-icon">
+                <div class="brand-logo">
                     <icon name=building color=info />
                 </div>
 
@@ -59,22 +83,22 @@
                     "Index",
                     "Home",
                     null,
-                    new { @class = "brand-text" })
+                    new { @class = "brand-name" })
 
             </div>
 
-            <div class="nav-pill">
+            <div class="nav-links">
 
                 <a href="@Url.Action("Index","Home")"
                    class="@activeClass("Home","Index")">
-                    <icon name=home inline /> Home
+                    Home
                 </a>
 
                 @if (Session["UserID"] == null)
                 {
                     <a href="@Url.Action("About","Home")"
                        class="@activeClass("Home","About")">
-                        <icon name=info inline /> About
+                        About
                     </a>
                 }
 
@@ -83,102 +107,79 @@
                 {
                     <a href="@Url.Action("Index","Rooms")"
                        class="@activeClass("Rooms","Index")">
-                        <icon name=building inline /> Rooms
+                        Rooms
                     </a>
                 }
 
-                @if (Session["UserID"] != null &&
-                    (int)Session["RoleID"] == 1)
+                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 1)
                 {
-                    <a href="@Url.Action("Dashboard","Account")"
-                       class="@activeClass("Account","Dashboard")">
-                        <icon name=layout-dashboard inline /> Dashboard
-                    </a>
-
-                    <a href="@Url.Action("Profile","Account")"
-                       class="@activeClass("Account","Profile")">
-                        <icon name=circle-user inline /> Profile
-                    </a>
-
-                    <a href="@Url.Action("Index","Applications")"
-                       class="@activeClass("Applications","Index")">
-                        <icon name=clipboard inline /> My Applications
-                    </a>
+                    <a href="@Url.Action("Dashboard","Account")">Dashboard</a>
+                    <a href="@Url.Action("Profile","Account")">Profile</a>
+                    <a href="@Url.Action("Index","Applications")">Applications</a>
+                    <a href="@Url.Action("History","Payments")">Payments</a>
+                    <a href="@Url.Action("Report","Maintenance")">Maintenance</a>
                 }
 
-                @if (Session["UserID"] != null &&
-                    (int)Session["RoleID"] == 2)
+                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 2)
                 {
-                    <a href="@Url.Action("Index","Admin")"
-                       class="@activeClass("Admin","Index")">
-                        <icon name=shield-check inline /> Admin
-                    </a>
+                    <a href="@Url.Action("Index","Admin")">Admin</a>
+                    <a href="@Url.Action("Applications","Admin")">Applications</a>
+                    <a href="@Url.Action("Rooms","Admin")">Rooms</a>
+                    <a href="@Url.Action("Payments","Admin")">Payments</a>
+                }
 
-                    <a href="@Url.Action("Applications","Admin")"
-                       class="@activeClass("Admin","Applications")">
-                        <icon name=clipboard inline /> Applications
-                    </a>
-
-                    <a href="@Url.Action("Rooms","Admin")"
-                       class="@activeClass("Admin","Rooms")">
-                        <icon name=building inline /> Rooms
-                    </a>
-
-                    <a href="@Url.Action("Payments","Admin")"
-                       class="@activeClass("Admin","Payments")">
-                        <icon name=credit-card inline /> Payments
-                    </a>
-
-                    <a href="@Url.Action("Maintenance","Admin")"
-                       class="@activeClass("Admin","Maintenance")">
-                        <icon name=wrench inline /> Maintenance
-                    </a>
+                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 3)
+                {
+                    <a href="@Url.Action("Index","Maintenance")">Dashboard</a>
                 }
 
             </div>
 
-            <div class="nav-actions">
+            <div class="nav-right">
 
-                @if (Session["UserID"] != null &&
-(int)Session["RoleID"] == 1)
+                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 1)
                 {
                     <a href="@Url.Action("Index","Notifications")"
-                       class="notification-bubble @(ViewBag.NotificationCount > 0 ? "has-notifications" : "")">
+                       class="nav-icon">
 
                         <icon name=bell />
 
                         @if (ViewBag.NotificationCount > 0)
                         {
                             <span class="notification-dot">
-                                @(ViewBag.NotificationCount > 9
-                ? "9+"
-                : ViewBag.NotificationCount.ToString())
+                                @ViewBag.NotificationCount
                             </span>
                         }
 
                     </a>
-
-                    <div class="profile-bubble">
-
-                        <div class="profile-avatar">
-                            @Session["UserName"].ToString().Substring(0, 1)
-                        </div>
-
-                        <span class="profile-name">
-                            @Session["UserName"].ToString().Split(' ')[0]
-                        </span>
-
-                    </div>
                 }
 
                 @if (Session["UserID"] != null)
                 {
+                    <div class="user-chip">
+
+                        <div class="avatar">
+                            @Session["UserName"].ToString().Substring(0, 1)
+                        </div>
+
+                        <div class="user-info">
+
+                            <strong>
+                                @Session["UserName"].ToString().Split(' ')[0]
+                            </strong>
+
+                            <small>@roleLabel</small>
+
+                        </div>
+
+                    </div>
+
                     @Html.ActionLink(
                         "Logout",
                         "Logout",
                         "Account",
                         null,
-                        new { @class = "logout-btn" })
+                        new { @class = "logout-modern" })
                 }
                 else
                 {
@@ -187,7 +188,7 @@
                         "Login",
                         "Account",
                         null,
-                        new { @class = "logout-btn" })
+                        new { @class = "login-modern" })
                 }
 
             </div>
@@ -201,6 +202,8 @@
     <div class="page-shell">
 
         <main class="page-container">
+
+            @Html.Partial("_Alerts")
 
             @RenderBody()
 
@@ -217,14 +220,14 @@
             <div class="footer-brand">
 
                 <div class="footer-logo">
-                    🏢
+                    <icon name=building color=info size=lg />
                 </div>
 
                 <div>
 
                     <h3>Umbilo Rentals</h3>
 
-                    <p>Modern student accommodation made simple.</p>
+                    <p>Find secure, comfortable accommodation with confidence.</p>
 
                 </div>
 
@@ -248,9 +251,15 @@
 
             <div class="footer-contact">
 
-                <span>📍 Umbilo, Durban</span>
+                <span>
+                    <icon name=map-pin color=info inline />
+                    Umbilo, Durban
+                </span>
 
-                <span>📧 info@umbilorentals.co.za</span>
+                <span>
+                    <icon name=mail color=info inline />
+                    info@umbilorentals.co.za
+                </span>
 
             </div>
 

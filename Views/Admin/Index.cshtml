@@ -1,123 +1,200 @@
 ﻿@{
     ViewBag.Title = "Admin Dashboard";
+
+    int totalRooms = ViewBag.AvailableRooms + ViewBag.OccupiedRooms;
+    int occupied = ViewBag.OccupiedRooms;
+    int occupancy = totalRooms > 0 ? (occupied * 100) / totalRooms : 0;
 }
 
-<div class="dashboard-page">
+<div class="admin-page">
 
-    <!-- HERO -->
-    <div class="dashboard-hero">
+    <!-- Hero -->
 
-        <div class="hero-content">
+    <div class="admin-hero glass-card">
 
-            <h1>Admin Dashboard</h1>
+        <div>
+
+            <row gap=2 align=center>
+                <icon name=shield-check color=discovery size=lg />
+                <h1>Welcome back, Admin</h1>
+            </row>
 
             <p>
-                Manage rooms, applications, payments and maintenance requests
-                from one central dashboard.
+                Here's what's happening across Umbilo Rentals today.
             </p>
 
         </div>
 
+        <div class="occupancy-ring">
+
+            <svg viewBox="0 0 120 120">
+
+                <circle cx="60" cy="60" r="48" class="ring-bg" />
+
+                <circle cx="60"
+                        cy="60"
+                        r="48"
+                        class="ring-progress"
+                        style="stroke-dasharray:@(occupancy * 3.02) 302" />
+
+            </svg>
+
+            <div class="ring-text">
+
+                <strong>@occupancy%</strong>
+
+                <span>Occupied</span>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- STATS -->
-    <div class="dashboard-cards">
+    <!-- Stats -->
 
-        <div class="dashboard-card blue">
+    <div class="admin-grid">
 
-            <div class="card-icon">👥</div>
-
+        <div class="stat-card applicants">
+            <icon name=users color=info size=2xl />
+            <span>Applicants</span>
             <h2>@ViewBag.TotalUsers</h2>
-
-            <p>Total Applicants</p>
-
         </div>
 
-        <div class="dashboard-card green">
-
-            <div class="card-icon">🏠</div>
-
-            <h2>@ViewBag.AvailableRooms</h2>
-
-            <p>Available Rooms</p>
-
-        </div>
-
-        <div class="dashboard-card orange">
-
-            <div class="card-icon">🔒</div>
-
-            <h2>@ViewBag.OccupiedRooms</h2>
-
-            <p>Occupied Rooms</p>
-
-        </div>
-
-    </div>
-
-    <!-- MANAGEMENT -->
-    <div class="dashboard-section">
-
-        <div class="section-title">
-
-            <h2>Management</h2>
-
-            <p>Choose an area to manage.</p>
-
-        </div>
-
-        <div class="quick-grid">
-
-            @Html.ActionLink(
-                "🏠 Manage Rooms",
-                "Rooms",
-                "Admin",
-                null,
-                new { @class = "quick-card" })
-
-            @Html.ActionLink(
-                "📄 Manage Applications",
-                "Applications",
-                "Admin",
-                null,
-                new { @class = "quick-card" })
-
-            @Html.ActionLink(
-                "💳 Payments",
-                "Payments",
-                "Admin",
-                null,
-                new { @class = "quick-card" })
-
-
-
-        </div>
-
-    </div>
-
-    <!-- ADMIN SUMMARY -->
-    <div class="dashboard-bottom">
-
-        <div class="info-panel">
-
-            <h3>Pending Applications</h3>
-
+        <div class="stat-card pending">
+            <icon name=clipboard color=danger size=2xl />
+            <span>Pending Applications</span>
             <h2>@ViewBag.PendingApplications</h2>
-
-            <p>Applications waiting for review.</p>
-
         </div>
 
-        <div class="info-panel">
+        <div class="stat-card available">
+            <icon name=door-open color=success size=2xl />
+            <span>Available Rooms</span>
+            <h2>@ViewBag.AvailableRooms</h2>
+        </div>
 
-            <h3>Pending Payments</h3>
+        <div class="stat-card occupied">
+            <icon name=bed color=discovery size=2xl />
+            <span>Occupied Rooms</span>
+            <h2>@ViewBag.OccupiedRooms</h2>
+        </div>
 
+        <div class="stat-card payments">
+            <icon name=credit-card color=info size=2xl />
+            <span>Pending Payments</span>
             <h2>@ViewBag.PendingPayments</h2>
+        </div>
 
-            <p>Payments waiting for verification.</p>
+        <div class="stat-card maintenance">
+            <icon name=wrench color=danger size=2xl />
+            <span>Open Maintenance</span>
+            <h2>@ViewBag.PendingMaintenance</h2>
+        </div>
+
+    </div>
+
+    <!-- Bottom -->
+
+    <div class="admin-bottom">
+
+        <!-- Quick Actions -->
+
+        <div class="glass-card quick-actions">
+
+            <h2>Quick Actions</h2>
+
+            <div class="action-grid">
+
+                @Html.ActionLink(
+                    "Review Applications",
+                    "Applications",
+                    "Admin",
+                    null,
+                    new { @class = "action-btn" })
+
+                @Html.ActionLink(
+                    "Manage Rooms",
+                    "Rooms",
+                    "Admin",
+                    null,
+                    new { @class = "action-btn" })
+
+                @Html.ActionLink(
+                    "Verify Payments",
+                    "Payments",
+                    "Admin",
+                    null,
+                    new { @class = "action-btn" })
+
+            </div>
 
         </div>
 
+        <!-- Overview -->
+
+        <div class="glass-card activity-card">
+
+            <h2>Today's Overview</h2>
+
+            <div class="overview-list">
+
+                <div class="overview-item">
+
+                    <icon name=circle-check color=success />
+
+                    <div>
+
+                        <strong>@ViewBag.OccupiedRooms Rooms Occupied</strong>
+
+                        <p>Current active residents.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="overview-item">
+
+                    <icon name=clock color=warning />
+
+                    <div>
+
+                        <strong>@ViewBag.PendingApplications Applications Awaiting Review</strong>
+
+                        <p>Applicants waiting for approval.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="overview-item">
+
+                    <icon name=credit-card color=info />
+
+                    <div>
+
+                        <strong>@ViewBag.PendingPayments Payments Need Verification</strong>
+
+                        <p>Review uploaded proof of payment.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="overview-item">
+
+                    <icon name=wrench color=danger />
+
+                    <div>
+
+                        <strong>@ViewBag.PendingMaintenance Maintenance Jobs Open</strong>
+
+                        <p>Handled by the Maintenance Team.</p>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 

@@ -1,4 +1,4 @@
-﻿```cshtml
+﻿
 @model IEnumerable<UmbiloRentals.Models.Application>
 
 @{
@@ -25,12 +25,7 @@
 
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="success-message">
-            @TempData["SuccessMessage"]
-        </div>
-    }
+
 
     @if (!Model.Any())
     {
@@ -96,13 +91,22 @@
 
                             <h3>
                                 @(room != null
-                                    ? "Room " + room.RoomNumber
-                                    : "Accommodation Room")
+            ? "Room " + room.RoomNumber
+            : "Accommodation Room")
                             </h3>
 
-                            <span class="status-chip @statusClass">
-                                @status
-                            </span>
+                            @if (status == "Approved")
+                            {
+                                <span class="status-chip reserved">
+                                    Reserved
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-chip @statusClass">
+                                    @status
+                                </span>
+                            }
 
                         </div>
 
@@ -119,44 +123,49 @@
                             </div>
                         }
 
-                        <div class="timeline">
+                    <div class="timeline">
 
-                            <div class="timeline-item complete">
-                                <span class="timeline-icon">✓</span>
-                                <span>Application Submitted</span>
-                            </div>
+                        <div class="timeline-item complete">
+                            <span class="timeline-icon">✓</span>
+                            <span>Application Submitted</span>
+                        </div>
 
-                            <div class="timeline-item
+                        <div class="timeline-item
                                 @(status == "Pending" ? "current" : "complete")">
 
-                                <span class="timeline-icon">
-                                    @(status == "Pending" ? "◷" : "✓")
-                                </span>
+                            <span class="timeline-icon">
+                                @(status == "Pending" ? "◷" : "✓")
+                            </span>
 
-                                <span>Under Review</span>
+                            <span>Under Review</span>
+
+                        </div>
+
+                        @if (status == "Approved")
+                        {
+                            <div class="timeline-item current">
+
+                                <span class="timeline-icon">$</span>
+
+                                <span>Awaiting Payment</span>
 
                             </div>
-
+                        }
+                        else
+                        {
                             <div class="timeline-item
-                                @(status == "Approved"
-                                    ? "complete"
-                                    : status == "Rejected"
-                                        ? "rejected"
-                                        : "")">
+        @(status == "Rejected" ? "rejected" : "")">
 
                                 <span class="timeline-icon">
-                                    @(status == "Approved"
-                                        ? "✓"
-                                        : status == "Rejected"
-                                            ? "×"
-                                            : "○")
+                                    @(status == "Rejected" ? "×" : "○")
                                 </span>
 
                                 <span>Final Decision</span>
 
                             </div>
+                        }
 
-                        </div>
+                    </div>
 
                         <div class="application-meta">
 
@@ -197,6 +206,17 @@
                                 )
                             }
 
+                            @if (status == "Approved")
+                            {
+                                @Html.ActionLink(
+                                    "Pay with PayFast",
+                                    "PayNow",
+                                    "Payments",
+                                    new { applicationId = item.ApplicationID },
+                                    new { @class = "btn-payfast" }
+                                )
+                            }
+
                         </div>
 
                     </div>
@@ -208,4 +228,3 @@
     }
 
 </div>
-```

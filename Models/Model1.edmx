@@ -84,6 +84,11 @@
           <Property Name="Priority" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DateCompleted" Type="datetime" />
           <Property Name="AssignedTo" Type="int" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+          <Property Name="TechnicianNotes" Type="nvarchar" MaxLength="500" />
+          <Property Name="SLADueDate" Type="datetime" />
+          <Property Name="DateStarted" Type="datetime" />
+          <Property Name="AssignedTechnicianID" Type="int" />
         </EntityType>
         <EntityType Name="Notifications">
           <Key>
@@ -108,6 +113,9 @@
           <Property Name="Status" Type="varchar" MaxLength="30" />
           <Property Name="VerifiedBy" Type="int" />
           <Property Name="RoomID" Type="int" />
+          <Property Name="TransactionReference" Type="nvarchar" MaxLength="100" />
+          <Property Name="PayFastPaymentID" Type="nvarchar" MaxLength="100" />
+          <Property Name="Gateway" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -146,6 +154,8 @@
           <Property Name="EmergencyContactName" Type="nvarchar" MaxLength="100" />
           <Property Name="EmergencyContactPhone" Type="nvarchar" MaxLength="20" />
           <Property Name="ProfilePhoto" Type="nvarchar" MaxLength="255" />
+          <Property Name="ResetToken" Type="nvarchar" MaxLength="100" />
+          <Property Name="ResetTokenExpiry" Type="datetime" />
         </EntityType>
         <EntityType Name="VisitorRequests">
           <Key>
@@ -317,6 +327,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Maintenance_AssignedTechnician">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="MaintenanceRequests" Type="Self.MaintenanceRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequests">
+              <PropertyRef Name="AssignedTechnicianID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Maintenance_AssignedTo">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="MaintenanceRequests" Type="Self.MaintenanceRequests" Multiplicity="*" />
@@ -431,6 +453,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="VisitorRequests" EntitySet="VisitorRequests" />
           </AssociationSet>
+          <AssociationSet Name="FK_Maintenance_AssignedTechnician" Association="Self.FK_Maintenance_AssignedTechnician">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
           <AssociationSet Name="FK_Maintenance_AssignedTo" Association="Self.FK_Maintenance_AssignedTo">
             <End Role="Users" EntitySet="Users" />
             <End Role="MaintenanceRequests" EntitySet="MaintenanceRequests" />
@@ -542,6 +568,12 @@
           <Property Name="DateCompleted" Type="DateTime" Precision="3" />
           <Property Name="AssignedTo" Type="Int32" />
           <NavigationProperty Name="User1" Relationship="BuildingManagementDBModel.FK_Maintenance_AssignedTo" FromRole="MaintenanceRequest" ToRole="User" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TechnicianNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SLADueDate" Type="DateTime" Precision="3" />
+          <Property Name="DateStarted" Type="DateTime" Precision="3" />
+          <Property Name="AssignedTechnicianID" Type="Int32" />
+          <NavigationProperty Name="User11" Relationship="BuildingManagementDBModel.FK_Maintenance_AssignedTechnician" FromRole="MaintenanceRequest" ToRole="User" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -559,6 +591,9 @@
           <NavigationProperty Name="User1" Relationship="Self.FK__Payments__Verifi__5FB337D6" FromRole="Payments" ToRole="Users" />
           <Property Name="RoomID" Type="Int32" />
           <NavigationProperty Name="Room" Relationship="BuildingManagementDBModel.FK_Payments_Rooms" FromRole="Payment" ToRole="Room" />
+          <Property Name="TransactionReference" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PayFastPaymentID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Gateway" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -611,6 +646,9 @@
           <Property Name="EmergencyContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="EmergencyContactPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ProfilePhoto" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MaintenanceRequests11" Relationship="BuildingManagementDBModel.FK_Maintenance_AssignedTechnician" FromRole="User" ToRole="MaintenanceRequest" />
+          <Property Name="ResetToken" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ResetTokenExpiry" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="VisitorRequest">
           <Key>
@@ -845,6 +883,10 @@
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
+          <AssociationSet Name="FK_Maintenance_AssignedTechnician" Association="BuildingManagementDBModel.FK_Maintenance_AssignedTechnician">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MaintenanceRequest" EntitySet="MaintenanceRequests" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Notification">
           <Key>
@@ -890,6 +932,18 @@
             </Principal>
             <Dependent Role="Payment">
               <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Maintenance_AssignedTechnician">
+          <End Type="BuildingManagementDBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BuildingManagementDBModel.MaintenanceRequest" Role="MaintenanceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MaintenanceRequest">
+              <PropertyRef Name="AssignedTechnicianID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -973,6 +1027,11 @@
           <EntitySetMapping Name="MaintenanceRequests">
             <EntityTypeMapping TypeName="BuildingManagementDBModel.MaintenanceRequest">
               <MappingFragment StoreEntitySet="MaintenanceRequests">
+                <ScalarProperty Name="AssignedTechnicianID" ColumnName="AssignedTechnicianID" />
+                <ScalarProperty Name="DateStarted" ColumnName="DateStarted" />
+                <ScalarProperty Name="SLADueDate" ColumnName="SLADueDate" />
+                <ScalarProperty Name="TechnicianNotes" ColumnName="TechnicianNotes" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
                 <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
@@ -989,6 +1048,9 @@
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="BuildingManagementDBModel.Payment">
               <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="Gateway" ColumnName="Gateway" />
+                <ScalarProperty Name="PayFastPaymentID" ColumnName="PayFastPaymentID" />
+                <ScalarProperty Name="TransactionReference" ColumnName="TransactionReference" />
                 <ScalarProperty Name="RoomID" ColumnName="RoomID" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1024,6 +1086,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="BuildingManagementDBModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ResetTokenExpiry" ColumnName="ResetTokenExpiry" />
+                <ScalarProperty Name="ResetToken" ColumnName="ResetToken" />
                 <ScalarProperty Name="ProfilePhoto" ColumnName="ProfilePhoto" />
                 <ScalarProperty Name="EmergencyContactPhone" ColumnName="EmergencyContactPhone" />
                 <ScalarProperty Name="EmergencyContactName" ColumnName="EmergencyContactName" />

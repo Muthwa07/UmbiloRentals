@@ -68,6 +68,7 @@ namespace UmbiloRentals.Controllers
                      ApplicationID = a.ApplicationID,
                      ApplicantName = u.FirstName + " " + u.LastName,
                      RoomNumber = r.RoomNumber,
+                     RoomPhoto = r.Photo,
                      RoomID = a.RoomID,
                      Status = a.Status,
                      DateApplied = a.DateApplied,
@@ -87,13 +88,32 @@ namespace UmbiloRentals.Controllers
             if (application == null)
                 return HttpNotFound();
 
+            // Approve application
             application.Status = "Approved";
 
+            // Allocate the room
             var room = db.Rooms.Find(application.RoomID);
 
+            string allocationLetter = null;
+
             if (room != null)
+            {
                 room.Status = "Occupied";
 
+                // Generate branded allocation letter
+                var applicant = db.Users.Find(application.UserID);
+
+                string applicantName = applicant != null
+                    ? applicant.FirstName + " " + applicant.LastName
+                    : "Applicant";
+
+                allocationLetter = PdfHelper.GenerateAllocationLetter(
+                    applicantName,
+                    room.RoomNumber,
+                    room.MonthlyRent ?? 0);
+            }
+
+            // Reject other pending applications for the same room
             var others = db.Applications.Where(a =>
                 a.RoomID == application.RoomID &&
                 a.ApplicationID != application.ApplicationID &&
@@ -102,15 +122,24 @@ namespace UmbiloRentals.Controllers
             foreach (var app in others)
             {
                 app.Status = "Rejected";
+
+                NotificationHelper.CreateNotification(
+                    db,
+                    app.UserID.Value,
+                    "This room is no longer available because it has been allocated to another applicant.");
             }
 
             db.SaveChanges();
 
-            // Notify applicant
+            // Notify successful applicant
             NotificationHelper.CreateNotification(
                 db,
                 application.UserID.Value,
-                "🎉 Your application has been approved! Please upload your proof of payment.");
+                "Congratulations! Your application has been approved. Please upload your proof of payment to continue.");
+
+            // Make the download button appear
+            TempData["AllocationLetter"] = allocationLetter;
+            TempData["SuccessMessage"] = "Room allocated successfully.";
 
             return RedirectToAction("Applications");
         }
@@ -294,9 +323,24 @@ namespace UmbiloRentals.Controllers
             if (!IsAdmin())
                 return RedirectToAction("Login", "Account");
 
-            return View(db.Payments
-                          .OrderByDescending(p => p.PaymentDate)
-                          .ToList());
+            var payments = db.Payments
+                .OrderByDescending(p => p.PaymentDate)
+                .ToList();
+
+            ViewBag.TotalRevenue = payments
+                .Where(p => p.Status == "Paid")
+                .Sum(p => p.Amount ?? 0);
+
+            ViewBag.PendingCount = payments
+                .Count(p => p.Status == "Pending");
+
+            ViewBag.PaidCount = payments
+                .Count(p => p.Status == "Paid");
+
+            ViewBag.CancelledCount = payments
+                .Count(p => p.Status == "Cancelled");
+
+            return View(payments);
         }
 
         public ActionResult VerifyPayment(int id)

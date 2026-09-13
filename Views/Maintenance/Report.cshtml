@@ -1,0 +1,113 @@
+﻿@model UmbiloRentals.Models.MaintenanceRequest
+
+@{
+    ViewBag.Title = "Report Maintenance";
+}
+
+<div class="maintenance-page">
+
+    <div class="page-header">
+
+        <div>
+            <h1>Report Maintenance</h1>
+            <p>Tell us what's wrong and our maintenance team will handle it.</p>
+        </div>
+
+    </div>
+
+    <div class="glass-card maintenance-form-card">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+
+                <label>Room</label>
+
+                @Html.DropDownListFor(
+                    m => m.RoomID,
+                    (SelectList)ViewBag.Rooms,
+                    "Select your room",
+                    new { @class = "form-control" })
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Title</label>
+
+                @Html.TextBoxFor(
+                    m => m.Title,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = "e.g. Water leak"
+                    })
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Category</label>
+
+                @Html.DropDownListFor(
+                    m => m.Category,
+                    new SelectList(new[]
+                    {
+                        "Electrical",
+                        "Plumbing",
+                        "Furniture",
+                        "Cleaning",
+                        "Security",
+                        "Other"
+                    }),
+                    "Select category",
+                    new { @class = "form-control" })
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Priority</label>
+
+                @Html.DropDownListFor(
+                    m => m.Priority,
+                    new SelectList(new[]
+                    {
+                        "Low",
+                        "Medium",
+                        "High"
+                    }),
+                    "Select priority",
+                    new { @class = "form-control" })
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Description</label>
+
+                @Html.TextAreaFor(
+                    m => m.Description,
+                    5,
+                    40,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = "Describe the issue..."
+                    })
+
+            </div>
+
+            <button type="submit" class="btn-auth">
+
+                <icon name=send inline />
+                Submit Request
+
+            </button>
+        }
+
+    </div>
+
+</div>

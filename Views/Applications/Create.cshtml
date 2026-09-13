@@ -8,131 +8,187 @@
 
 <div class="application-page">
 
-    <div class="application-grid">
+    @if (room == null)
+    {
+        <div class="glass-card application-error-card">
 
-        <!-- LEFT SIDE -->
+            <div class="glass-alert error">
 
-        <div class="application-preview glass-card">
+                <icon name=circle-x color=danger />
 
-            @if (room != null && !string.IsNullOrEmpty(room.Photo))
-            {
-                <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
-                     class="application-image"
-                     alt="Room @room.RoomNumber" />
-            }
-            else
-            {
-                <AsyncImage query="modern furnished rental room South Africa" aspectRatio="5:4" width="100%" maxHeight=320 radius=24 />
-            }
-
-            <div class="application-info">
-
-                <span class="room-status available">
-                    Available
-                </span>
-
-                <h2>Room @room.RoomNumber</h2>
-
-                <div class="rent-chip">
-                    R @room.MonthlyRent / month
-                </div>
-
-                <p>@room.Description</p>
-
-                <div class="mini-features">
-
-                    <span><icon name=shield-check inline color=info /> Secure</span>
-
-                    <span><icon name=wifi inline color=info /> Wi-Fi</span>
-
-                    <span><icon name=car inline color=info /> Parking</span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- RIGHT SIDE -->
-
-        <div class="glass-card application-form-card">
-
-            <div class="account-header">
-
-                <h1>Complete Your Application</h1>
-
-                <p>
-                    You're applying for
-                    <strong>Room @room.RoomNumber</strong>.
-                </p>
-
-            </div>
-
-            @if (ViewBag.ErrorMessage != null)
-            {
-                <div class="auth-alert">
-                    @ViewBag.ErrorMessage
-                </div>
-            }
-
-            @using (Html.BeginForm(
-                "Create",
-                "Applications",
-                FormMethod.Post,
-                new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <input type="hidden"
-                       name="roomID"
-                       value="@room.RoomID" />
-
-                <div class="upload-card">
-
-                    <icon name=upload color=info size=2xl />
-
-                    <h3>Supporting Document</h3>
+                <div>
+                    <strong>Room not found</strong>
 
                     <p>
-                        Upload **one combined document**
-                        containing your **ID** and
-                        **Proof of Income**.
+                        We could not find the room you are trying to apply for.
+                        Please return to the rooms page and select a valid room.
                     </p>
-
-                    <input type="file"
-                           name="document"
-                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                           required />
-
-                    <small>
-                        PDF, Word, JPG or PNG • Maximum 5 MB
-                    </small>
-
                 </div>
 
-                <div class="application-note">
-
-                    <icon name=info color=info inline />
-
-                    Your application will be reviewed by our
-                    accommodation team before approval.
-
-                </div>
-
-                <button type="submit" class="btn-auth">
-                    Submit Application →
-                </button>
-            }
+            </div>
 
             @Html.ActionLink(
-                "Back to Room",
-                "Details",
+                "Back to Rooms",
+                "Index",
                 "Rooms",
-                new { id = room.RoomID },
-                new { @class = "btn-back-room" })
+                null,
+                new { @class = "btn-back-room" }
+            )
 
         </div>
+    }
+    else
+    {
+        <div class="application-grid">
 
-    </div>
+            <!-- LEFT SIDE -->
+
+            <div class="application-preview glass-card">
+
+                @if (!string.IsNullOrEmpty(room.Photo))
+                {
+                    <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                         class="application-image"
+                         alt="Room @room.RoomNumber" />
+                }
+                else
+                {
+                    <AsyncImage query="modern furnished rental room South Africa"
+                                aspectRatio="5:4"
+                                width="100%"
+                                maxHeight=320
+                                radius=24 />
+                }
+
+                <div class="application-info">
+
+                    <span class="room-status available">
+                        Available
+                    </span>
+
+                    <h2>Room @room.RoomNumber</h2>
+
+                    <div class="rent-chip">
+                        R @room.MonthlyRent / month
+                    </div>
+
+                    <p>@room.Description</p>
+
+                    <div class="mini-features">
+
+                        <span>
+                            <icon name=shield-check inline color=info />
+                            Secure
+                        </span>
+
+                        <span>
+                            <icon name=wifi inline color=info />
+                            Wi-Fi
+                        </span>
+
+                        <span>
+                            <icon name=car inline color=info />
+                            Parking
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+
+            <div class="glass-card application-form-card">
+
+                <div class="account-header">
+
+                    <h1>Complete Your Application</h1>
+
+                    <p>
+                        You're applying for
+                        <strong>Room @room.RoomNumber</strong>.
+                    </p>
+
+                </div>
+
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="glass-alert error">
+
+                        <icon name=circle-x color=danger />
+
+                        <div>
+
+                            <strong>Application couldn't be submitted</strong>
+
+                            <p>@ViewBag.ErrorMessage</p>
+
+                        </div>
+
+                    </div>
+                }
+
+                @using (Html.BeginForm(
+                    "Create",
+                    "Applications",
+                    FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="roomID"
+                           value="@room.RoomID" />
+
+                    <div class="upload-card">
+
+                        <icon name=upload color=info size=2xl />
+
+                        <h3>Supporting Document</h3>
+
+                        <p>
+                            Upload <strong>one combined document</strong>
+                            containing your <strong>ID</strong> and
+                            <strong>Proof of Income</strong>.
+                        </p>
+
+                        <input type="file"
+                               name="document"
+                               accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                               required />
+
+                        <small>
+                            PDF, Word, JPG or PNG • Maximum 5 MB
+                        </small>
+
+                    </div>
+
+                    <div class="application-note">
+
+                        <icon name=info color=info inline />
+
+                        Your application will be reviewed by our
+                        accommodation team before approval.
+
+                    </div>
+
+                    <button type="submit" class="btn-auth">
+                        Submit Application →
+                    </button>
+                }
+
+                @Html.ActionLink(
+                    "Back to Room",
+                    "Details",
+                    "Rooms",
+                    new { id = room.RoomID },
+                    new { @class = "btn-back-room" }
+                )
+
+            </div>
+
+        </div>
+    }
 
 </div>

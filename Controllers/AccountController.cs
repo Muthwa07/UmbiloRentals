@@ -3,6 +3,8 @@ using System.Linq;
 using System.Web.Mvc;
 using UmbiloRentals.Helpers;
 using UmbiloRentals.Models;
+using System.Net.Mail;
+using System.Security.Cryptography;
 
 namespace UmbiloRentals.Controllers
 {
@@ -58,8 +60,10 @@ namespace UmbiloRentals.Controllers
             }
 
             // South African phone validation
+            string cleanPhone = (phone ?? "").Replace(" ", "");
+
             if (!System.Text.RegularExpressions.Regex.IsMatch(
-                phone ?? "",
+                cleanPhone,
                 @"^[0-9]{9}$"))
             {
                 ModelState.AddModelError(
@@ -153,6 +157,111 @@ namespace UmbiloRentals.Controllers
             }
 
             return RedirectToAction("Dashboard", "Account");
+        }
+
+        private string GenerateResetToken()
+        {
+            byte[] tokenBytes = new byte[32];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(tokenBytes);
+            }
+
+            return Convert.ToBase64String(tokenBytes)
+                .Replace("+", "-")
+                .Replace("/", "_")
+                .Replace("=", "");
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(string email)
+        {
+            var user = db.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                TempData["SuccessMessage"] =
+                    "If the email exists, a reset link has been sent.";
+
+                return RedirectToAction("Login");
+            }
+
+            user.ResetToken = GenerateResetToken();
+            user.ResetTokenExpiry = DateTime.Now.AddHours(1);
+
+            db.SaveChanges();
+
+            string resetLink = Url.Action(
+                "ResetPassword",
+                "Account",
+                new { token = user.ResetToken },
+                Request.Url.Scheme);
+
+            try
+            {
+                MailMessage message = new MailMessage();
+                message.To.Add(user.Email);
+                message.Subject = "Umbilo Rentals Password Reset";
+                message.Body =
+                    "Click the link below to reset your password:\n\n" +
+                    resetLink;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Send(message);
+            }
+            catch
+            {
+                // Prevent exposing email errors to users.
+            }
+
+            TempData["SuccessMessage"] =
+                "If the email exists, a reset link has been sent.";
+
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult ResetPassword(string token)
+        {
+            var user = db.Users.FirstOrDefault(u =>
+                u.ResetToken == token &&
+                u.ResetTokenExpiry > DateTime.Now);
+
+            if (user == null)
+                return HttpNotFound();
+
+            ViewBag.Token = token;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(string token, string password)
+        {
+            var user = db.Users.FirstOrDefault(u =>
+                u.ResetToken == token &&
+                u.ResetTokenExpiry > DateTime.Now);
+
+            if (user == null)
+                return HttpNotFound();
+
+            user.Password = password;
+            user.ResetToken = null;
+            user.ResetTokenExpiry = null;
+
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] =
+                "Password reset successfully.";
+
+            return RedirectToAction("Login");
         }
 
         // GET: Account/Dashboard
