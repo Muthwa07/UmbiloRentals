@@ -1,11 +1,12 @@
-# UmbiloRentals-master
+# Umbilo Rentals
 
-## Project Description
+## Problem Statement
+Umbilo Rentals is an accommodation providing establishment that has overstretched themselves by being minimally digitized and mainly running their transactions physically which can be very time consuming.   
 
+## Project Description/Solution
 Umbilo Rentals is a web-based accommodation management system developed using ASP.NET MVC. The system allows users to view available rooms, submit accommodation applications and manage their applications. Administrators can manage rooms and applications.
 
 ## Features
-
 - User registration and login
 - View available rooms
 - Apply for accommodation
@@ -15,7 +16,6 @@ Umbilo Rentals is a web-based accommodation management system developed using AS
 - Application management
 
 ## Technologies Used
-
 - C#
 - ASP.NET MVC
 - Entity Framework
@@ -25,7 +25,6 @@ Umbilo Rentals is a web-based accommodation management system developed using AS
 - JavaScript
 
 ## How to Run the Project
-
 1. Open the project in Visual Studio.
 2. Restore the required NuGet packages.
 3. Set up the SQL Server database.
@@ -34,9 +33,7 @@ Umbilo Rentals is a web-based accommodation management system developed using AS
 6. Run the project using Visual Studio/IIS Express.
 
 ## Project Structure
-
 The project follows the MVC architecture.
-
 - **Models** – Contains the classes and database entities.
 - **Views** – Contains the user interface pages.
 - **Controllers** – Handles requests and application logic.
@@ -44,7 +41,6 @@ The project follows the MVC architecture.
 ## User Roles
 
 ### Tenant/User
-
 - Register an account
 - Log in
 - View available rooms
@@ -52,7 +48,6 @@ The project follows the MVC architecture.
 - View applications
 
 ### Administrator
-
 - Manage rooms
 - View applications
 - Approve applications
