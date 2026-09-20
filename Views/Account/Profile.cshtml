@@ -101,6 +101,86 @@
 
         </div>
 
+        <div class="glass-card compatibility-card">
+
+            <h2>Roommate Compatibility</h2>
+
+            <p class="compatibility-intro">
+                This helps us (and future roommates) understand your living
+                preferences. All fields are optional.
+            </p>
+
+            <div class="profile-grid">
+
+                <div class="form-group">
+                    <label for="SleepSchedule">Sleep Schedule</label>
+                    @Html.DropDownListFor(
+                        m => m.SleepSchedule,
+                        new SelectList(
+                            new[] { "Early Bird", "Night Owl", "Flexible" },
+                            Model.SleepSchedule),
+                        "Prefer not to say",
+                        new { @class = "form-control", id = "SleepSchedule" })
+                </div>
+
+                <div class="form-group">
+                    <label for="CleanlinessLevel">Cleanliness</label>
+                    @Html.DropDownListFor(
+                        m => m.CleanlinessLevel,
+                        new SelectList(
+                            new[] { "Very Tidy", "Average", "Relaxed" },
+                            Model.CleanlinessLevel),
+                        "Prefer not to say",
+                        new { @class = "form-control", id = "CleanlinessLevel" })
+                </div>
+
+                <div class="form-group">
+                    <label for="NoiseTolerance">Noise Preference</label>
+                    @Html.DropDownListFor(
+                        m => m.NoiseTolerance,
+                        new SelectList(
+                            new[] { "Quiet", "Moderate", "Social" },
+                            Model.NoiseTolerance),
+                        "Prefer not to say",
+                        new { @class = "form-control", id = "NoiseTolerance" })
+                </div>
+
+                <div class="form-group">
+                    <label for="StudyHabit">Study Habits</label>
+                    @Html.DropDownListFor(
+                        m => m.StudyHabit,
+                        new SelectList(
+                            new[] { "Studies at Home", "Studies Elsewhere" },
+                            Model.StudyHabit),
+                        "Prefer not to say",
+                        new { @class = "form-control", id = "StudyHabit" })
+                </div>
+
+                <div class="form-group">
+                    <label for="GuestsPreference">Having Guests Over</label>
+                    @Html.DropDownListFor(
+                        m => m.GuestsPreference,
+                        new SelectList(
+                            new[] { "Rarely", "Sometimes", "Often" },
+                            Model.GuestsPreference),
+                        "Prefer not to say",
+                        new { @class = "form-control", id = "GuestsPreference" })
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox"
+                               name="IsSmoker"
+                               value="true"
+                               @(Model.IsSmoker == true ? Html.Raw("checked") : Html.Raw("")) />
+                        Smoker
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="save-section">
 
             <button class="btn-save-profile" type="submit">

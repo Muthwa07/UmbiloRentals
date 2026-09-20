@@ -40,7 +40,14 @@ namespace UmbiloRentals.Controllers
     DbFunctions.TruncateTime(m.DateCompleted.Value) == DateTime.Today);
 
             var queue = db.MaintenanceRequests
-                .Where(m => m.Status == "Pending")
+                .Where(m =>
+                    m.Status == "Pending" ||
+                    (m.Status == "In Progress" &&
+                     m.AssignedTechnicianID == technicianId) ||
+                    (m.Status == "Completed" &&
+                     m.AssignedTechnicianID == technicianId &&
+                     m.DateCompleted.HasValue &&
+                     DbFunctions.TruncateTime(m.DateCompleted.Value) == DateTime.Today))
                 .OrderBy(m =>
                     m.Priority == "Critical" ? 1 :
                     m.Priority == "High" ? 2 :
@@ -154,7 +161,7 @@ namespace UmbiloRentals.Controllers
             NotificationHelper.CreateNotification(
                 db,
                 request.User.UserID,
-                "🛠 Your maintenance request is now being worked on.");
+                "Your maintenance request is now being worked on.");
 
             return RedirectToAction("Index");
         }
@@ -180,7 +187,7 @@ namespace UmbiloRentals.Controllers
             NotificationHelper.CreateNotification(
                 db,
                 request.User.UserID,
-                "✅ Your maintenance request has been completed.");
+                "Your maintenance request has been completed.");
 
             return RedirectToAction("Index");
         }

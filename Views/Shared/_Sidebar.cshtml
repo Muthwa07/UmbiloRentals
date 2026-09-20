@@ -1,0 +1,134 @@
+@{
+    string sbController = ViewContext.RouteData.Values["controller"].ToString();
+    string sbAction = ViewContext.RouteData.Values["action"].ToString();
+
+    Func<string, string, string> sbActive = (controller, action) =>
+    {
+        bool active = sbController.Equals(controller, StringComparison.OrdinalIgnoreCase);
+
+        if (!string.IsNullOrEmpty(action))
+        {
+            active = active && sbAction.Equals(action, StringComparison.OrdinalIgnoreCase);
+        }
+
+        return active ? "active" : "";
+    };
+
+    int roleId = Session["RoleID"] != null ? (int)Session["RoleID"] : 0;
+
+    string roleLabel = roleId == 1 ? "Applicant"
+                      : roleId == 2 ? "Administrator"
+                      : roleId == 3 ? "Maintenance"
+                      : "";
+}
+
+<button id="sidebarToggle"
+        class="sidebar-toggle"
+        type="button"
+        aria-controls="appSidebar"
+        aria-expanded="true"
+        aria-label="Collapse navigation menu">
+    <i class="bi bi-list" aria-hidden="true"></i>
+</button>
+
+<aside id="appSidebar" class="app-sidebar" aria-label="Main navigation">
+
+    <div class="sidebar-brand">
+
+        <div class="brand-logo">
+            <img src="@Url.Content("~/Content/images/logo.svg")" alt="" />
+        </div>
+
+        <span class="sidebar-brand-name">Umbilo Rentals</span>
+
+    </div>
+
+    <nav class="sidebar-nav">
+
+        @if (roleId == 1)
+        {
+            <a href="@Url.Action("Dashboard","Account")" class="sidebar-link @sbActive("Account","Dashboard")">
+                <i class="bi bi-speedometer2" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="@Url.Action("Profile","Account")" class="sidebar-link @sbActive("Account","Profile")">
+                <i class="bi bi-person-circle" aria-hidden="true"></i>
+                <span>Profile</span>
+            </a>
+            <a href="@Url.Action("Index","Rooms")" class="sidebar-link @sbActive("Rooms","Index")">
+                <i class="bi bi-house-door" aria-hidden="true"></i>
+                <span>Browse Rooms</span>
+            </a>
+            <a href="@Url.Action("Index","Applications")" class="sidebar-link @sbActive("Applications","Index")">
+                <i class="bi bi-clipboard-check" aria-hidden="true"></i>
+                <span>Applications</span>
+            </a>
+            <a href="@Url.Action("History","Payments")" class="sidebar-link @sbActive("Payments","History")">
+                <i class="bi bi-credit-card" aria-hidden="true"></i>
+                <span>Payments</span>
+            </a>
+            <a href="@Url.Action("MyRequests","Maintenance")" class="sidebar-link @sbActive("Maintenance","MyRequests")">
+                <i class="bi bi-card-checklist" aria-hidden="true"></i>
+                <span>My Maintenance</span>
+            </a>
+            <a href="@Url.Action("Report","Maintenance")" class="sidebar-link @sbActive("Maintenance","Report")">
+                <i class="bi bi-tools" aria-hidden="true"></i>
+                <span>Report Issue</span>
+            </a>
+            <a href="@Url.Action("Index","Notifications")" class="sidebar-link @sbActive("Notifications","Index")">
+                <i class="bi bi-bell" aria-hidden="true"></i>
+                <span>Notifications</span>
+                @if (ViewBag.NotificationCount > 0)
+                {
+                    <span class="sidebar-badge">@ViewBag.NotificationCount</span>
+                }
+            </a>
+        }
+        else if (roleId == 2)
+        {
+            <a href="@Url.Action("Index","Admin")" class="sidebar-link @sbActive("Admin","Index")">
+                <i class="bi bi-grid-1x2-fill" aria-hidden="true"></i>
+                <span>Admin Dashboard</span>
+            </a>
+            <a href="@Url.Action("Applications","Admin")" class="sidebar-link @sbActive("Admin","Applications")">
+                <i class="bi bi-clipboard-check" aria-hidden="true"></i>
+                <span>Applications</span>
+            </a>
+            <a href="@Url.Action("Rooms","Admin")" class="sidebar-link @sbActive("Admin","Rooms")">
+                <i class="bi bi-house-door" aria-hidden="true"></i>
+                <span>Rooms</span>
+            </a>
+            <a href="@Url.Action("Payments","Admin")" class="sidebar-link @sbActive("Admin","Payments")">
+                <i class="bi bi-credit-card" aria-hidden="true"></i>
+                <span>Payments</span>
+            </a>
+        }
+        else if (roleId == 3)
+        {
+            <a href="@Url.Action("Index","Maintenance")" class="sidebar-link @sbActive("Maintenance","Index")">
+                <i class="bi bi-speedometer2" aria-hidden="true"></i>
+                <span>Job Queue</span>
+            </a>
+        }
+
+    </nav>
+
+    <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+            <div class="avatar">
+                @Session["UserName"].ToString().Substring(0, 1)
+            </div>
+
+            <div class="user-info">
+                <strong>@Session["UserName"].ToString().Split(' ')[0]</strong>
+                <small>@roleLabel</small>
+            </div>
+
+        </div>
+
+        @Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "sidebar-link sidebar-logout" })
+    </div>
+
+</aside>

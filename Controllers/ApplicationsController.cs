@@ -12,10 +12,6 @@ namespace UmbiloRentals.Controllers
 {
     public class ApplicationsController : BaseController
     {
-        private BuildingManagementDBEntities db =
-            new BuildingManagementDBEntities();
-
-
         // =========================================================
         // GET: Applications
         // =========================================================
@@ -141,7 +137,8 @@ public ActionResult Create(int? roomId)
         [ValidateAntiForgeryToken]
         public ActionResult Create(
             int roomID,
-            HttpPostedFileBase document)
+            HttpPostedFileBase document,
+            bool consentGiven)
         {
             // Make sure the applicant is logged in
             if (Session["UserID"] == null)
@@ -163,8 +160,7 @@ public ActionResult Create(int? roomId)
                 ViewBag.ErrorMessage =
                     "This room is no longer available.";
 
-                ViewBag.RoomNumber = room.RoomNumber;
-                ViewBag.RoomID = room.RoomID;
+                ViewBag.Room = room;
 
                 return View();
             }
@@ -172,7 +168,8 @@ public ActionResult Create(int? roomId)
 
             bool alreadyApplied = db.Applications.Any(a =>
                 a.UserID == userId &&
-                a.RoomID == roomID
+                a.RoomID == roomID &&
+                (a.Status == "Pending" || a.Status == "Approved")
             );
 
             if (alreadyApplied)
@@ -180,8 +177,17 @@ public ActionResult Create(int? roomId)
                 ViewBag.ErrorMessage =
                     "You have already applied for this room.";
 
-                ViewBag.RoomNumber = room.RoomNumber;
-                ViewBag.RoomID = room.RoomID;
+                ViewBag.Room = room;
+
+                return View();
+            }
+
+            if (!consentGiven)
+            {
+                ViewBag.ErrorMessage =
+                    "You must consent to your document being processed to submit an application.";
+
+                ViewBag.Room = room;
 
                 return View();
             }
@@ -198,8 +204,7 @@ public ActionResult Create(int? roomId)
                 ViewBag.ErrorMessage =
                     "Please select a document to upload.";
 
-                ViewBag.RoomNumber = room.RoomNumber;
-                ViewBag.RoomID = room.RoomID;
+                ViewBag.Room = room;
 
                 return View();
             }
@@ -226,8 +231,7 @@ public ActionResult Create(int? roomId)
                 ViewBag.ErrorMessage =
                     "Please upload a PDF, Word document, JPG or PNG file.";
 
-                ViewBag.RoomNumber = room.RoomNumber;
-                ViewBag.RoomID = room.RoomID;
+                ViewBag.Room = room;
 
                 return View();
             }
@@ -243,8 +247,7 @@ public ActionResult Create(int? roomId)
                 ViewBag.ErrorMessage =
                     "The document must be smaller than 5 MB.";
 
-                ViewBag.RoomNumber = room.RoomNumber;
-                ViewBag.RoomID = room.RoomID;
+                ViewBag.Room = room;
 
                 return View();
             }
@@ -304,15 +307,14 @@ public ActionResult Create(int? roomId)
                 ViewBag.ErrorMessage =
                     "Database error: " + ex.Message;
 
-                ViewBag.RoomNumber = room.RoomNumber;
-                ViewBag.RoomID = room.RoomID;
+                ViewBag.Room = room;
 
                 return View();
             }
             NotificationHelper.CreateNotification(
     db,
     application.UserID.Value,
-    "📄 Your accommodation application has been submitted.");
+    "Your accommodation application has been submitted.");
 
             TempData["SuccessMessage"] =
                 "Your application has been submitted successfully.";

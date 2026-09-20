@@ -12,7 +12,7 @@
     <div class="auth-card">
 
         <div class="auth-logo">
-            <icon name=building color=info size=2xl />
+            <img src="@Url.Content("~/Content/images/logo.svg")" alt="Umbilo Rentals" />
         </div>
 
         <h1>Create Account</h1>
@@ -24,8 +24,7 @@
         @using (Html.BeginForm(
     "Register",
     "Account",
-    FormMethod.Post,
-    new { enctype = "multipart/form-data" }))
+    FormMethod.Post))
         {
             @Html.AntiForgeryToken()
 
@@ -99,10 +98,13 @@
                            class="form-control"
                            required />
 
-                    <span class="toggle-password"
-                          onclick="togglePassword('Password')">
-                        <icon name=eye />
-                    </span>
+                    <button type="button"
+                            class="toggle-password"
+                            onclick="togglePassword('Password', this)"
+                            aria-label="Show password"
+                            aria-pressed="false">
+                        <i class="bi bi-eye-fill" aria-hidden="true"></i>
+                    </button>
 
                 </div>
 
@@ -127,10 +129,13 @@
                            class="form-control"
                            required />
 
-                    <span class="toggle-password"
-                          onclick="togglePassword('ConfirmPassword')">
-                        <icon name=eye />
-                    </span>
+                    <button type="button"
+                            class="toggle-password"
+                            onclick="togglePassword('ConfirmPassword', this)"
+                            aria-label="Show confirm password"
+                            aria-pressed="false">
+                        <i class="bi bi-eye-fill" aria-hidden="true"></i>
+                    </button>
 
                 </div>
 
@@ -138,30 +143,26 @@
 
             </div>
 
-            <div class="form-group">
-
-                <label>Supporting Document</label>
-
-                <div class="upload-card">
-
-                    <icon name=upload color=info size=2xl />
-
-                    <h4>Upload one combined document</h4>
-
-                    <p>
-                        Include your ID and Proof of Income in a single PDF.
-                    </p>
-
-                    <input type="file"
-                           name="supportDocument"
-                           accept=".pdf" />
-
-                </div>
-
+            <div class="form-group consent-group">
+                <label class="consent-checkbox">
+                    <input type="checkbox"
+                           name="consentGiven"
+                           value="true"
+                           required
+                           aria-required="true" />
+                    <span>
+                        I agree to the
+                        <a href="@Url.Action("Privacy", "Legal")" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                        and
+                        <a href="@Url.Action("Terms", "Legal")" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>,
+                        and consent to Umbilo Rentals processing my personal information
+                        to create and manage my account.
+                    </span>
+                </label>
             </div>
 
             <button type="submit" class="btn-auth">
-                Create Account →
+                Create Account <i class="bi bi-arrow-right"></i>
             </button>
         }
 
@@ -181,13 +182,30 @@
 
     <script>
 
-        function togglePassword(id) {
+        function togglePassword(id, btn) {
 
             const input = document.getElementById(id);
 
-            input.type = input.type === "password"
+            if (!input || !btn) { return; }
+
+            const showing = input.type === "password";
+
+            input.type = showing
                 ? "text"
                 : "password";
+
+            const icon = btn.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("bi-eye-fill", !showing);
+                icon.classList.toggle("bi-eye-slash-fill", showing);
+            }
+
+            btn.setAttribute("aria-pressed", showing.toString());
+            btn.setAttribute(
+                "aria-label",
+                (showing ? "Hide " : "Show ") +
+                (id === "ConfirmPassword" ? "confirm password" : "password")
+            );
         }
 
         /* Password Match */
@@ -195,78 +213,92 @@
         const confirm = document.getElementById("ConfirmPassword");
         const pass = document.getElementById("Password");
 
-        confirm.addEventListener("keyup", function () {
+        if (confirm && pass) {
 
-            const msg = document.getElementById("passwordMessage");
+            confirm.addEventListener("keyup", function () {
 
-            if (this.value === "") {
-                msg.innerHTML = "";
-                return;
-            }
+                const msg = document.getElementById("passwordMessage");
 
-            if (this.value === pass.value) {
+                if (!msg) { return; }
 
-                msg.innerHTML = "Passwords match";
-                msg.style.color = "#16A34A";
+                if (this.value === "") {
+                    msg.innerHTML = "";
+                    return;
+                }
 
-            } else {
+                if (this.value === pass.value) {
 
-                msg.innerHTML = "Passwords do not match";
-                msg.style.color = "#DC2626";
-            }
+                    msg.innerHTML = "Passwords match";
+                    msg.style.color = "#16A34A";
 
-        });
+                } else {
+
+                    msg.innerHTML = "Passwords do not match";
+                    msg.style.color = "#DC2626";
+                }
+
+            });
+        }
 
         /* Password Strength */
 
-        pass.addEventListener("input", function () {
+        if (pass) {
 
-            const value = this.value;
+            pass.addEventListener("input", function () {
 
-            const bar = document.getElementById("strengthBar");
-            const text = document.getElementById("strengthText");
+                const value = this.value;
 
-            let score = 0;
+                const bar = document.getElementById("strengthBar");
+                const text = document.getElementById("strengthText");
 
-            if (value.length >= 8) score++;
-            if (/[A-Z]/.test(value)) score++;
-            if (/[0-9]/.test(value)) score++;
-            if (/[^A-Za-z0-9]/.test(value)) score++;
+                if (!bar || !text) { return; }
 
-            const widths = ["0%", "25%", "50%", "75%", "100%"];
-            const colors = ["#ddd", "#EF4444", "#F59E0B", "#3B82F6", "#22C55E"];
-            const labels = ["", "Weak", "Fair", "Good", "Strong"];
+                let score = 0;
 
-            bar.style.width = widths[score];
-            bar.style.background = colors[score];
-            text.innerHTML = labels[score];
+                if (value.length >= 8) score++;
+                if (/[A-Z]/.test(value)) score++;
+                if (/[0-9]/.test(value)) score++;
+                if (/[^A-Za-z0-9]/.test(value)) score++;
 
-        });
+                const widths = ["0%", "25%", "50%", "75%", "100%"];
+                const colors = ["#ddd", "#EF4444", "#F59E0B", "#3B82F6", "#22C55E"];
+                const labels = ["", "Weak", "Fair", "Good", "Strong"];
+
+                bar.style.width = widths[score];
+                bar.style.background = colors[score];
+                text.innerHTML = labels[score];
+
+            });
+        }
 
         /* South African Phone Formatter */
 
         const phone = document.getElementById("Phone");
 
-        phone.addEventListener("input", function () {
+        if (phone) {
 
-            let digits = this.value.replace(/\D/g, "");
+            phone.addEventListener("input", function () {
 
-            digits = digits.substring(0, 9);
+                let digits = this.value.replace(/\D/g, "");
 
-            let formatted = "";
+                digits = digits.substring(0, 9);
 
-            if (digits.length > 0)
-                formatted += digits.substring(0, 2);
+                let formatted = "";
 
-            if (digits.length > 2)
-                formatted += " " + digits.substring(2, 5);
+                if (digits.length > 0)
+                    formatted += digits.substring(0, 2);
 
-            if (digits.length > 5)
-                formatted += " " + digits.substring(5, 9);
+                if (digits.length > 2)
+                    formatted += " " + digits.substring(2, 5);
 
-            this.value = formatted;
+                if (digits.length > 5)
+                    formatted += " " + digits.substring(5, 9);
 
-        });
+                this.value = formatted;
+
+            });
+
+        }
 
     </script>
 

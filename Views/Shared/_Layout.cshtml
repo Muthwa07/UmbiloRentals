@@ -10,6 +10,10 @@
 
     <title>@ViewBag.Title - Umbilo Rentals</title>
 
+    <link rel="icon" type="image/svg+xml" href="@Url.Content("~/Content/images/logo.svg")" />
+    <link rel="icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" />
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" />
+
     @Styles.Render("~/Content/css")
 
     @Scripts.Render("~/bundles/modernizr")
@@ -66,148 +70,87 @@
 }
 
 <body class="@roleTheme">
-    <!-- ================= NAVBAR ================= -->
+    <!-- ================= NAVBAR (guests only) ================= -->
 
-    <nav class="floating-navbar">
+    @if (Session["UserID"] == null)
+    {
+        <nav class="top-navbar">
 
-        <div class="nav-container">
+            <div class="nav-container">
 
-            <div class="brand">
+                <div class="brand">
 
-                <div class="brand-logo">
-                    <icon name=building color=info />
+                    <div class="brand-logo">
+                        <img src="@Url.Content("~/Content/images/logo.svg")" alt="" />
+                    </div>
+
+                    @Html.ActionLink(
+                        "Umbilo Rentals",
+                        "Index",
+                        "Home",
+                        null,
+                        new { @class = "brand-name" })
+
                 </div>
 
-                @Html.ActionLink(
-                    "Umbilo Rentals",
-                    "Index",
-                    "Home",
-                    null,
-                    new { @class = "brand-name" })
+                <div class="nav-links">
 
-            </div>
+                    <a href="@Url.Action("Index","Home")"
+                       class="@activeClass("Home","Index")">
+                        Home
+                    </a>
 
-            <div class="nav-links">
-
-                <a href="@Url.Action("Index","Home")"
-                   class="@activeClass("Home","Index")">
-                    Home
-                </a>
-
-                @if (Session["UserID"] == null)
-                {
                     <a href="@Url.Action("About","Home")"
                        class="@activeClass("Home","About")">
                         About
                     </a>
-                }
 
-                @if (Session["RoleID"] == null ||
-                    (Session["RoleID"] != null && (int)Session["RoleID"] == 1))
-                {
                     <a href="@Url.Action("Index","Rooms")"
                        class="@activeClass("Rooms","Index")">
                         Rooms
                     </a>
-                }
 
-                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 1)
-                {
-                    <a href="@Url.Action("Dashboard","Account")">Dashboard</a>
-                    <a href="@Url.Action("Profile","Account")">Profile</a>
-                    <a href="@Url.Action("Index","Applications")">Applications</a>
-                    <a href="@Url.Action("History","Payments")">Payments</a>
-                    <a href="@Url.Action("Report","Maintenance")">Maintenance</a>
-                }
+                </div>
 
-                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 2)
-                {
-                    <a href="@Url.Action("Index","Admin")">Admin</a>
-                    <a href="@Url.Action("Applications","Admin")">Applications</a>
-                    <a href="@Url.Action("Rooms","Admin")">Rooms</a>
-                    <a href="@Url.Action("Payments","Admin")">Payments</a>
-                }
+                <div class="nav-right">
 
-                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 3)
-                {
-                    <a href="@Url.Action("Index","Maintenance")">Dashboard</a>
-                }
-
-            </div>
-
-            <div class="nav-right">
-
-                @if (Session["RoleID"] != null && (int)Session["RoleID"] == 1)
-                {
-                    <a href="@Url.Action("Index","Notifications")"
-                       class="nav-icon">
-
-                        <icon name=bell />
-
-                        @if (ViewBag.NotificationCount > 0)
-                        {
-                            <span class="notification-dot">
-                                @ViewBag.NotificationCount
-                            </span>
-                        }
-
-                    </a>
-                }
-
-                @if (Session["UserID"] != null)
-                {
-                    <div class="user-chip">
-
-                        <div class="avatar">
-                            @Session["UserName"].ToString().Substring(0, 1)
-                        </div>
-
-                        <div class="user-info">
-
-                            <strong>
-                                @Session["UserName"].ToString().Split(' ')[0]
-                            </strong>
-
-                            <small>@roleLabel</small>
-
-                        </div>
-
-                    </div>
-
-                    @Html.ActionLink(
-                        "Logout",
-                        "Logout",
-                        "Account",
-                        null,
-                        new { @class = "logout-modern" })
-                }
-                else
-                {
                     @Html.ActionLink(
                         "Login",
                         "Login",
                         "Account",
                         null,
                         new { @class = "login-modern" })
-                }
+
+                </div>
 
             </div>
 
-        </div>
-
-    </nav>
+        </nav>
+    }
 
     <!-- =============== CONTENT =============== -->
 
-    <div class="page-shell">
+    @{ bool showSidebar = Session["RoleID"] != null; }
 
-        <main class="page-container">
+    <div class="app-shell @(showSidebar ? "has-sidebar" : "")">
 
-            @Html.Partial("_Alerts")
+        @if (showSidebar)
+        {
+            @Html.Partial("_Sidebar")
+            <div id="sidebarBackdrop" class="sidebar-backdrop" tabindex="-1"></div>
+        }
 
-            @RenderBody()
+        <div class="page-shell">
 
-        </main>
+            <main class="page-container">
+
+                @Html.Partial("_Alerts")
+
+                @RenderBody()
+
+            </main>
+
+        </div>
 
     </div>
 
@@ -220,7 +163,7 @@
             <div class="footer-brand">
 
                 <div class="footer-logo">
-                    <icon name=building color=info size=lg />
+                    <img src="@Url.Content("~/Content/images/logo.svg")" alt="Umbilo Rentals" />
                 </div>
 
                 <div>
@@ -229,11 +172,17 @@
 
                     <p>Find secure, comfortable accommodation with confidence.</p>
 
+                    <p class="footer-disclaimer">
+                        Umbilo Rentals is a student project and demonstration platform.
+                    </p>
+
                 </div>
 
             </div>
 
             <div class="footer-links">
+
+                <h4>Site</h4>
 
                 @Html.ActionLink("Home", "Index", "Home")
                 @Html.ActionLink("Rooms", "Index", "Rooms")
@@ -249,15 +198,26 @@
 
             </div>
 
+            <div class="footer-links">
+
+                <h4>Legal</h4>
+
+                @Html.ActionLink("Privacy Policy", "Privacy", "Legal")
+                @Html.ActionLink("Terms &amp; Conditions", "Terms", "Legal")
+                @Html.ActionLink("Cookie Policy", "Cookies", "Legal")
+                @Html.ActionLink("Refund Policy", "Refunds", "Legal")
+
+            </div>
+
             <div class="footer-contact">
 
                 <span>
-                    <icon name=map-pin color=info inline />
+                    <i class="bi bi-geo-alt-fill"></i>
                     Umbilo, Durban
                 </span>
 
                 <span>
-                    <icon name=mail color=info inline />
+                    <i class="bi bi-envelope-fill"></i>
                     info@umbilorentals.co.za
                 </span>
 
@@ -277,6 +237,66 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        (function () {
+            var toggle = document.getElementById("sidebarToggle");
+            var sidebar = document.getElementById("appSidebar");
+            var shell = document.querySelector(".app-shell");
+            var backdrop = document.getElementById("sidebarBackdrop");
+
+            if (!toggle || !sidebar || !shell) { return; }
+
+            function isMobile() {
+                return window.matchMedia("(max-width: 900px)").matches;
+            }
+
+            function applyState(open) {
+                // On desktop "open" means expanded (not collapsed).
+                // On mobile "open" means the drawer is visible.
+                var collapsedClass = isMobile() ? open : !open;
+                shell.classList.toggle("sidebar-collapsed", collapsedClass);
+                toggle.setAttribute("aria-expanded", open.toString());
+                toggle.setAttribute(
+                    "aria-label",
+                    open ? "Close navigation menu" : "Open navigation menu"
+                );
+            }
+
+            function currentlyOpen() {
+                var collapsed = shell.classList.contains("sidebar-collapsed");
+                return isMobile() ? collapsed : !collapsed;
+            }
+
+            var savedCollapsed = localStorage.getItem("umbilo-sidebar-collapsed") === "true";
+            applyState(isMobile() ? false : !savedCollapsed);
+
+            toggle.addEventListener("click", function () {
+                var open = !currentlyOpen();
+                applyState(open);
+                if (!isMobile()) {
+                    localStorage.setItem("umbilo-sidebar-collapsed", (!open).toString());
+                }
+                if (open && isMobile()) {
+                    sidebar.querySelector(".sidebar-link").focus();
+                }
+            });
+
+            if (backdrop) {
+                backdrop.addEventListener("click", function () {
+                    applyState(false);
+                    toggle.focus();
+                });
+            }
+
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape" && isMobile() && currentlyOpen()) {
+                    applyState(false);
+                    toggle.focus();
+                }
+            });
+        })();
+    </script>
 
     @RenderSection("scripts", required: false)
 

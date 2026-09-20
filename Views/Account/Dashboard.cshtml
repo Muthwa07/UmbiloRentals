@@ -1,5 +1,9 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
+
+    bool isTenant = ViewBag.IsTenant;
+    bool hasApplication = ViewBag.HasApplication ?? false;
+    string latestStatus = ViewBag.LatestApplicationStatus;
 }
 
 <div class="dashboard-page">
@@ -10,7 +14,7 @@
 
         <div class="hero-content">
 
-            <h1>Welcome back, @Session["UserName"] 👋</h1>
+            <h1>Welcome back, @Session["UserName"]</h1>
 
             <p>
                 Track your accommodation journey, payments and applications from one place.
@@ -20,17 +24,17 @@
 
     </div>
 
-    <!-- TOP STATS -->
-
-    @if ((bool)ViewBag.IsTenant)
+    @if (isTenant)
     {
+        <!-- ======= TENANT: RESIDENCE CARD ======= -->
+
         <div class="tenant-residence-card glass-card">
 
             <div class="tenant-header">
 
                 <div>
 
-                    <h2>🏠 Current Residence</h2>
+                    <h2><i class="bi bi-house-door-fill"></i> Current Residence</h2>
 
                     <p>Your accommodation has been allocated.</p>
 
@@ -66,21 +70,57 @@
 
             </div>
 
+            <div class="rent-status-row">
+
+                @if (ViewBag.RentPaidThisMonth)
+                {
+                    <span class="status-chip approved">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Rent paid for @DateTime.Now.ToString("MMMM")
+                    </span>
+                }
+                else if (ViewBag.RentPendingThisMonth)
+                {
+                    <span class="status-chip pending">
+                        <i class="bi bi-hourglass-split"></i>
+                        Payment for @DateTime.Now.ToString("MMMM") awaiting confirmation
+                    </span>
+                }
+                else
+                {
+                    <span class="status-chip rejected">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        Rent not yet paid for @DateTime.Now.ToString("MMMM")
+                    </span>
+                }
+
+            </div>
+
             <div class="tenant-actions">
+
+                @if (!(bool)ViewBag.RentPaidThisMonth)
+                {
+                    @Html.ActionLink(
+                        "Pay This Month's Rent",
+                        "PayNow",
+                        "Payments",
+                        new { applicationId = ViewBag.ApprovedApplicationID },
+                        new { @class = "btn-room-primary" })
+                }
 
                 @Html.ActionLink(
                     "Report Maintenance",
-                    "Create",
+                    "Report",
                     "Maintenance",
                     null,
-                    new { @class = "btn-auth" })
+                    new { @class = "btn-secondary-glass" })
 
                 @Html.ActionLink(
-    "Move Out",
-    "MoveOut",
-    "Account",
-    null,
-    new { @class = "btn-secondary-glass" })
+                    "Move Out",
+                    "MoveOut",
+                    "Account",
+                    null,
+                    new { @class = "btn-secondary-glass" })
 
             </div>
 
@@ -88,177 +128,88 @@
     }
     else
     {
+        <!-- ======= APPLICANT: STAT CARDS ======= -->
+
         <div class="dashboard-card-grid">
 
-            <div class="dashboard-card glass-card">
-                <icon name=home color=info size=2xl />
-                <h3>Available Rooms</h3>
+            <a href="@Url.Action("Index","Rooms")" class="dashboard-card glass-card dashboard-card-link">
+                <i class="bi bi-house-door-fill icon-info icon-2xl"></i>
+                <h3>@ViewBag.AvailableRooms Available Rooms</h3>
                 <p>Browse accommodation.</p>
+            </a>
 
-                @Html.ActionLink(
-                    "Browse Rooms",
-                    "Index",
-                    "Rooms",
-                    null,
-                    new { @class = "btn-auth" })
-            </div>
-
-            <div class="dashboard-card glass-card">
-                <icon name=file color=info size=2xl />
-                <h3>My Applications</h3>
-                <p>Track your applications.</p>
-
-                @Html.ActionLink(
-                    "View Applications",
-                    "Index",
-                    "Applications",
-                    null,
-                    new { @class = "btn-auth" })
-            </div>
-
-            <div class="dashboard-card glass-card">
-                <icon name=hourglass color=info size=2xl />
-                <h3>Pending Reviews</h3>
-                <p>Waiting for approval.</p>
-            </div>
+            <a href="@Url.Action("Index","Applications")" class="dashboard-card glass-card dashboard-card-link">
+                <i class="bi bi-file-earmark-text-fill icon-info icon-2xl"></i>
+                <h3>@ViewBag.TotalApplications Application@(ViewBag.TotalApplications == 1 ? "" : "s")</h3>
+                <p>@ViewBag.PendingApplications pending review.</p>
+            </a>
 
         </div>
     }
 
-    <!-- CURRENT ROOM -->
+    <!-- ======= YOUR STATUS (consolidated) ======= -->
 
     <div class="glass-panel">
 
-        <div class="panel-header">
+        <h2>Your Status</h2>
 
-            <h2>Current Room</h2>
-
-            @if (ViewBag.CurrentRoom != null)
-            {
-                <span class="status-chip approved">Allocated</span>
-            }
-
-        </div>
-
-        @if (ViewBag.CurrentRoom != null)
+        @if (isTenant)
         {
-            <h3>Room @ViewBag.CurrentRoom</h3>
-            <p>Your accommodation has been successfully allocated.</p>
+            <div class="status-summary-row">
+                <div class="status-summary-item complete">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Application Approved</span>
+                </div>
+                <div class="status-summary-item complete">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Room Allocated</span>
+                </div>
+                <div class="status-summary-item @(ViewBag.RentPaidThisMonth ? "complete" : "current")">
+                    <i class="bi @(ViewBag.RentPaidThisMonth ? "bi-check-circle-fill" : "bi-hourglass-split")"></i>
+                    <span>Rent Payment</span>
+                </div>
+                <div class="status-summary-item complete">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Moved In</span>
+                </div>
+            </div>
+        }
+        else if (hasApplication)
+        {
+            <div class="status-summary-row">
+                <div class="status-summary-item complete">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Application Submitted</span>
+                </div>
+                <div class="status-summary-item @(latestStatus == "Pending" ? "current" : "complete")">
+                    <i class="bi @(latestStatus == "Pending" ? "bi-hourglass-split" : "bi-check-circle-fill")"></i>
+                    <span>Under Review</span>
+                </div>
+                <div class="status-summary-item @(latestStatus == "Approved" ? "complete" : latestStatus == "Rejected" ? "rejected" : latestStatus == "Withdrawn" ? "withdrawn" : "")">
+                    <i class="bi @(latestStatus == "Approved" ? "bi-check-circle-fill" : latestStatus == "Rejected" ? "bi-x-circle-fill" : latestStatus == "Withdrawn" ? "bi-arrow-return-left" : "bi-circle")"></i>
+                    <span>@(latestStatus == "Withdrawn" ? "Withdrawn" : latestStatus == "Rejected" ? "Rejected" : "Decision")</span>
+                </div>
+            </div>
+
+            <p class="status-panel-note">
+                @Html.ActionLink("View all your applications", "Index", "Applications")
+            </p>
         }
         else
         {
-            <p>No room has been allocated yet.</p>
-        }
-
-    </div>
-
-    <!-- APPLICATION JOURNEY -->
-
-    <div class="glass-panel">
-
-        <h2>Application Journey</h2>
-
-        <div class="timeline">
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div>
-                    <strong>Application Submitted</strong>
-                    <p>Your application has been received.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div>
-                    <strong>Under Review</strong>
-                    <p>Our team is reviewing your application.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div>
-                    <strong>Room Approval</strong>
-                    <p>You'll be notified once approved.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div>
-                    <strong>Payment Verification</strong>
-                    <p>Upload proof of payment after approval.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div>
-                    <strong>Move In</strong>
-                    <p>Enjoy your new student home.</p>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- PAYMENT -->
-
-    <div class="glass-panel">
-
-        <h2>Latest Payment</h2>
-
-        @if (ViewBag.PaymentStatus == "Processed")
-        {
-            <span class="status-chip processed">Verified</span>
-            <p>Your latest payment has been verified.</p>
-        }
-        else if (ViewBag.PaymentStatus == "Pending")
-        {
-            <span class="status-chip pending">Pending Verification</span>
-            <p>Your payment is awaiting admin verification.</p>
-        }
-        else
-        {
-            <p>No payment has been submitted yet.</p>
+            <p>You haven't applied for a room yet.</p>
 
             @Html.ActionLink(
-                "Make Payment",
-                "Create",
-                "Payments",
+                "Browse Rooms",
+                "Index",
+                "Rooms",
                 null,
                 new { @class = "btn-room-primary" })
         }
 
     </div>
 
-    <!-- QUICK ACTIONS -->
-
-    <div class="glass-panel">
-
-        <h2>Quick Actions</h2>
-
-        <div class="quick-actions">
-
-            @Html.ActionLink("Browse Rooms", "Index", "Rooms", null, new { @class = "quick-btn" })
-
-            @Html.ActionLink("My Applications", "Index", "Applications", null, new { @class = "quick-btn" })
-
-            @Html.ActionLink("Payments", "Index", "Payments", null, new { @class = "quick-btn" })
-
-            @Html.ActionLink("Maintenance", "Index", "Maintenance", null, new { @class = "quick-btn" })
-
-            @Html.ActionLink("Profile", "Profile", "Account", null, new { @class = "quick-btn" })
-
-            @Html.ActionLink("Notifications", "Index", "Notifications", null, new { @class = "quick-btn" })
-
-        </div>
-
-    </div>
-
-    <!-- SUPPORT -->
+    <!-- ======= SUPPORT ======= -->
 
     <div class="glass-panel">
 

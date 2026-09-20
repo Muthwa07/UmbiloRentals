@@ -11,7 +11,7 @@
         <div>
 
             <div class="section-tag">
-                <icon name=clipboard color=discovery inline />
+                <i class="bi bi-clipboard-fill icon-discovery"></i>
                 Application Management
             </div>
 
@@ -25,7 +25,7 @@
 
         <div class="application-count glass-count-card">
 
-            <icon name=users color=info size=lg />
+            <i class="bi bi-people-fill icon-info icon-lg"></i>
 
             <div>
 
@@ -43,7 +43,7 @@
     {
         <div class="glass-alert success">
 
-            <icon name=file-check color=success />
+            <i class="bi bi-file-earmark-check-fill icon-success"></i>
 
             <div>
 
@@ -57,7 +57,7 @@
                target="_blank"
                class="btn-room-primary">
 
-                <icon name=download inline />
+                <i class="bi bi-download"></i>
 
                 Download
 
@@ -70,7 +70,7 @@
     {
         <div class="empty-state glass-card">
 
-            <icon name=clipboard color=info size=2xl />
+            <i class="bi bi-clipboard-fill icon-info icon-2xl"></i>
 
             <h2>No applications yet</h2>
 
@@ -96,11 +96,7 @@
                     }
                     else
                     {
-                        <AsyncImage query="modern furnished rental room South Africa luxury"
-                                    aspectRatio="5:4"
-                                    width="100%"
-                                    maxHeight=220
-                                    radius={{topLeft:24,topRight:24,bottomLeft:0,bottomRight:0}} />
+                        <div class="no-photo-placeholder" style="border-radius:24px 24px 0 0; height:220px;"><i class="bi bi-house-door"></i><span>No photo available</span></div>
                     }
 
                     <div class="review-body">
@@ -112,7 +108,7 @@
                                 <h3>@item.ApplicantName</h3>
 
                                 <p>
-                                    <icon name=building color=info inline />
+                                    <i class="bi bi-buildings-fill icon-info"></i>
                                     Room @item.RoomNumber
                                 </p>
 
@@ -128,7 +124,7 @@
 
                             <div class="meta-item">
 
-                                <icon name=calendar color=info />
+                                <i class="bi bi-calendar-event-fill icon-info"></i>
 
                                 <div>
 
@@ -147,7 +143,7 @@
                         <div class="document-box">
 
                             <div class="document-icon">
-                                <icon name=file color=info />
+                                <i class="bi bi-file-earmark-text-fill icon-info"></i>
                             </div>
 
                             <div class="document-info">
@@ -165,7 +161,7 @@
                                 data-file="@Url.Content(item.DocumentPath)"
                                 data-name="@item.ApplicantName">
 
-                            <icon name=eye inline />
+                            <i class="bi bi-eye-fill"></i>
 
                             Preview Document
 
@@ -207,7 +203,7 @@
                                 {
                                     <div class="decision approved">
 
-                                        <icon name=circle-check color=success />
+                                        <i class="bi bi-check-circle-fill icon-success"></i>
 
                                         <span>Room Allocated</span>
 
@@ -217,7 +213,7 @@
                                 {
                                     <div class="decision rejected">
 
-                                        <icon name=circle-x color=danger />
+                                        <i class="bi bi-x-circle-fill icon-danger"></i>
 
                                         <span>Application Closed</span>
 
@@ -241,7 +237,7 @@
 
             <div class="modal-icon">
 
-                <icon name=shield-check color=discovery size=2xl />
+                <i class="bi bi-shield-check icon-discovery icon-2xl"></i>
 
             </div>
 
@@ -291,7 +287,7 @@
 
                 <button id="closeDrawer" class="drawer-close">
 
-                    <icon name=x />
+                    <i class="bi bi-x-lg"></i>
 
                 </button>
 
@@ -307,7 +303,7 @@
                 <div id="fallbackMessage"
                      class="drawer-fallback">
 
-                    <icon name=file color=info size=2xl />
+                    <i class="bi bi-file-earmark-text-fill icon-info icon-2xl"></i>
 
                     <h3>Preview unavailable</h3>
 

@@ -34,6 +34,9 @@
         <AssociationConnector Association="BuildingManagementDBModel.FK__Notificat__UserI__17F790F9" />
         <AssociationConnector Association="BuildingManagementDBModel.FK_Payments_Rooms" />
         <AssociationConnector Association="BuildingManagementDBModel.FK_Maintenance_AssignedTechnician" />
+        <EntityTypeShape EntityType="BuildingManagementDBModel.Review" Width="1.5" PointX="9" PointY="17.5" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Reviews_Rooms" />
+        <AssociationConnector Association="BuildingManagementDBModel.FK_Reviews_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

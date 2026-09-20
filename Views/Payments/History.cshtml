@@ -22,7 +22,7 @@
     {
         <div class="empty-state glass-card">
 
-            <icon name=receipt color=info size=2xl />
+            <i class="bi bi-receipt icon-info icon-2xl"></i>
 
             <h2>No Payments Yet</h2>
 
@@ -66,7 +66,7 @@
 
                         <p>
 
-                            <icon name=calendar color=info />
+                            <i class="bi bi-calendar-event-fill icon-info"></i>
 
                             @(payment.PaymentDate.HasValue
                                 ? payment.PaymentDate.Value.ToString("dd MMM yyyy HH:mm")
@@ -78,7 +78,7 @@
                         {
                             <p>
 
-                                <icon name=hash color=info />
+                                <i class="bi bi-hash icon-info"></i>
 
                                 @payment.TransactionReference
 
@@ -95,7 +95,7 @@
                                 new { id = payment.PaymentID })"
                            class="btn-download-receipt">
 
-                            <icon name=download inline />
+                            <i class="bi bi-download"></i>
 
                             Download Receipt
 

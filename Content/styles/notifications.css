@@ -16,7 +16,7 @@
 
     .notifications-header h1 {
         font-size: 40px;
-        color: #17345C;
+        color: var(--navy-950);
     }
 
 .notification-list {
@@ -25,8 +25,7 @@
 }
 
 .notification-card {
-    background: rgba(255,255,255,.74);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border-radius: 22px;
     padding: 26px;
     border: 1px solid rgba(255,255,255,.35);
@@ -40,7 +39,7 @@
     }
 
     .notification-card.unread {
-        border-left: 6px solid #4DA3FF;
+        border-left: 6px solid var(--sky-400);
     }
 
 .notification-time {

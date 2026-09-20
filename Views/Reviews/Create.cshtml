@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Leave a Review";
+}
+
+<div class="legal-page review-page">
+
+    <div class="legal-header">
+        <h1>How was Room @ViewBag.RoomNumber?</h1>
+        <p class="legal-updated">
+            Your review helps other students choose the right room.
+        </p>
+    </div>
+
+    @using (Html.BeginForm("Create", "Reviews", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("roomId", (int)ViewBag.RoomID)
+
+        <div class="glass-card">
+
+            <div class="form-group">
+                <label id="ratingLabel">Rating</label>
+
+                <div class="star-rating" role="radiogroup" aria-labelledby="ratingLabel">
+                    @for (int i = 5; i >= 1; i--)
+                    {
+                        <input type="radio"
+                               id="star@(i)"
+                               name="rating"
+                               value="@i"
+                               required
+                               @(i == 5 ? "checked" : "") />
+                        <label for="star@(i)" aria-label="@i star@(i == 1 ? "" : "s")">
+                            <i class="bi bi-star-fill"></i>
+                        </label>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Your Review</label>
+                <textarea id="comment"
+                          name="comment"
+                          class="form-control"
+                          rows="5"
+                          maxlength="1000"
+                          placeholder="What was it like living here? Anything future tenants should know?"></textarea>
+            </div>
+
+            <button type="submit" class="btn-auth">
+                Submit Review <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </div>
+    }
+
+</div>

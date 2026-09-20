@@ -32,7 +32,7 @@
         <div class="empty-state glass-card">
 
             <div class="empty-icon">
-                🏢
+                <i class="bi bi-building"></i>
             </div>
 
             <h2>No applications yet</h2>
@@ -46,7 +46,7 @@
                 "Index",
                 "Rooms",
                 null,
-                new { @class = "btn-auth" }
+                new { @class = "btn-primary-glass" }
             )
 
         </div>
@@ -80,7 +80,7 @@
                     else
                     {
                         <div class="application-card-placeholder">
-                            <div class="placeholder-icon">🏠</div>
+                            <div class="placeholder-icon"><i class="bi bi-house-door-fill"></i></div>
                             <span>Room Image</span>
                         </div>
                     }
@@ -126,7 +126,7 @@
                     <div class="timeline">
 
                         <div class="timeline-item complete">
-                            <span class="timeline-icon">✓</span>
+                            <span class="timeline-icon"><i class="bi bi-check-circle-fill"></i></span>
                             <span>Application Submitted</span>
                         </div>
 
@@ -134,7 +134,7 @@
                                 @(status == "Pending" ? "current" : "complete")">
 
                             <span class="timeline-icon">
-                                @(status == "Pending" ? "◷" : "✓")
+                                @(status == "Pending" ? Html.Raw("<i class=\"bi bi-hourglass-split\"></i>") : Html.Raw("<i class=\"bi bi-check-circle-fill\"></i>"))
                             </span>
 
                             <span>Under Review</span>
@@ -154,13 +154,17 @@
                         else
                         {
                             <div class="timeline-item
-        @(status == "Rejected" ? "rejected" : "")">
+        @(status == "Rejected" ? "rejected" : status == "Withdrawn" ? "withdrawn" : "")">
 
                                 <span class="timeline-icon">
-                                    @(status == "Rejected" ? "×" : "○")
+                                    @(status == "Rejected" ? Html.Raw("<i class=\"bi bi-x-circle-fill\"></i>")
+                                      : status == "Withdrawn" ? Html.Raw("<i class=\"bi bi-arrow-return-left\"></i>")
+                                      : Html.Raw("○"))
                                 </span>
 
-                                <span>Final Decision</span>
+                                <span>
+                                    @(status == "Withdrawn" ? "Application Withdrawn" : "Final Decision")
+                                </span>
 
                             </div>
                         }
@@ -170,7 +174,7 @@
                         <div class="application-meta">
 
                             <p>
-                                <span class="meta-icon">📅</span>
+                                <span class="meta-icon"><i class="bi bi-calendar-event"></i></span>
 
                                 <strong>Applied:</strong>
 
@@ -180,7 +184,7 @@
                             </p>
 
                             <p>
-                                <span class="meta-icon">📄</span>
+                                <span class="meta-icon"><i class="bi bi-file-earmark-text-fill"></i></span>
 
                                 Supporting document uploaded
                             </p>

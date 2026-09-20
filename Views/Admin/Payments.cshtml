@@ -24,7 +24,7 @@
 
         <div class="stat-card glass-card">
 
-            <icon name=circle-dollar-sign color=success size=2xl />
+            <i class="bi bi-cash-coin icon-success icon-2xl"></i>
 
             <h2>R @(((decimal)ViewBag.TotalRevenue).ToString("N2"))</h2>
 
@@ -34,7 +34,7 @@
 
         <div class="stat-card glass-card">
 
-            <icon name=clock color=warning size=2xl />
+            <i class="bi bi-clock-fill icon-warning icon-2xl"></i>
 
             <h2>@ViewBag.PendingCount</h2>
 
@@ -44,7 +44,7 @@
 
         <div class="stat-card glass-card">
 
-            <icon name=circle-check color=success size=2xl />
+            <i class="bi bi-check-circle-fill icon-success icon-2xl"></i>
 
             <h2>@ViewBag.PaidCount</h2>
 
@@ -54,7 +54,7 @@
 
         <div class="stat-card glass-card">
 
-            <icon name=circle-x color=danger size=2xl />
+            <i class="bi bi-x-circle-fill icon-danger icon-2xl"></i>
 
             <h2>@ViewBag.CancelledCount</h2>
 
@@ -70,7 +70,7 @@
     {
         <div class="empty-state glass-card">
 
-            <icon name=credit-card color=info size=2xl />
+            <i class="bi bi-credit-card-fill icon-info icon-2xl"></i>
 
             <h2>No Payments Yet</h2>
 
@@ -116,7 +116,7 @@
 
                         <p>
 
-                            <icon name=calendar color=info />
+                            <i class="bi bi-calendar-event-fill icon-info"></i>
 
                             @(payment.PaymentDate.HasValue
                                 ? payment.PaymentDate.Value.ToString("dd MMM yyyy HH:mm")
@@ -126,7 +126,7 @@
 
                         <p>
 
-                            <icon name=receipt color=info />
+                            <i class="bi bi-receipt icon-info"></i>
 
                             @payment.PaymentMonth
 
@@ -136,7 +136,7 @@
                         {
                             <p>
 
-                                <icon name=hash color=info />
+                                <i class="bi bi-hash icon-info"></i>
 
                                 @payment.TransactionReference
 
@@ -147,7 +147,7 @@
                         {
                             <p>
 
-                                <icon name=shield-check color=success />
+                                <i class="bi bi-shield-check icon-success"></i>
 
                                 PayFast ID: @payment.PayFastPaymentID
 

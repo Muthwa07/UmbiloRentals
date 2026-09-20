@@ -28,7 +28,8 @@ namespace UmbiloRentals.Controllers
             string email,
             string phone,
             string password,
-            string ConfirmPassword)
+            string ConfirmPassword,
+            bool consentGiven)
         {
             // Keep entered values if validation fails
             User model = new User
@@ -87,6 +88,14 @@ namespace UmbiloRentals.Controllers
                     "An account with this email already exists.");
             }
 
+            // Privacy consent must be given
+            if (!consentGiven)
+            {
+                ModelState.AddModelError(
+                    "",
+                    "You must agree to the Privacy Policy and Terms & Conditions to create an account.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -98,7 +107,7 @@ namespace UmbiloRentals.Controllers
                 LastName = lastName,
                 Email = email,
                 Phone = "+27" + phone,
-                Password = password,
+                Password = PasswordHelper.HashPassword(password),
                 RoleID = 1,
                 Status = "Active",
                 DateCreated = DateTime.Now
@@ -131,13 +140,20 @@ namespace UmbiloRentals.Controllers
         {
             User user = db.Users.FirstOrDefault(
                 u => u.Email == email &&
-                     u.Password == password &&
                      u.Status == "Active");
 
-            if (user == null)
+            if (user == null || !PasswordHelper.VerifyPassword(password, user.Password))
             {
                 ViewBag.ErrorMessage = "Invalid email or password.";
                 return View();
+            }
+
+            // Silently migrate legacy plaintext passwords to a proper
+            // hash now that we know the password is correct.
+            if (PasswordHelper.IsLegacyPlaintext(user.Password))
+            {
+                user.Password = PasswordHelper.HashPassword(password);
+                db.SaveChanges();
             }
 
             // Store logged-in user's details
@@ -174,6 +190,21 @@ namespace UmbiloRentals.Controllers
                 .Replace("=", "");
         }
 
+        // Cryptographically random 6-digit code, e.g. "042951"
+        private string GenerateResetCode()
+        {
+            byte[] bytes = new byte[4];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(bytes);
+            }
+
+            uint value = BitConverter.ToUInt32(bytes, 0);
+
+            return (value % 1000000).ToString("D6");
+        }
+
         public ActionResult ForgotPassword()
         {
             return View();
@@ -188,30 +219,27 @@ namespace UmbiloRentals.Controllers
             if (user == null)
             {
                 TempData["SuccessMessage"] =
-                    "If the email exists, a reset link has been sent.";
+                    "If that email exists, a reset code has been sent.";
 
                 return RedirectToAction("Login");
             }
 
-            user.ResetToken = GenerateResetToken();
-            user.ResetTokenExpiry = DateTime.Now.AddHours(1);
+            string code = GenerateResetCode();
+
+            user.ResetCode = code;
+            user.ResetCodeExpiry = DateTime.Now.AddMinutes(2);
 
             db.SaveChanges();
-
-            string resetLink = Url.Action(
-                "ResetPassword",
-                "Account",
-                new { token = user.ResetToken },
-                Request.Url.Scheme);
 
             try
             {
                 MailMessage message = new MailMessage();
                 message.To.Add(user.Email);
-                message.Subject = "Umbilo Rentals Password Reset";
+                message.Subject = "Your Umbilo Rentals reset code";
                 message.Body =
-                    "Click the link below to reset your password:\n\n" +
-                    resetLink;
+                    "Your password reset code is: " + code + "\n\n" +
+                    "This code expires in 2 minutes. If you didn't request " +
+                    "this, you can safely ignore this email.";
 
                 SmtpClient smtp = new SmtpClient();
                 smtp.Send(message);
@@ -221,45 +249,73 @@ namespace UmbiloRentals.Controllers
                 // Prevent exposing email errors to users.
             }
 
-            TempData["SuccessMessage"] =
-                "If the email exists, a reset link has been sent.";
+            TempData["ResetEmail"] = email;
 
-            return RedirectToAction("Login");
+            TempData["SuccessMessage"] =
+                "If that email exists, a 6-digit code has been sent. " +
+                "It expires in 2 minutes.";
+
+            return RedirectToAction("ResetPassword");
         }
 
-        public ActionResult ResetPassword(string token)
+        // GET: Account/ResetPassword
+        public ActionResult ResetPassword()
         {
-            var user = db.Users.FirstOrDefault(u =>
-                u.ResetToken == token &&
-                u.ResetTokenExpiry > DateTime.Now);
+            string email = TempData["ResetEmail"] as string;
 
-            if (user == null)
-                return HttpNotFound();
+            if (string.IsNullOrEmpty(email))
+            {
+                TempData["ErrorMessage"] =
+                    "Please request a reset code first.";
 
-            ViewBag.Token = token;
+                return RedirectToAction("ForgotPassword");
+            }
+
+            // Keep it alive so it survives the POST back on this same page
+            TempData.Keep("ResetEmail");
+
+            ViewBag.Email = email;
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(string token, string password)
+        public ActionResult ResetPassword(string email, string code, string password, string confirmPassword)
         {
+            if (password != confirmPassword)
+            {
+                TempData["ErrorMessage"] = "Passwords do not match.";
+                TempData["ResetEmail"] = email;
+
+                return RedirectToAction("ResetPassword");
+            }
+
             var user = db.Users.FirstOrDefault(u =>
-                u.ResetToken == token &&
-                u.ResetTokenExpiry > DateTime.Now);
+                u.Email == email &&
+                u.ResetCode == code &&
+                u.ResetCodeExpiry > DateTime.Now);
 
             if (user == null)
-                return HttpNotFound();
+            {
+                TempData["ErrorMessage"] =
+                    "That code is invalid or has expired. Please request a new one.";
 
-            user.Password = password;
-            user.ResetToken = null;
-            user.ResetTokenExpiry = null;
+                TempData["ResetEmail"] = email;
+
+                return RedirectToAction("ResetPassword");
+            }
+
+            user.Password = PasswordHelper.HashPassword(password);
+
+            // Invalidate the code so it can't be reused
+            user.ResetCode = null;
+            user.ResetCodeExpiry = null;
 
             db.SaveChanges();
 
             TempData["SuccessMessage"] =
-                "Password reset successfully.";
+                "Password reset successfully. You can now log in.";
 
             return RedirectToAction("Login");
         }
@@ -283,8 +339,6 @@ namespace UmbiloRentals.Controllers
             ViewBag.AvailableRooms =
                 db.Rooms.Count(r => r.Status == "Available");
 
-            ViewBag.NotificationCount = 0;
-
             // -----------------------------
             // TENANT MODE
             // -----------------------------
@@ -305,7 +359,37 @@ namespace UmbiloRentals.Controllers
                     ViewBag.CurrentRent = room.MonthlyRent;
                     ViewBag.RoomStatus = "Allocated";
                     ViewBag.MoveInDate = approved.DateApplied;
+                    ViewBag.ApprovedApplicationID = approved.ApplicationID;
+
+                    string currentMonth = DateTime.Now.ToString("yyyy-MM");
+
+                    bool paidThisMonth = db.Payments.Any(p =>
+                        p.UserID == userId &&
+                        p.RoomID == room.RoomID &&
+                        p.PaymentMonth == currentMonth &&
+                        p.Status == "Paid");
+
+                    bool pendingThisMonth = db.Payments.Any(p =>
+                        p.UserID == userId &&
+                        p.RoomID == room.RoomID &&
+                        p.PaymentMonth == currentMonth &&
+                        p.Status == "Pending");
+
+                    ViewBag.RentPaidThisMonth = paidThisMonth;
+                    ViewBag.RentPendingThisMonth = pendingThisMonth;
                 }
+            }
+            else
+            {
+                // Not a tenant yet - show progress for their most recent application
+                var latestApplication = applications
+                    .OrderByDescending(a => a.DateApplied)
+                    .FirstOrDefault();
+
+                ViewBag.LatestApplicationStatus =
+                    latestApplication?.Status ?? "Pending";
+
+                ViewBag.HasApplication = latestApplication != null;
             }
 
             var payment = db.Payments
@@ -333,7 +417,15 @@ namespace UmbiloRentals.Controllers
             if (user == null)
                 return HttpNotFound();
 
-            return View(user);
+            return View("Profile", user);
+        }
+
+        // GET: Account/MyProfile - old URL, kept as a redirect so
+        // existing bookmarks/links don't 404
+        [ActionName("MyProfile")]
+        public ActionResult MyProfileRedirect()
+        {
+            return RedirectToActionPermanent("Profile");
         }
 
         // POST: Account/Profile
@@ -356,11 +448,17 @@ namespace UmbiloRentals.Controllers
             user.LastName = model.LastName;
             user.Email = model.Email;
             user.Phone = model.Phone;
-
-            // These fields only save if you've added them to the Users table.
             user.Occupation = model.Occupation;
             user.EmergencyContactName = model.EmergencyContactName;
             user.EmergencyContactPhone = model.EmergencyContactPhone;
+
+            // Roommate compatibility profile
+            user.SleepSchedule = model.SleepSchedule;
+            user.CleanlinessLevel = model.CleanlinessLevel;
+            user.NoiseTolerance = model.NoiseTolerance;
+            user.IsSmoker = model.IsSmoker;
+            user.StudyHabit = model.StudyHabit;
+            user.GuestsPreference = model.GuestsPreference;
 
             db.SaveChanges();
 
@@ -430,17 +528,47 @@ namespace UmbiloRentals.Controllers
 
             application.Status = "Moved Out";
 
+            var allocation = db.Allocations
+                .Where(a =>
+                    a.UserID == userId &&
+                    a.RoomID == application.RoomID &&
+                    a.Status == "Active")
+                .OrderByDescending(a => a.AllocationDate)
+                .FirstOrDefault();
+
+            if (allocation != null)
+            {
+                allocation.MoveOutDate = DateTime.Now;
+                allocation.Status = "Completed";
+            }
+            else
+            {
+                // No Allocation record exists for this stay (most likely
+                // this application was approved before allocation
+                // tracking was added). Create one now, retroactively,
+                // so the tenant can still leave a review.
+                db.Allocations.Add(new Allocation
+                {
+                    UserID = userId,
+                    RoomID = application.RoomID.Value,
+                    AllocationDate = application.DateApplied ?? DateTime.Now,
+                    MoveOutDate = DateTime.Now,
+                    Status = "Completed"
+                });
+            }
+
             NotificationHelper.CreateNotification(
                 db,
                 userId,
-                "🏠 You have successfully moved out.");
+                "You have successfully moved out.");
 
             db.SaveChanges();
 
             TempData["SuccessMessage"] =
-                "You have successfully moved out and your room is now available.";
+                "You have successfully moved out and your room is now available. " +
+                "Please take a moment to leave a review for other students.";
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Create", "Reviews", new { roomId = application.RoomID });
         }
 
         // GET: Account/Logout

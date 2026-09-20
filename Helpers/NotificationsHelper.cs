@@ -19,7 +19,7 @@ namespace UmbiloRentals.Helpers
             notification.IsRead = false;
 
             db.Notifications.Add(notification);
-            db.SaveChanges();
+            // SaveChanges() is handled by the calling controller.
         }
     }
 }

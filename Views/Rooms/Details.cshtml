@@ -17,7 +17,7 @@
         }
         else
         {
-            <AsyncImage query="modern luxury student accommodation bedroom South Africa" aspectRatio="16:9" width="100%" maxHeight=500 />
+            <div class="no-photo-placeholder"><i class="bi bi-house-door"></i><span>No photo available</span></div>
         }
 
     </div>
@@ -46,35 +46,35 @@
                 <div class="feature-grid">
 
                     <div class="feature-item">
-                        <icon name=bath color=info /> Shared Bathroom
+                        <i class="bi bi-droplet-half icon-info"></i> Shared Bathroom
                     </div>
 
                     <div class="feature-item">
-                        <icon name=cooking-pot color=info /> Shared Kitchen
+                        <i class="bi bi-cup-hot-fill icon-info"></i> Shared Kitchen
                     </div>
 
                     <div class="feature-item">
-                        <icon name=wifi color=info /> Free Wi-Fi
+                        <i class="bi bi-wifi icon-info"></i> Free Wi-Fi
                     </div>
 
                     <div class="feature-item">
-                        <icon name=droplet color=info /> Water Included
+                        <i class="bi bi-droplet-fill icon-info"></i> Water Included
                     </div>
 
                     <div class="feature-item">
-                        <icon name=bolt color=info /> Electricity Included
+                        <i class="bi bi-lightning-charge-fill icon-info"></i> Electricity Included
                     </div>
 
                     <div class="feature-item">
-                        <icon name=shield-check color=info /> 24/7 Security
+                        <i class="bi bi-shield-check icon-info"></i> 24/7 Security
                     </div>
 
                     <div class="feature-item">
-                        <icon name=shirt color=info /> Laundry Area
+                        <i class="bi bi-bag-fill icon-info"></i> Laundry Area
                     </div>
 
                     <div class="feature-item">
-                        <icon name=car color=info /> Parking Available
+                        <i class="bi bi-car-front-fill icon-info"></i> Parking Available
                     </div>
 
                 </div>
@@ -128,32 +128,32 @@
             <div class="amenities">
 
                 <div class="amenity">
-                    <icon name=wifi color=info />
+                    <i class="bi bi-wifi icon-info"></i>
                     Wi-Fi
                 </div>
 
                 <div class="amenity">
-                    <icon name=utensils color=info />
+                    <i class="bi bi-basket2-fill icon-info"></i>
                     Shared Kitchen
                 </div>
 
                 <div class="amenity">
-                    <icon name=car color=info />
+                    <i class="bi bi-car-front-fill icon-info"></i>
                     Parking
                 </div>
 
                 <div class="amenity">
-                    <icon name=shield-check color=info />
+                    <i class="bi bi-shield-check icon-info"></i>
                     Secure Access
                 </div>
 
                 <div class="amenity">
-                    <icon name=droplet color=info />
+                    <i class="bi bi-droplet-fill icon-info"></i>
                     Water Included
                 </div>
 
                 <div class="amenity">
-                    <icon name=zap color=info />
+                    <i class="bi bi-lightning-fill icon-info"></i>
                     Electricity Available
                 </div>
 
@@ -195,7 +195,7 @@
                 else if ((bool)ViewBag.HasApplied)
                 {
                     <button class="btn-applied" disabled>
-                        ✓ Application Submitted
+                        <i class="bi bi-check-circle-fill"></i> Application Submitted
                     </button>
                 }
                 else
@@ -223,6 +223,61 @@
                 new { @class = "btn-back" })
 
         </div>
+
+    </div>
+
+    <div class="glass-card reviews-section">
+
+        <div class="reviews-header">
+
+            <h2>Reviews</h2>
+
+            @if (ViewBag.AverageRating != null)
+            {
+                <span class="average-rating">
+                    <i class="bi bi-star-fill icon-warning"></i>
+                    @ViewBag.AverageRating
+                    <span class="review-count">(@ViewBag.ReviewCount review@(ViewBag.ReviewCount == 1 ? "" : "s"))</span>
+                </span>
+            }
+
+        </div>
+
+        @if (ViewBag.ReviewCount == 0)
+        {
+            <p class="no-reviews">
+                No reviews yet - be the first to leave one after your stay.
+            </p>
+        }
+        else
+        {
+            foreach (var review in ViewBag.Reviews)
+            {
+                <div class="review-item">
+
+                    <div class="review-item-header">
+
+                        <span class="review-stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                            }
+                        </span>
+
+                        <span class="review-date">
+                            @review.DatePosted.ToString("MMMM yyyy")
+                        </span>
+
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(review.Comment))
+                    {
+                        <p class="review-comment">@review.Comment</p>
+                    }
+
+                </div>
+            }
+        }
 
     </div>
 

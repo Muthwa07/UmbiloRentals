@@ -37,11 +37,7 @@
     z-index: 2;
     max-width: 720px;
     text-align: center;
-    padding: 50px;
-    background: rgba(255,255,255,.15);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,.28);
-    border-radius: 28px;
+    padding: 0;
     color: white;
     box-shadow: 0 20px 45px rgba(0,0,0,.22);
 }
@@ -67,13 +63,13 @@
 }
 
 .btn-primary-glass {
-    background: white;
-    color: #17345C !important;
+    background: var(--sky-400);
+    color: var(--navy-950) !important;
     padding: 14px 28px;
-    border-radius: 14px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 700;
     text-decoration: none !important;
-    transition: .3s;
+    transition: .2s;
 }
 
     .btn-primary-glass:hover {
@@ -82,12 +78,12 @@
     }
 
 .btn-outline-glass {
-    border: 2px solid rgba(255,255,255,.6);
+    border: 2px solid rgba(255,255,255,.4);
     color: white !important;
     padding: 14px 28px;
-    border-radius: 14px;
+    border-radius: 8px;
     text-decoration: none !important;
-    transition: .3s;
+    transition: .2s;
 }
 
     .btn-outline-glass:hover {
@@ -109,8 +105,7 @@
 }
 
 .stat-card {
-    background: rgba(255,255,255,.75);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border-radius: 22px;
     padding: 30px;
     text-align: center;
@@ -118,7 +113,7 @@
 }
 
     .stat-card h2 {
-        color: #17345C;
+        color: var(--navy-950);
         font-size: 36px;
     }
 
@@ -138,7 +133,7 @@
 }
 
     .section-heading h2 {
-        color: #17345C;
+        color: var(--navy-950);
         font-size: 42px;
     }
 
@@ -155,8 +150,7 @@
 }
 
 .feature-card {
-    background: rgba(255,255,255,.65);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border-radius: 22px;
     padding: 35px;
     text-align: center;
@@ -172,8 +166,8 @@
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: linear-gradient(135deg,#17345C,#4DA3FF);
-    color: white;
+    background: var(--sky-400);
+  color: var(--navy-950) ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,7 +195,7 @@
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: #17345C;
+    background: var(--navy-950);
     color: white;
     display: flex;
     align-items: center;
@@ -213,7 +207,7 @@
 /* CTA */
 
 .cta {
-    background: linear-gradient(135deg,#17345C,#2D5D87);
+    background: var(--navy-950);
     border-radius: 30px;
     padding: 60px;
     text-align: center;

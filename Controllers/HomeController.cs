@@ -10,6 +10,9 @@ namespace UmbiloRentals.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.AvailableRoomCount =
+                db.Rooms.Count(r => r.Status == "Available");
+
             return View();
         }
 
@@ -22,8 +25,6 @@ namespace UmbiloRentals.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
