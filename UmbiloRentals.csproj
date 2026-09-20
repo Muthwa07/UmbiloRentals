@@ -140,16 +140,20 @@
     <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LegalController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\NotificationsHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\PaymentService.cs" />
     <Compile Include="Helpers\PdfHelper.cs" />
+    <Compile Include="Helpers\SmsService.cs" />
     <Compile Include="Models\AdminApplicationViewModel.cs" />
     <Compile Include="Models\Allocation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -241,6 +245,18 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\bootstrap-icons\bootstrap-icons.min.css" />
+    <Content Include="Content\fonts\inter.css" />
+    <Content Include="Content\images\logo.svg" />
+    <Content Include="Content\styles\legal.css" />
+    <Content Include="Content\styles\sidebar.css" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff2" />
+    <Content Include="Content\fonts\inter\inter-latin-400-normal.woff2" />
+    <Content Include="Content\fonts\inter\inter-latin-500-normal.woff2" />
+    <Content Include="Content\fonts\inter\inter-latin-600-normal.woff2" />
+    <Content Include="Content\fonts\inter\inter-latin-700-normal.woff2" />
+    <Content Include="Content\fonts\inter\inter-latin-800-normal.woff2" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -276,6 +292,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
+    <Content Include="Web.Secrets.config.example" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -294,6 +311,11 @@
     <Content Include="Views\Applications\Details.cshtml" />
     <Content Include="Views\Applications\Edit.cshtml" />
     <Content Include="Views\Applications\Index.cshtml" />
+    <Content Include="Views\Legal\Cookies.cshtml" />
+    <Content Include="Views\Legal\Privacy.cshtml" />
+    <Content Include="Views\Legal\Refunds.cshtml" />
+    <Content Include="Views\Legal\Terms.cshtml" />
+    <Content Include="Views\Reviews\Create.cshtml" />
     <Content Include="Views\Rooms\Create.cshtml" />
     <Content Include="Views\Rooms\Delete.cshtml" />
     <Content Include="Views\Rooms\Details.cshtml" />
@@ -310,10 +332,15 @@
     <Content Include="Views\Maintenance\Index.cshtml" />
     <Content Include="Views\Maintenance\MyRequests.cshtml" />
     <Content Include="Views\Shared\_Alerts.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Payments\Success.cshtml" />
     <Content Include="Views\Payments\Cancel.cshtml" />
     <Content Include="Views\Payments\PayNow.cshtml" />
     <Content Include="Views\Admin\Payments.cshtml" />
+    <Content Include="Views\Admin\CreateRoom.cshtml" />
+    <Content Include="Views\Admin\DeleteRoom.cshtml" />
+    <Content Include="Views\Admin\EditRoom.cshtml" />
+    <Content Include="Views\Admin\Rooms.cshtml" />
     <Content Include="Views\Payments\History.cshtml" />
     <Content Include="Views\Maintenance\Report.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />

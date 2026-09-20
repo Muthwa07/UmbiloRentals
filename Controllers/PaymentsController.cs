@@ -42,10 +42,28 @@ namespace UmbiloRentals.Controllers
 
             decimal amount = room.MonthlyRent ?? 0;
 
+            string currentMonth = DateTime.Now.ToString("yyyy-MM");
+
+            // Already paid for this month - don't let them pay again
+            bool alreadyPaidThisMonth = db.Payments.Any(p =>
+                p.UserID == user.UserID &&
+                p.RoomID == room.RoomID &&
+                p.PaymentMonth == currentMonth &&
+                p.Status == "Paid");
+
+            if (alreadyPaidThisMonth)
+            {
+                TempData["SuccessMessage"] =
+                    "You've already paid rent for this month.";
+
+                return RedirectToAction("History");
+            }
+
             // Look for an existing active payment for this application
             var existingPayment = db.Payments.FirstOrDefault(p =>
                 p.UserID == user.UserID &&
                 p.RoomID == room.RoomID &&
+                p.PaymentMonth == currentMonth &&
                 p.Status == "Pending");
 
             string reference;
@@ -65,7 +83,7 @@ namespace UmbiloRentals.Controllers
                     RoomID = room.RoomID,
                     Amount = amount,
                     PaymentDate = DateTime.Now,
-                    PaymentMonth = DateTime.Now.ToString("yyyy-MM"),
+                    PaymentMonth = currentMonth,
                     Status = "Pending",
                     Gateway = "PayFast",
                     TransactionReference = reference,

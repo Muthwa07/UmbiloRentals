@@ -13,7 +13,7 @@
 }
 
     .rooms-header h1 {
-        color: #17345C;
+        color: var(--navy-950);
         font-size: 46px;
         font-weight: 700;
     }
@@ -30,8 +30,7 @@
 }
 
 .room-card {
-    background: rgba(255,255,255,.72);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border: 1px solid rgba(255,255,255,.35);
     border-radius: 24px;
     overflow: hidden;
@@ -60,6 +59,27 @@
 .room-card:hover .room-image img {
     transform: scale(1.08);
 }
+
+.no-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg,#EAF4FF,#F8FBFF);
+    color: #475569;
+}
+
+    .no-photo-placeholder i {
+        font-size: 34px;
+    }
+
+    .no-photo-placeholder span {
+        font-size: 13px;
+        font-weight: 600;
+    }
 
 .room-status {
     position: absolute;
@@ -93,14 +113,14 @@
 }
 
     .room-title h3 {
-        color: #17345C;
+        color: var(--navy-950);
         margin: 0;
         font-size: 26px;
     }
 
 .rent-chip {
     background: #EAF4FF;
-    color: #17345C;
+    color: var(--navy-950);
     padding: 8px 14px;
     border-radius: 12px;
     font-weight: 700;
@@ -141,8 +161,8 @@
 
 .btn-room-primary {
     flex: 1;
-    background: linear-gradient(135deg,#17345C,#4DA3FF);
-    color: white !important;
+    background: var(--sky-400);
+  color: var(--navy-950) !important;
     text-decoration: none !important;
     text-align: center;
     padding: 13px;
@@ -158,8 +178,8 @@
 
 .btn-room-secondary {
     flex: 1;
-    border: 2px solid #17345C;
-    color: #17345C !important;
+    border: 2px solid var(--navy-950);
+    color: var(--navy-950) !important;
     text-decoration: none !important;
     text-align: center;
     padding: 13px;
@@ -169,7 +189,7 @@
 }
 
     .btn-room-secondary:hover {
-        background: #17345C;
+        background: var(--navy-950);
         color: white !important;
     }
 
@@ -186,4 +206,68 @@
     .room-footer {
         flex-direction: column;
     }
+}
+
+/* ---------- Reviews ---------- */
+
+.reviews-section {
+    margin-top: 24px;
+}
+
+.reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--navy-950);
+}
+
+.review-count {
+    font-weight: 500;
+    font-size: 14px;
+    color: #64748B;
+}
+
+.no-reviews {
+    color: #64748B;
+}
+
+.review-item {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(23,52,92,.08);
+}
+
+    .review-item:last-child {
+        border-bottom: none;
+    }
+
+.review-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.review-stars i {
+    color: #F59E0B;
+    font-size: 14px;
+}
+
+.review-date {
+    font-size: 13px;
+    color: #94A3B8;
+}
+
+.review-comment {
+    margin: 0;
+    color: #334155;
+    line-height: 1.6;
 }

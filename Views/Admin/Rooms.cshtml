@@ -4,69 +4,167 @@
     ViewBag.Title = "Manage Rooms";
 }
 
-<div class="application-page">
+<div class="admin-review-page">
 
-    <h1>Manage Rooms</h1>
+    <div class="page-header">
 
-    <p>
+        <div>
+
+            <div class="section-tag">
+                <i class="bi bi-house-door-fill icon-discovery"></i>
+                Room Management
+            </div>
+
+            <h1>Manage Rooms</h1>
+
+            <p>
+                Add, edit and remove accommodation listings.
+            </p>
+
+        </div>
+
+        <div class="application-count glass-count-card">
+
+            <i class="bi bi-buildings-fill icon-info icon-lg"></i>
+
+            <div>
+
+                <strong>@Model.Count()</strong>
+
+                <span>Rooms</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="glass-alert success">
+
+            <i class="bi bi-check-circle-fill icon-success"></i>
+
+            <div>
+
+                <strong>Success</strong>
+
+                <p>@TempData["SuccessMessage"]</p>
+
+            </div>
+
+        </div>
+    }
+
+    <div class="admin-rooms-actions">
+
         @Html.ActionLink(
             "Add New Room",
             "CreateRoom",
             "Admin",
             null,
-            new { @class = "btn-register" })
-    </p>
+            new { @class = "btn-room-primary" })
 
-    @if (TempData["SuccessMessage"] != null)
+    </div>
+
+    @if (!Model.Any())
     {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
+        <div class="empty-state glass-card">
+
+            <i class="bi bi-house-door icon-info icon-2xl"></i>
+
+            <h2>No rooms yet</h2>
+
+            <p>Add your first room to get started.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="room-grid">
+
+            @foreach (var room in Model)
+            {
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        @if (!string.IsNullOrEmpty(room.Photo))
+                        {
+                            <img src="@Url.Content("~/Content/RoomImages/" + room.Photo)"
+                                 alt="Room @room.RoomNumber" />
+                        }
+                        else
+                        {
+                            <div class="no-photo-placeholder"><i class="bi bi-house-door"></i><span>No photo available</span></div>
+                        }
+
+                        <div class="room-status @(room.Status == "Available" ? "status-available" : "status-occupied")">
+                            @room.Status
+                        </div>
+
+                    </div>
+
+                    <div class="room-body">
+
+                        <div class="room-title">
+
+                            <h3>Room @room.RoomNumber</h3>
+
+                            <span class="rent-chip">
+                                R @room.MonthlyRent / month
+                            </span>
+
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(room.Description))
+                        {
+                            <p class="room-description">
+                                @room.Description
+                            </p>
+                        }
+
+                        <div class="room-footer">
+
+                            @Html.ActionLink(
+                                "Edit",
+                                "EditRoom",
+                                new { id = room.RoomID },
+                                new { @class = "btn-room-primary", aria_label = "Edit Room " + room.RoomNumber })
+
+                            @Html.ActionLink(
+                                "Delete",
+                                "DeleteRoom",
+                                new { id = room.RoomID },
+                                new {
+                                    @class = "btn-room-secondary btn-delete-room",
+                                    aria_label = "Delete Room " + room.RoomNumber,
+                                    data_confirm = "Delete Room " + room.RoomNumber + "? This can't be undone."
+                                })
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
         </div>
     }
 
-    <table class="table">
-
-        <tr>
-
-            <th>Room</th>
-            <th>Rent</th>
-            <th>Status</th>
-            <th>Photo</th>
-            <th>Actions</th>
-
-        </tr>
-
-        @foreach (var room in Model)
-        {
-            <tr>
-
-                <td>@room.RoomNumber</td>
-
-                <td>R @room.MonthlyRent</td>
-
-                <td>@room.Status</td>
-
-                <td>@room.Photo</td>
-
-                <td>
-
-                    @Html.ActionLink(
-                        "Edit",
-                        "EditRoom",
-                        new { id = room.RoomID },
-                        new { @class = "btn-room" })
-
-                    @Html.ActionLink(
-                        "Delete",
-                        "DeleteRoom",
-                        new { id = room.RoomID },
-                        new { @class = "btn-back" })
-
-                </td>
-
-            </tr>
-        }
-
-    </table>
-
 </div>
+
+@section scripts {
+    <script>
+        (function () {
+            document.querySelectorAll(".btn-delete-room").forEach(function (link) {
+                link.addEventListener("click", function (e) {
+                    var message = link.getAttribute("data-confirm");
+                    if (message && !confirm(message)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        })();
+    </script>
+}

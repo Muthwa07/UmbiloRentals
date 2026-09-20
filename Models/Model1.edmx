@@ -117,6 +117,17 @@
           <Property Name="PayFastPaymentID" Type="nvarchar" MaxLength="100" />
           <Property Name="Gateway" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Reviews">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DatePosted" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="RoleID" />
@@ -156,6 +167,12 @@
           <Property Name="ProfilePhoto" Type="nvarchar" MaxLength="255" />
           <Property Name="ResetToken" Type="nvarchar" MaxLength="100" />
           <Property Name="ResetTokenExpiry" Type="datetime" />
+          <Property Name="SleepSchedule" Type="nvarchar" MaxLength="20" />
+          <Property Name="CleanlinessLevel" Type="nvarchar" MaxLength="20" />
+          <Property Name="NoiseTolerance" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsSmoker" Type="bit" />
+          <Property Name="StudyHabit" Type="nvarchar" MaxLength="20" />
+          <Property Name="GuestsPreference" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="VisitorRequests">
           <Key>
@@ -387,6 +404,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Reviews_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="1" />
+          <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reviews_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="BuildingManagementDBModelStoreContainer">
           <EntitySet Name="Allocations" EntityType="Self.Allocations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
@@ -397,6 +438,7 @@
           <EntitySet Name="MaintenanceRequests" EntityType="Self.MaintenanceRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reviews" EntityType="Self.Reviews" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -472,6 +514,14 @@
           <AssociationSet Name="FK_Payments_VerifiedBy" Association="Self.FK_Payments_VerifiedBy">
             <End Role="Users" EntitySet="Users" />
             <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_Rooms" Association="Self.FK_Reviews_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_Users" Association="Self.FK_Reviews_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Reviews" EntitySet="Reviews" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -615,6 +665,7 @@
           <NavigationProperty Name="Allocations" Relationship="Self.FK__Allocatio__RoomI__59063A47" FromRole="Rooms" ToRole="Allocations" />
           <NavigationProperty Name="MaintenanceRequests" Relationship="Self.FK__Maintenan__RoomI__66603565" FromRole="Rooms" ToRole="MaintenanceRequests" />
           <NavigationProperty Name="Payments" Relationship="BuildingManagementDBModel.FK_Payments_Rooms" FromRole="Room" ToRole="Payment" />
+          <NavigationProperty Name="Reviews" Relationship="BuildingManagementDBModel.FK_Reviews_Rooms" FromRole="Room" ToRole="Review" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -649,6 +700,13 @@
           <NavigationProperty Name="MaintenanceRequests11" Relationship="BuildingManagementDBModel.FK_Maintenance_AssignedTechnician" FromRole="User" ToRole="MaintenanceRequest" />
           <Property Name="ResetToken" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ResetTokenExpiry" Type="DateTime" Precision="3" />
+          <Property Name="SleepSchedule" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CleanlinessLevel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NoiseTolerance" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsSmoker" Type="Boolean" />
+          <Property Name="StudyHabit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="GuestsPreference" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reviews" Relationship="BuildingManagementDBModel.FK_Reviews_Users" FromRole="User" ToRole="Review" />
         </EntityType>
         <EntityType Name="VisitorRequest">
           <Key>
@@ -887,6 +945,15 @@
             <End Role="User" EntitySet="Users" />
             <End Role="MaintenanceRequest" EntitySet="MaintenanceRequests" />
           </AssociationSet>
+          <EntitySet Name="Reviews" EntityType="BuildingManagementDBModel.Review" />
+          <AssociationSet Name="FK_Reviews_Rooms" Association="BuildingManagementDBModel.FK_Reviews_Rooms">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_Users" Association="BuildingManagementDBModel.FK_Reviews_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Notification">
           <Key>
@@ -944,6 +1011,43 @@
             </Principal>
             <Dependent Role="MaintenanceRequest">
               <PropertyRef Name="AssignedTechnicianID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DatePosted" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Room" Relationship="BuildingManagementDBModel.FK_Reviews_Rooms" FromRole="Review" ToRole="Room" />
+          <NavigationProperty Name="User" Relationship="BuildingManagementDBModel.FK_Reviews_Users" FromRole="Review" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Reviews_Rooms">
+          <End Type="BuildingManagementDBModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="BuildingManagementDBModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reviews_Users">
+          <End Type="BuildingManagementDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="BuildingManagementDBModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1086,6 +1190,12 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="BuildingManagementDBModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="GuestsPreference" ColumnName="GuestsPreference" />
+                <ScalarProperty Name="StudyHabit" ColumnName="StudyHabit" />
+                <ScalarProperty Name="IsSmoker" ColumnName="IsSmoker" />
+                <ScalarProperty Name="NoiseTolerance" ColumnName="NoiseTolerance" />
+                <ScalarProperty Name="CleanlinessLevel" ColumnName="CleanlinessLevel" />
+                <ScalarProperty Name="SleepSchedule" ColumnName="SleepSchedule" />
                 <ScalarProperty Name="ResetTokenExpiry" ColumnName="ResetTokenExpiry" />
                 <ScalarProperty Name="ResetToken" ColumnName="ResetToken" />
                 <ScalarProperty Name="ProfilePhoto" ColumnName="ProfilePhoto" />
@@ -1129,6 +1239,18 @@
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="BuildingManagementDBModel.Review">
+              <MappingFragment StoreEntitySet="Reviews">
+                <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

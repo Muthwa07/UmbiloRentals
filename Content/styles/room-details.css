@@ -27,8 +27,7 @@
 
 .room-info,
 .booking-card {
-    background: rgba(255,255,255,.72);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border: 1px solid rgba(255,255,255,.35);
     border-radius: 24px;
     padding: 35px;
@@ -44,7 +43,7 @@
 }
 
     .room-header h1 {
-        color: #17345C;
+        color: var(--navy-950);
         margin: 0;
         font-size: 42px;
     }
@@ -65,8 +64,8 @@
 }
 
 .price-card {
-    background: linear-gradient(135deg,#17345C,#4DA3FF);
-    color: white;
+    background: var(--sky-400);
+  color: var(--navy-950) ;
     border-radius: 18px;
     padding: 24px;
     text-align: center;
@@ -105,7 +104,7 @@
 }
 
     .booking-card h3 {
-        color: #17345C;
+        color: var(--navy-950);
         margin-bottom: 20px;
     }
 
@@ -127,8 +126,8 @@
     text-align: center;
     padding: 15px;
     border-radius: 16px;
-    background: linear-gradient(135deg,#17345C,#4DA3FF);
-    color: white !important;
+    background: var(--sky-400);
+  color: var(--navy-950) !important;
     text-decoration: none !important;
     font-weight: 600;
     margin-bottom: 15px;
@@ -145,14 +144,14 @@
     text-align: center;
     padding: 14px;
     border-radius: 16px;
-    border: 2px solid #17345C;
-    color: #17345C !important;
+    border: 2px solid var(--navy-950);
+    color: var(--navy-950) !important;
     text-decoration: none !important;
     font-weight: 600;
 }
 
     .btn-back:hover {
-        background: #17345C;
+        background: var(--navy-950);
         color: white !important;
     }
 

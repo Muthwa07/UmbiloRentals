@@ -38,5 +38,6 @@ namespace UmbiloRentals.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VisitorRequest> VisitorRequests { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
     }
 }

@@ -22,7 +22,7 @@
     {
         <div class="glass-card empty-state">
 
-            <icon name=wrench color=info size=2xl />
+            <i class="bi bi-wrench icon-info icon-2xl"></i>
 
             <h2>No maintenance requests yet</h2>
 
@@ -60,13 +60,17 @@
 
                         <div class="timeline-item completed">
 
-                            <icon name=circle-check color=success />
+                            <i class="bi bi-check-circle-fill icon-success"></i>
 
                             <div>
 
                                 <strong>Reported</strong>
 
-                                <p>@item.DateReported</p>
+                                <p>
+                                    @(item.DateReported.HasValue
+                                        ? item.DateReported.Value.ToString("dd MMM yyyy HH:mm")
+                                        : "-")
+                                </p>
 
                             </div>
 
@@ -74,7 +78,7 @@
 
                         <div class="timeline-item @(item.DateStarted.HasValue ? "completed" : "")">
 
-                            <icon name=wrench color={item.DateStarted.HasValue ? "success" : "default" } />
+                            <i class="bi bi-wrench @(item.DateStarted.HasValue ? "icon-success" : "icon-default")"></i>
 
                             <div>
 
@@ -92,7 +96,7 @@
 
                         <div class="timeline-item @(item.DateCompleted.HasValue ? "completed" : "")">
 
-                            <icon name=circle-check color={item.DateCompleted.HasValue ? "success" : "default" } />
+                            <i class="bi bi-check-circle-fill @(item.DateCompleted.HasValue ? "icon-success" : "icon-default")"></i>
 
                             <div>
 
@@ -114,7 +118,7 @@
                     {
                         <div class="tech-notes">
 
-                            <icon name=clipboard color=info />
+                            <i class="bi bi-clipboard-fill icon-info"></i>
 
                             <div>
 
@@ -131,7 +135,7 @@
                     {
                         <div class="sla-box">
 
-                            <icon name=clock color=info />
+                            <i class="bi bi-clock-fill icon-info"></i>
 
                             <span>Target completion: @item.SLADueDate.Value.ToString("dd MMM yyyy HH:mm")</span>
 

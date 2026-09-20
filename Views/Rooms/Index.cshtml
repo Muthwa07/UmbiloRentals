@@ -31,7 +31,7 @@
                     }
                     else
                     {
-                        <AsyncImage query="modern student accommodation bedroom South Africa" aspectRatio="4:3" width="100%" maxHeight=240 />
+                        <div class="no-photo-placeholder"><i class="bi bi-house-door"></i><span>No photo available</span></div>
                     }
 
                     <div class="room-status @(room.Status == "Available" ? "status-available" : "status-occupied")">
@@ -59,22 +59,22 @@
                     <div class="room-features">
 
                         <div class="feature-item">
-                            <icon name=wifi />
+                            <i class="bi bi-wifi"></i>
                             Wi-Fi
                         </div>
 
                         <div class="feature-item">
-                            <icon name=car />
+                            <i class="bi bi-car-front-fill"></i>
                             Parking
                         </div>
 
                         <div class="feature-item">
-                            <icon name=utensils />
+                            <i class="bi bi-basket2-fill"></i>
                             Kitchen
                         </div>
 
                         <div class="feature-item">
-                            <icon name=shield-check />
+                            <i class="bi bi-shield-check"></i>
                             Secure
                         </div>
 

@@ -18,7 +18,7 @@
 
             <span class="tech-tag">
 
-                <icon name=wrench inline />
+                <i class="bi bi-wrench"></i>
 
                 Maintenance Team
 
@@ -60,7 +60,7 @@
 {
     <div class="glass-alert error">
 
-        <icon name=triangle-alert color=danger />
+        <i class="bi bi-exclamation-triangle-fill icon-danger"></i>
 
         <div>
 
@@ -80,7 +80,7 @@
     <div class="kanban-column">
 
         <div class="kanban-header pending-head">
-            <icon name=triangle-alert color=danger />
+            <i class="bi bi-exclamation-triangle-fill icon-danger"></i>
             <h3>Pending</h3>
         </div>
 
@@ -135,12 +135,12 @@
                 <div class="kanban-meta">
 
                     <div>
-                        <icon name=circle-user color=info />
+                        <i class="bi bi-person-circle icon-info"></i>
                         Tenant #@item.TenantID
                     </div>
 
                     <div>
-                        <icon name=tag color=info />
+                        <i class="bi bi-tag-fill icon-info"></i>
                         @item.Category
                     </div>
 
@@ -148,7 +148,7 @@
 
                 <div class="sla-box">
 
-                    <icon name=clock color=info />
+                    <i class="bi bi-clock-fill icon-info"></i>
 
                     @if (item.SLADueDate.HasValue)
                     {
@@ -179,7 +179,7 @@
                 @if (locked)
                 {
                     <button class="btn-locked" disabled>
-                        🔒 Higher priority first
+                        <i class="bi bi-lock-fill"></i> Higher priority first
                     </button>
                 }
                 else
@@ -202,7 +202,7 @@
     <div class="kanban-column">
 
         <div class="kanban-header progress-head">
-            <icon name=wrench color=warning />
+            <i class="bi bi-wrench icon-warning"></i>
             <h3>In Progress</h3>
         </div>
 
@@ -242,7 +242,7 @@
     <div class="kanban-column">
 
         <div class="kanban-header completed-head">
-            <icon name=circle-check color=success />
+            <i class="bi bi-check-circle-fill icon-success"></i>
             <h3>Completed Today</h3>
         </div>
 
@@ -266,7 +266,7 @@
                 <p>@item.TechnicianNotes</p>
 
                 <div class="completed-tag">
-                    ✔ Completed
+                    <i class="bi bi-check-circle-fill"></i> Completed
                 </div>
 
             </div>

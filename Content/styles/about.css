@@ -19,11 +19,41 @@
         background: linear-gradient(rgba(23,52,92,.75),rgba(23,52,92,.88));
     }
 
+.about-bg {
+    position: absolute;
+    inset: 0;
+}
+
 .about-bg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
+.about-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--navy-950);
+    color: rgba(255,255,255,.65);
+}
+
+    .about-bg-placeholder i {
+        font-size: 96px;
+    }
+
+.about-story-image {
+    border-radius: 24px;
+    min-height: 320px;
+    background: linear-gradient(135deg,#EAF4FF,#DCEBFF);
+    color: var(--navy-950);
+}
+
+    .about-story-image i {
+        font-size: 72px;
+    }
 
 .about-card {
     position: relative;
@@ -31,16 +61,13 @@
     max-width: 700px;
     text-align: center;
     color: white;
-    padding: 45px;
-    background: rgba(255,255,255,.16);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 26px;
+    padding: 0;
 }
 
     .about-card h1 {
         font-size: 52px;
         margin-bottom: 15px;
+        color: white;
     }
 
 .about-section {
@@ -54,8 +81,7 @@
 }
 
 .about-box {
-    background: rgba(255,255,255,.72);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border-radius: 22px;
     padding: 35px;
     box-shadow: 0 12px 30px rgba(23,52,92,.08);
@@ -74,13 +100,12 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    background: linear-gradient(135deg,#17345C,#4DA3FF);
+    background: var(--sky-400);
 }
 
-    .icon-circle svg {
-        width: 34px;
-        height: 34px;
-        stroke: white;
+    .icon-circle i {
+        font-size: 30px;
+        color: var(--navy-950);
     }
 
 .story {
@@ -111,17 +136,21 @@
 }
 
     .trust-card h2 {
-        color: #17345C;
+        color: var(--navy-950);
         font-size: 32px;
     }
 
 .about-cta {
-    background: linear-gradient(135deg,#17345C,#2D5D87);
+    background: var(--navy-950);
     color: white;
     text-align: center;
     border-radius: 28px;
     padding: 60px;
 }
+
+    .about-cta h2 {
+        color: white;
+    }
 
 @media(max-width:768px) {
 

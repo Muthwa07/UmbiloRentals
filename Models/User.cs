@@ -29,6 +29,7 @@ namespace UmbiloRentals.Models
             this.MaintenanceRequests1 = new HashSet<MaintenanceRequest>();
             this.Notifications = new HashSet<Notification>();
             this.MaintenanceRequests11 = new HashSet<MaintenanceRequest>();
+            this.Reviews = new HashSet<Review>();
         }
     
         public int UserID { get; set; }
@@ -48,6 +49,12 @@ namespace UmbiloRentals.Models
         public string ProfilePhoto { get; set; }
         public string ResetToken { get; set; }
         public Nullable<System.DateTime> ResetTokenExpiry { get; set; }
+        public string SleepSchedule { get; set; }
+        public string CleanlinessLevel { get; set; }
+        public string NoiseTolerance { get; set; }
+        public Nullable<bool> IsSmoker { get; set; }
+        public string StudyHabit { get; set; }
+        public string GuestsPreference { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Allocation> Allocations { get; set; }
@@ -73,5 +80,7 @@ namespace UmbiloRentals.Models
         public virtual ICollection<Notification> Notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaintenanceRequest> MaintenanceRequests11 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

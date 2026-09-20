@@ -12,8 +12,6 @@ namespace UmbiloRentals.Controllers
 {
     public class RoomsController : BaseController
     {
-        private BuildingManagementDBEntities db = new BuildingManagementDBEntities();
-
         // GET: Rooms
         public ActionResult Index()
         {
@@ -49,6 +47,17 @@ namespace UmbiloRentals.Controllers
                     a.RoomID == room.RoomID &&
                     (a.Status == "Pending" || a.Status == "Approved"));
             }
+
+            var reviews = db.Reviews
+                .Where(r => r.RoomID == room.RoomID)
+                .OrderByDescending(r => r.DatePosted)
+                .ToList();
+
+            ViewBag.Reviews = reviews;
+            ViewBag.ReviewCount = reviews.Count;
+            ViewBag.AverageRating = reviews.Any()
+                ? Math.Round(reviews.Average(r => r.Rating), 1)
+                : (double?)null;
 
             return View(room);
         }

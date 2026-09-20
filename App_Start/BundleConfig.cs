@@ -24,6 +24,8 @@ namespace UmbiloRentals
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
     "~/Content/bootstrap.css",
+    "~/Content/bootstrap-icons/bootstrap-icons.min.css",
+    "~/Content/fonts/inter.css",
     "~/Content/Site.css",
     "~/Content/styles/home.css",
     "~/Content/styles/about.css",
@@ -31,7 +33,9 @@ namespace UmbiloRentals
     "~/Content/styles/room-details.css",
     "~/Content/styles/dashboard.css",
     "~/Content/styles/applications.css",
-    "~/Content/styles/notifications.css"));
+    "~/Content/styles/notifications.css",
+    "~/Content/styles/legal.css",
+    "~/Content/styles/sidebar.css"));
 
         }
     }

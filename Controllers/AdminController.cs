@@ -100,6 +100,15 @@ namespace UmbiloRentals.Controllers
             {
                 room.Status = "Occupied";
 
+                db.Allocations.Add(new Allocation
+                {
+                    UserID = application.UserID.Value,
+                    RoomID = room.RoomID,
+                    AllocationDate = DateTime.Now,
+                    MoveOutDate = null,
+                    Status = "Active"
+                });
+
                 // Generate branded allocation letter
                 var applicant = db.Users.Find(application.UserID);
 
@@ -127,6 +136,22 @@ namespace UmbiloRentals.Controllers
                     db,
                     app.UserID.Value,
                     "This room is no longer available because it has been allocated to another applicant.");
+            }
+
+            // Withdraw this applicant's other pending applications for different rooms
+            var sameApplicantOthers = db.Applications.Where(a =>
+                a.UserID == application.UserID &&
+                a.ApplicationID != application.ApplicationID &&
+                a.Status == "Pending");
+
+            foreach (var app in sameApplicantOthers)
+            {
+                app.Status = "Withdrawn";
+
+                NotificationHelper.CreateNotification(
+                    db,
+                    app.UserID.Value,
+                    "Your other pending application was automatically withdrawn because you were allocated a different room.");
             }
 
             db.SaveChanges();
@@ -161,7 +186,7 @@ namespace UmbiloRentals.Controllers
             NotificationHelper.CreateNotification(
                 db,
                 application.UserID.Value,
-                "❌ Unfortunately your application wasn't successful.");
+                "Your application has been rejected.");
 
             return RedirectToAction("Applications");
         }
@@ -361,56 +386,9 @@ namespace UmbiloRentals.Controllers
             NotificationHelper.CreateNotification(
                 db,
                 payment.UserID,
-                "💳 Your payment has been verified successfully.");
+                "Your payment has been verified successfully.");
 
             return RedirectToAction("Payments");
-        }
-
-        // ==========================
-        // MAINTENANCE
-        // ==========================
-        public ActionResult Maintenance()
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            return View(db.MaintenanceRequests
-                          .OrderByDescending(m => m.DateReported)
-                          .ToList());
-        }
-
-        public ActionResult StartMaintenance(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var request = db.MaintenanceRequests.Find(id);
-
-            if (request == null)
-                return HttpNotFound();
-
-            request.Status = "In Progress";
-
-            db.SaveChanges();
-
-            return RedirectToAction("Maintenance");
-        }
-
-        public ActionResult CompleteMaintenance(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account");
-
-            var request = db.MaintenanceRequests.Find(id);
-
-            if (request == null)
-                return HttpNotFound();
-
-            request.Status = "Completed";
-
-            db.SaveChanges();
-
-            return RedirectToAction("Maintenance");
         }
 
         protected override void Dispose(bool disposing)

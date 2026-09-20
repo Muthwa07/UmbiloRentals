@@ -13,7 +13,7 @@
 
     .app-header h1 {
         font-size: 42px;
-        color: #17345C;
+        color: var(--navy-950);
     }
 
     .app-header p {
@@ -26,8 +26,7 @@
 }
 
 .app-card {
-    background: rgba(255,255,255,.75);
-    backdrop-filter: blur(18px);
+    background: var(--surface);
     border-radius: 24px;
     padding: 30px;
     border: 1px solid rgba(255,255,255,.35);
@@ -49,7 +48,7 @@
 
 .room-pill {
     background: #EAF4FF;
-    color: #17345C;
+    color: var(--navy-950);
     padding: 8px 14px;
     border-radius: 999px;
     font-weight: 700;
@@ -90,7 +89,7 @@
 
     .meta-box h5 {
         margin: 0 0 6px;
-        color: #17345C;
+        color: var(--navy-950);
     }
 
 .app-actions {
@@ -109,13 +108,13 @@
 }
 
 .btn-primary {
-    background: linear-gradient(135deg,#17345C,#4DA3FF);
-    color: white !important;
+    background: var(--sky-400);
+  color: var(--navy-950) !important;
 }
 
 .btn-outline {
-    border: 2px solid #17345C;
-    color: #17345C !important;
+    border: 2px solid var(--navy-950);
+    color: var(--navy-950) !important;
 }
 
 .btn-danger {

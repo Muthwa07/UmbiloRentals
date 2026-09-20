@@ -14,7 +14,7 @@
 
             <div class="glass-alert error">
 
-                <icon name=circle-x color=danger />
+                <i class="bi bi-x-circle-fill icon-danger"></i>
 
                 <div>
                     <strong>Room not found</strong>
@@ -53,11 +53,7 @@
                 }
                 else
                 {
-                    <AsyncImage query="modern furnished rental room South Africa"
-                                aspectRatio="5:4"
-                                width="100%"
-                                maxHeight=320
-                                radius=24 />
+                    <div class="no-photo-placeholder" style="border-radius:24px; height:320px;"><i class="bi bi-house-door"></i><span>No photo available</span></div>
                 }
 
                 <div class="application-info">
@@ -77,17 +73,17 @@
                     <div class="mini-features">
 
                         <span>
-                            <icon name=shield-check inline color=info />
+                            <i class="bi bi-shield-check icon-info"></i>
                             Secure
                         </span>
 
                         <span>
-                            <icon name=wifi inline color=info />
+                            <i class="bi bi-wifi icon-info"></i>
                             Wi-Fi
                         </span>
 
                         <span>
-                            <icon name=car inline color=info />
+                            <i class="bi bi-car-front-fill icon-info"></i>
                             Parking
                         </span>
 
@@ -116,7 +112,7 @@
                 {
                     <div class="glass-alert error">
 
-                        <icon name=circle-x color=danger />
+                        <i class="bi bi-x-circle-fill icon-danger"></i>
 
                         <div>
 
@@ -143,7 +139,7 @@
 
                     <div class="upload-card">
 
-                        <icon name=upload color=info size=2xl />
+                        <i class="bi bi-upload icon-info icon-2xl"></i>
 
                         <h3>Supporting Document</h3>
 
@@ -166,15 +162,31 @@
 
                     <div class="application-note">
 
-                        <icon name=info color=info inline />
+                        <i class="bi bi-info-circle-fill icon-info"></i>
 
                         Your application will be reviewed by our
                         accommodation team before approval.
 
                     </div>
 
+                    <div class="form-group consent-group">
+                        <label class="consent-checkbox">
+                            <input type="checkbox"
+                                   name="consentGiven"
+                                   value="true"
+                                   required
+                                   aria-required="true" />
+                            <span>
+                                I consent to Umbilo Rentals processing the
+                                document I've uploaded for the purpose of
+                                reviewing this application, as described in the
+                                <a href="@Url.Action("Privacy", "Legal")" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                            </span>
+                        </label>
+                    </div>
+
                     <button type="submit" class="btn-auth">
-                        Submit Application →
+                        Submit Application <i class="bi bi-arrow-right"></i>
                     </button>
                 }
 
