@@ -19,6 +19,7 @@
     string roleLabel = roleId == 1 ? "Applicant"
                       : roleId == 2 ? "Administrator"
                       : roleId == 3 ? "Maintenance"
+                      : roleId == 4 ? "Security"
                       : "";
 }
 
@@ -71,6 +72,18 @@
                 <i class="bi bi-card-checklist" aria-hidden="true"></i>
                 <span>My Maintenance</span>
             </a>
+            <a href="@Url.Action("MyVisitors","Security")" class="sidebar-link @sbActive("Security","MyVisitors")">
+                <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+                <span>Visitors</span>
+            </a>
+            <a href="@Url.Action("MyComplaints","Security")" class="sidebar-link @sbActive("Security","MyComplaints")">
+                <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                <span>Report Issue</span>
+            </a>
+            <a href="@Url.Action("LostFoundTenant","Security")" class="sidebar-link @sbActive("Security","LostFoundTenant")">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <span>Lost &amp; Found</span>
+            </a>
             <a href="@Url.Action("Report","Maintenance")" class="sidebar-link @sbActive("Maintenance","Report")">
                 <i class="bi bi-tools" aria-hidden="true"></i>
                 <span>Report Issue</span>
@@ -108,6 +121,21 @@
             <a href="@Url.Action("Index","Maintenance")" class="sidebar-link @sbActive("Maintenance","Index")">
                 <i class="bi bi-speedometer2" aria-hidden="true"></i>
                 <span>Job Queue</span>
+            </a>
+        }
+        else if (roleId == 4)
+        {
+            <a href="@Url.Action("Visitors","Security")" class="sidebar-link @sbActive("Security","Visitors")">
+                <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+                <span>Visitor Check-In</span>
+            </a>
+            <a href="@Url.Action("Complaints","Security")" class="sidebar-link @sbActive("Security","Complaints")">
+                <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                <span>Minor Issues</span>
+            </a>
+            <a href="@Url.Action("LostFoundBoard","Security")" class="sidebar-link @sbActive("Security","LostFoundBoard")">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <span>Lost &amp; Found</span>
             </a>
         }
 

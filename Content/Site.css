@@ -1537,6 +1537,33 @@ textarea.form-control {
         color: #166534;
     }
 
+    .status-chip.expected,
+    .status-chip.open {
+        background: #FEF3C7;
+        color: #92400E;
+    }
+
+    .status-chip.checked-in,
+    .status-chip.resolved {
+        background: #DCFCE7;
+        color: #166534;
+    }
+
+    .status-chip.checked-out {
+        background: #E2E8F0;
+        color: #475569;
+    }
+
+    .status-chip.lost-searching {
+        background: #FEE2E2;
+        color: #991B1B;
+    }
+
+    .status-chip.found-unclaimed {
+        background: #DBEAFE;
+        color: #1E40AF;
+    }
+
 .price-row {
     display: flex;
     align-items: baseline;

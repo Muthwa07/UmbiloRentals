@@ -37,7 +37,7 @@
         <EntityTypeShape EntityType="BuildingManagementDBModel.Review" Width="1.5" PointX="9" PointY="17.5" />
         <AssociationConnector Association="BuildingManagementDBModel.FK_Reviews_Rooms" />
         <AssociationConnector Association="BuildingManagementDBModel.FK_Reviews_Users" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

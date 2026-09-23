@@ -1,0 +1,62 @@
+﻿@model IEnumerable<UmbiloRentals.Models.LostFound>
+
+@{
+    ViewBag.Title = "Lost & Found";
+}
+
+<div class="admin-review-page">
+
+    <div class="page-header">
+
+        <div>
+            <h1>Lost &amp; Found</h1>
+            <p>Browse items found on the property, or report something you've lost.</p>
+        </div>
+
+        @Html.ActionLink("Report a Lost Item", "ReportLostItem", null, new { @class = "btn-room-primary" })
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+            <i class="bi bi-search icon-info icon-2xl"></i>
+            <h2>Nothing here yet</h2>
+        </div>
+    }
+    else
+    {
+        <div class="review-grid">
+
+            @foreach (var item in Model)
+            {
+                <div class="review-card glass-card">
+
+                    <div class="review-body">
+
+                        <div class="review-top">
+
+                            <div>
+                                <h3>@item.ItemName</h3>
+                            </div>
+
+                            <span class="status-chip @(item.Status ?? "").ToLower().Replace(" ", "-").Replace("---","-")">
+                                @item.Status
+                            </span>
+
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <p class="room-description">@item.Description</p>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

@@ -156,6 +156,13 @@
 
                     </div>
 
+                    @if (payment.Status == "Pending")
+                    {
+                        <div class="review-actions">
+                            @Html.ActionLink("Verify Payment", "VerifyPayment", new { id = payment.PaymentID }, new { @class = "btn-approve" })
+                        </div>
+                    }
+
                 </div>
             }
 

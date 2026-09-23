@@ -12,15 +12,18 @@ namespace UmbiloRentals.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LostFound
+    public partial class SecurityIssue
     {
-        public int ItemID { get; set; }
-        public string ItemName { get; set; }
+        public int IssueID { get; set; }
+        public int TenantID { get; set; }
+        public string Category { get; set; }
         public string Description { get; set; }
-        public Nullable<System.DateTime> DateFound { get; set; }
-        public int ReportedBy { get; set; }
+        public System.DateTime DateReported { get; set; }
         public string Status { get; set; }
+        public Nullable<int> ResolvedBy { get; set; }
+        public Nullable<System.DateTime> DateResolved { get; set; }
     
         public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

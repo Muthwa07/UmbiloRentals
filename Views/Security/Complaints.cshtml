@@ -1,0 +1,93 @@
+﻿@model IEnumerable<UmbiloRentals.Models.Complaint>
+
+@{
+    ViewBag.Title = "Minor Issues";
+}
+
+<div class="admin-review-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <div class="section-tag">
+                <i class="bi bi-exclamation-triangle-fill icon-discovery"></i>
+                Security
+            </div>
+
+            <h1>Minor Issues</h1>
+
+            <p>Noise complaints, rule violations and other minor security concerns reported by tenants.</p>
+
+        </div>
+
+        <div class="application-count glass-count-card">
+
+            <i class="bi bi-flag-fill icon-info icon-lg"></i>
+
+            <div>
+                <strong>@Model.Count(c => c.Status == "Open")</strong>
+                <span>Open</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+            <i class="bi bi-shield-check icon-info icon-2xl"></i>
+            <h2>No issues reported</h2>
+            <p>Tenant-reported minor issues will appear here.</p>
+        </div>
+    }
+    else
+    {
+        <div class="review-grid">
+
+            @foreach (var item in Model)
+            {
+                <div class="review-card glass-card">
+
+                    <div class="review-body">
+
+                        <div class="review-top">
+
+                            <div>
+                                <h3>@item.ComplaintType</h3>
+                                <p>
+                                    <i class="bi bi-person-fill icon-info"></i>
+                                    @(item.User != null ? item.User.FirstName + " " + item.User.LastName : "Unknown")
+                                </p>
+                            </div>
+
+                            <span class="status-chip @(item.Status ?? "").ToLower()">
+                                @item.Status
+                            </span>
+
+                        </div>
+
+                        <p class="room-description">@item.Description</p>
+
+                        <p class="review-date">
+                            <i class="bi bi-calendar-event-fill icon-info"></i>
+                            @(item.DateSubmitted.HasValue ? item.DateSubmitted.Value.ToString("dd MMM yyyy HH:mm") : "-")
+                        </p>
+
+                        @if (item.Status == "Open")
+                        {
+                            <div class="review-actions">
+                                @Html.ActionLink("Mark Resolved", "ResolveComplaint", new { id = item.ComplaintID }, new { @class = "btn-approve" })
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

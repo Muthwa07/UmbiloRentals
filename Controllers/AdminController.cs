@@ -378,7 +378,7 @@ namespace UmbiloRentals.Controllers
             if (payment == null)
                 return HttpNotFound();
 
-            payment.Status = "Processed";
+            payment.Status = "Paid";
             payment.VerifiedBy = (int)Session["UserID"];
 
             db.SaveChanges();

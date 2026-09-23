@@ -12,13 +12,14 @@ namespace UmbiloRentals.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LostFound
+    public partial class LostFoundItem
     {
         public int ItemID { get; set; }
-        public string ItemName { get; set; }
-        public string Description { get; set; }
-        public Nullable<System.DateTime> DateFound { get; set; }
         public int ReportedBy { get; set; }
+        public string Type { get; set; }
+        public string ItemDescription { get; set; }
+        public string Location { get; set; }
+        public System.DateTime DateReported { get; set; }
         public string Status { get; set; }
     
         public virtual User User { get; set; }

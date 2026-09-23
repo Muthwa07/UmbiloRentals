@@ -1,0 +1,66 @@
+﻿@model IEnumerable<UmbiloRentals.Models.VisitorRequest>
+
+@{
+    ViewBag.Title = "My Visitors";
+}
+
+<div class="admin-review-page">
+
+    <div class="page-header">
+
+        <div>
+            <h1>My Visitors</h1>
+            <p>Visitors you've scheduled.</p>
+        </div>
+
+        @Html.ActionLink("Schedule a Visitor", "ScheduleVisitor", null, new { @class = "btn-room-primary" })
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+            <i class="bi bi-person-badge icon-info icon-2xl"></i>
+            <h2>No visitors scheduled</h2>
+            <p>Let security know who to expect.</p>
+        </div>
+    }
+    else
+    {
+        <div class="review-grid">
+
+            @foreach (var visitor in Model)
+            {
+                <div class="review-card glass-card">
+
+                    <div class="review-body">
+
+                        <div class="review-top">
+
+                            <div>
+                                <h3>@visitor.VisitorName</h3>
+                                <p>
+                                    <i class="bi bi-calendar-event-fill icon-info"></i>
+                                    @(visitor.VisitDate.HasValue ? visitor.VisitDate.Value.ToString("dd MMM yyyy") : "-")
+                                    @if (visitor.ArrivalTime.HasValue)
+                                    {
+                                        <text> at @visitor.ArrivalTime.Value.ToString(@"hh\:mm")</text>
+                                    }
+                                </p>
+                            </div>
+
+                            <span class="status-chip @(visitor.Status ?? "").ToLower().Replace(" ", "-")">
+                                @visitor.Status
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
