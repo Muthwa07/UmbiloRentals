@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UmbiloRentals.Models;
 
 namespace UmbiloRentals.Helpers
@@ -10,16 +10,24 @@ namespace UmbiloRentals.Helpers
             int userId,
             string message)
         {
-            Notification notification =
-                new Notification();
+            if (db == null)
+                throw new ArgumentNullException(nameof(db));
 
-            notification.UserID = userId;
-            notification.Message = message;
-            notification.DateSent = DateTime.Now;
-            notification.IsRead = false;
+            if (userId <= 0)
+                return;
+
+            if (string.IsNullOrWhiteSpace(message))
+                return;
+
+            Notification notification = new Notification
+            {
+                UserID = userId,
+                Message = message.Trim(),
+                DateSent = DateTime.Now,
+                IsRead = false
+            };
 
             db.Notifications.Add(notification);
-            // SaveChanges() is handled by the calling controller.
         }
     }
 }
