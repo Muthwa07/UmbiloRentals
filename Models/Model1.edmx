@@ -707,7 +707,7 @@
           <Property Name="StudyHabit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="GuestsPreference" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Reviews" Relationship="BuildingManagementDBModel.FK_Reviews_Users" FromRole="User" ToRole="Review" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="VisitorRequest">
           <Key>
             <PropertyRef Name="VisitorID" />
@@ -954,7 +954,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="NotificationID" />
@@ -1051,7 +1051,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1254,7 +1254,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

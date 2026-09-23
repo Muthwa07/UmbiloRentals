@@ -1,0 +1,90 @@
+﻿@model IEnumerable<UmbiloRentals.Models.LostFound>
+
+@{
+    ViewBag.Title = "Lost & Found";
+}
+
+<div class="admin-review-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <div class="section-tag">
+                <i class="bi bi-search icon-discovery"></i>
+                Security
+            </div>
+
+            <h1>Lost &amp; Found</h1>
+
+            <p>Items reported lost by tenants, and items you've logged as found.</p>
+
+        </div>
+
+        @Html.ActionLink("Log a Found Item", "LogFoundItem", null, new { @class = "btn-room-primary" })
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+            <i class="bi bi-search icon-info icon-2xl"></i>
+            <h2>Nothing here yet</h2>
+            <p>Lost and found reports will appear here.</p>
+        </div>
+    }
+    else
+    {
+        <div class="review-grid">
+
+            @foreach (var item in Model)
+            {
+                <div class="review-card glass-card">
+
+                    <div class="review-body">
+
+                        <div class="review-top">
+
+                            <div>
+                                <h3>@item.ItemName</h3>
+                                <p>
+                                    <i class="bi bi-person-fill icon-info"></i>
+                                    @(item.User != null ? item.User.FirstName + " " + item.User.LastName : "Unknown")
+                                </p>
+                            </div>
+
+                            <span class="status-chip @(item.Status ?? "").ToLower().Replace(" ", "-").Replace("---","-")">
+                                @item.Status
+                            </span>
+
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <p class="room-description">@item.Description</p>
+                        }
+
+                        @if (item.DateFound.HasValue)
+                        {
+                            <p class="review-date">
+                                <i class="bi bi-calendar-event-fill icon-info"></i>
+                                @item.DateFound.Value.ToString("dd MMM yyyy")
+                            </p>
+                        }
+
+                        @if (item.Status != "Resolved")
+                        {
+                            <div class="review-actions">
+                                @Html.ActionLink("Mark Resolved", "ResolveLostFoundItem", new { id = item.ItemID }, new { @class = "btn-approve" })
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

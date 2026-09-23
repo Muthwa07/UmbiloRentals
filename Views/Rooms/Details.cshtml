@@ -1,7 +1,7 @@
 ﻿@model UmbiloRentals.Models.Room
 
 @{
-    ViewBag.Title = "Room Details";
+    ViewBag.Title = "Room " + Model.RoomNumber;
 }
 
 <div class="room-details-page">
@@ -17,267 +17,152 @@
         }
         else
         {
-            <div class="no-photo-placeholder"><i class="bi bi-house-door"></i><span>No photo available</span></div>
+            <div class="no-photo-placeholder">
+                <i class="bi bi-house-door"></i>
+                <span>No photo available</span>
+            </div>
         }
 
     </div>
 
     <div class="room-layout">
 
-        <!-- LEFT -->
+        <!-- MAIN CONTENT -->
 
         <div class="room-info">
 
             <div class="room-header">
 
-                <h1>Room @Model.RoomNumber</h1>
+                <div>
+                    <h1>Room @Model.RoomNumber</h1>
+                    <span class="room-status-pill @(Model.Status == "Available" ? "status-available" : "status-occupied")">
+                        @Model.Status
+                    </span>
+                </div>
 
-                <span class="status-pill @(Model.Status == "Available" ? "status-available" : "status-occupied")">
-                    @Model.Status
-                </span>
-            </div>
-
-            <hr />
-
-            <div class="room-features">
-
-                <h3>Room Features</h3>
-
-                <div class="feature-grid">
-
-                    <div class="feature-item">
-                        <i class="bi bi-droplet-half icon-info"></i> Shared Bathroom
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-cup-hot-fill icon-info"></i> Shared Kitchen
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-wifi icon-info"></i> Free Wi-Fi
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-droplet-fill icon-info"></i> Water Included
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-lightning-charge-fill icon-info"></i> Electricity Included
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-shield-check icon-info"></i> 24/7 Security
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-bag-fill icon-info"></i> Laundry Area
-                    </div>
-
-                    <div class="feature-item">
-                        <i class="bi bi-car-front-fill icon-info"></i> Parking Available
-                    </div>
-
+                <div class="room-price">
+                    <strong>R @Model.MonthlyRent</strong>
+                    <span>/ month</span>
                 </div>
 
             </div>
 
-            <hr />
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <section class="room-section">
+                    <h2>About this room</h2>
+                    <p>@Model.Description</p>
+                </section>
+            }
 
-            <div class="room-gallery">
+            <section class="room-section">
 
-                <h3>Room Gallery</h3>
+                <h2>Features</h2>
 
-                <div class="gallery-grid">
+                <p class="room-features-note">
+                    General building features. Confirm specifics with the accommodation team before applying.
+                </p>
 
-                    <div class="gallery-item">
-                        <img src="@Url.Content(Model.Photo)"
-                             alt="Room @Model.RoomNumber" />
-                        <p>Bedroom</p>
-                    </div>
+                <div class="amenities">
 
-                    <div class="gallery-item">
-                        <img src="@Url.Content("~/Content/RoomImages/Bathroom.jpg")"
-                             alt="Bathroom" />
-                        <p>Shared Bathroom</p>
-                    </div>
-
-                    <div class="gallery-item">
-                        <img src="@Url.Content("~/Content/RoomImages/Kitchen.jpg")"
-                             alt="Kitchen" />
-                        <p>Shared Kitchen</p>
-                    </div>
+                    <div class="amenity"><i class="bi bi-wifi icon-info"></i> Wi-Fi</div>
+                    <div class="amenity"><i class="bi bi-droplet-half icon-info"></i> Shared Bathroom</div>
+                    <div class="amenity"><i class="bi bi-cup-hot-fill icon-info"></i> Shared Kitchen</div>
+                    <div class="amenity"><i class="bi bi-lightning-charge-fill icon-info"></i> Electricity Included</div>
+                    <div class="amenity"><i class="bi bi-droplet-fill icon-info"></i> Water Included</div>
+                    <div class="amenity"><i class="bi bi-shield-check icon-info"></i> 24/7 Security</div>
+                    <div class="amenity"><i class="bi bi-car-front-fill icon-info"></i> Parking Available</div>
 
                 </div>
 
-            </div>
+            </section>
 
-            <div class="price-card">
+            <section class="room-section reviews-section">
 
-                <h2>R @Model.MonthlyRent</h2>
+                <div class="reviews-header">
 
-                <p>per month</p>
+                    <h2>Reviews</h2>
 
-            </div>
+                    @if (ViewBag.AverageRating != null)
+                    {
+                        <span class="average-rating">
+                            <i class="bi bi-star-fill icon-warning"></i>
+                            @ViewBag.AverageRating
+                            <span class="review-count">(@ViewBag.ReviewCount review@(ViewBag.ReviewCount == 1 ? "" : "s"))</span>
+                        </span>
+                    }
 
-            <h3>Description</h3>
-
-            <p>@Model.Description</p>
-
-            <h3>Amenities</h3>
-
-            <div class="amenities">
-
-                <div class="amenity">
-                    <i class="bi bi-wifi icon-info"></i>
-                    Wi-Fi
                 </div>
 
-                <div class="amenity">
-                    <i class="bi bi-basket2-fill icon-info"></i>
-                    Shared Kitchen
-                </div>
+                @if (ViewBag.ReviewCount == 0)
+                {
+                    <p class="no-reviews">
+                        No reviews yet - be the first to leave one after your stay.
+                    </p>
+                }
+                else
+                {
+                    foreach (var review in ViewBag.Reviews)
+                    {
+                        <div class="review-item">
 
-                <div class="amenity">
-                    <i class="bi bi-car-front-fill icon-info"></i>
-                    Parking
-                </div>
+                            <div class="review-item-header">
 
-                <div class="amenity">
-                    <i class="bi bi-shield-check icon-info"></i>
-                    Secure Access
-                </div>
+                                <span class="review-stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                                    }
+                                </span>
 
-                <div class="amenity">
-                    <i class="bi bi-droplet-fill icon-info"></i>
-                    Water Included
-                </div>
+                                <span class="review-date">
+                                    @review.DatePosted.ToString("MMMM yyyy")
+                                </span>
 
-                <div class="amenity">
-                    <i class="bi bi-lightning-fill icon-info"></i>
-                    Electricity Available
-                </div>
+                            </div>
 
-            </div>
+                            @if (!string.IsNullOrWhiteSpace(review.Comment))
+                            {
+                                <p class="review-comment">@review.Comment</p>
+                            }
+
+                        </div>
+                    }
+                }
+
+            </section>
 
         </div>
 
-        <!-- RIGHT -->
+        <!-- STICKY CTA SIDEBAR -->
 
-        <div class="booking-card">
-
-            <h3>Room Summary</h3>
-
-            <ul class="booking-list">
-
-                <li><strong>Room:</strong> @Model.RoomNumber</li>
-
-                <li><strong>Rent:</strong> R @Model.MonthlyRent</li>
-
-                <li><strong>Status:</strong> @Model.Status</li>
-
-                <li><strong>Secure Accommodation</strong></li>
-
-                <li><strong>Online Applications</strong></li>
-
-            </ul>
+        <div class="room-cta-card">
 
             @if (Model.Status == "Available")
             {
-                if (!(bool)ViewBag.IsLoggedIn)
+                if (!ViewBag.IsLoggedIn)
                 {
-                    @Html.ActionLink(
-                        "Login to Apply",
-                        "Login",
-                        "Account",
-                        null,
-                        new { @class = "btn-login-apply" })
+                    @Html.ActionLink("Login to Apply", "Login", "Account", null, new { @class = "btn-apply" })
                 }
-                else if ((bool)ViewBag.HasApplied)
+                else if (ViewBag.HasApplied)
                 {
-                    <button class="btn-applied" disabled>
+                    <button class="btn-apply" disabled>
                         <i class="bi bi-check-circle-fill"></i> Application Submitted
                     </button>
                 }
                 else
                 {
-                    @Html.ActionLink(
-                        "Apply Now",
-                        "Create",
-                        "Applications",
-                        new { roomId = Model.RoomID },
-                        new { @class = "btn-apply" })
+                    @Html.ActionLink("Apply Now", "Create", "Applications", new { roomId = Model.RoomID }, new { @class = "btn-apply" })
                 }
             }
             else
             {
-                <button class="btn-occupied" disabled>
-                    Currently Occupied
-                </button>
+                <button class="btn-occupied" disabled>Currently Occupied</button>
             }
 
-            @Html.ActionLink(
-                "Back to Rooms",
-                "Index",
-                "Rooms",
-                null,
-                new { @class = "btn-back" })
+            @Html.ActionLink("Back to Rooms", "Index", "Rooms", null, new { @class = "btn-back" })
 
         </div>
-
-    </div>
-
-    <div class="glass-card reviews-section">
-
-        <div class="reviews-header">
-
-            <h2>Reviews</h2>
-
-            @if (ViewBag.AverageRating != null)
-            {
-                <span class="average-rating">
-                    <i class="bi bi-star-fill icon-warning"></i>
-                    @ViewBag.AverageRating
-                    <span class="review-count">(@ViewBag.ReviewCount review@(ViewBag.ReviewCount == 1 ? "" : "s"))</span>
-                </span>
-            }
-
-        </div>
-
-        @if (ViewBag.ReviewCount == 0)
-        {
-            <p class="no-reviews">
-                No reviews yet - be the first to leave one after your stay.
-            </p>
-        }
-        else
-        {
-            foreach (var review in ViewBag.Reviews)
-            {
-                <div class="review-item">
-
-                    <div class="review-item-header">
-
-                        <span class="review-stars">
-                            @for (int i = 1; i <= 5; i++)
-                            {
-                                <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
-                            }
-                        </span>
-
-                        <span class="review-date">
-                            @review.DatePosted.ToString("MMMM yyyy")
-                        </span>
-
-                    </div>
-
-                    @if (!string.IsNullOrWhiteSpace(review.Comment))
-                    {
-                        <p class="review-comment">@review.Comment</p>
-                    }
-
-                </div>
-            }
-        }
 
     </div>
 

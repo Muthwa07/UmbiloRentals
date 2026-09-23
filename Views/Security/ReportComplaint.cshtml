@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Report an Issue";
+}
+
+<div class="legal-page">
+
+    <div class="legal-header">
+        <h1>Report a Minor Issue</h1>
+        <p class="legal-updated">Noise complaints, rule violations, or other minor security concerns.</p>
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="glass-alert error">
+            <i class="bi bi-x-circle-fill icon-danger"></i>
+            <div>
+                <strong>Something went wrong</strong>
+                <p>@ViewBag.ErrorMessage</p>
+            </div>
+        </div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="glass-card">
+
+            <div class="form-group">
+                <label for="complaintType">Type of Issue</label>
+                <select id="complaintType" name="complaintType" class="form-control">
+                    <option value="Noise Complaint">Noise Complaint</option>
+                    <option value="Rule Violation">Rule Violation</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Details</label>
+                <textarea id="description" name="description" class="form-control" rows="5" placeholder="What happened, where, and when" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-auth">
+                Submit Report <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </div>
+    }
+
+</div>

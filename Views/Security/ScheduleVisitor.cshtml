@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Schedule a Visitor";
+}
+
+<div class="legal-page">
+
+    <div class="legal-header">
+        <h1>Schedule a Visitor</h1>
+        <p class="legal-updated">Let security know who to expect.</p>
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="glass-alert error">
+            <i class="bi bi-x-circle-fill icon-danger"></i>
+            <div>
+                <strong>Something went wrong</strong>
+                <p>@ViewBag.ErrorMessage</p>
+            </div>
+        </div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="glass-card">
+
+            <div class="form-group">
+                <label for="visitorName">Visitor's Name</label>
+                <input type="text" id="visitorName" name="visitorName" class="form-control" placeholder="Full name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Visitor's Phone (optional)</label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="For security to reach them if needed" />
+            </div>
+
+            <div class="form-group">
+                <label for="visitDate">Visit Date</label>
+                <input type="date" id="visitDate" name="visitDate" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="arrivalTime">Expected Arrival Time</label>
+                <input type="time" id="arrivalTime" name="arrivalTime" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn-auth">
+                Schedule Visitor <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </div>
+    }
+
+</div>

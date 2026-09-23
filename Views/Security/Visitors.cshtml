@@ -1,0 +1,101 @@
+﻿@model IEnumerable<UmbiloRentals.Models.VisitorRequest>
+
+@{
+    ViewBag.Title = "Visitor Check-In";
+}
+
+<div class="admin-review-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <div class="section-tag">
+                <i class="bi bi-person-badge-fill icon-discovery"></i>
+                Security
+            </div>
+
+            <h1>Visitor Check-In</h1>
+
+            <p>Visitors scheduled by tenants, expected today and beyond.</p>
+
+        </div>
+
+        <div class="application-count glass-count-card">
+
+            <i class="bi bi-people-fill icon-info icon-lg"></i>
+
+            <div>
+                <strong>@Model.Count(v => v.Status == "Expected")</strong>
+                <span>Expected</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state glass-card">
+            <i class="bi bi-person-badge icon-info icon-2xl"></i>
+            <h2>No visitors scheduled</h2>
+            <p>Tenant-scheduled visitors will appear here.</p>
+        </div>
+    }
+    else
+    {
+        <div class="review-grid">
+
+            @foreach (var visitor in Model)
+            {
+                <div class="review-card glass-card">
+
+                    <div class="review-body">
+
+                        <div class="review-top">
+
+                            <div>
+                                <h3>@visitor.VisitorName</h3>
+                                <p>
+                                    <i class="bi bi-calendar-event-fill icon-info"></i>
+                                    @(visitor.VisitDate.HasValue ? visitor.VisitDate.Value.ToString("dd MMM yyyy") : "-")
+                                    @if (visitor.ArrivalTime.HasValue)
+                                    {
+                                        <text> at @visitor.ArrivalTime.Value.ToString(@"hh\:mm")</text>
+                                    }
+                                </p>
+                            </div>
+
+                            <span class="status-chip @(visitor.Status ?? "").ToLower().Replace(" ", "-")">
+                                @visitor.Status
+                            </span>
+
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(visitor.Phone))
+                        {
+                            <p><i class="bi bi-telephone-fill icon-info"></i> @visitor.Phone</p>
+                        }
+
+                        @if (visitor.Status == "Expected")
+                        {
+                            <div class="review-actions">
+                                @Html.ActionLink("Check In", "CheckInVisitor", new { id = visitor.VisitorID }, new { @class = "btn-approve" })
+                            </div>
+                        }
+                        else if (visitor.Status == "Checked In")
+                        {
+                            <div class="review-actions">
+                                @Html.ActionLink("Check Out", "CheckOutVisitor", new { id = visitor.VisitorID }, new { @class = "btn-approve" })
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

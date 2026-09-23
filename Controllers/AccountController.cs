@@ -172,6 +172,11 @@ namespace UmbiloRentals.Controllers
                 return RedirectToAction("Index", "Maintenance");
             }
 
+            if (user.RoleID == 4)
+            {
+                return RedirectToAction("Visitors", "Security");
+            }
+
             return RedirectToAction("Dashboard", "Account");
         }
 
